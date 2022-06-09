@@ -12,20 +12,10 @@ contract BackedCommunityTokenV1 is
     ERC721SoulboundUpgradeable,
     IBackedCommunityTokenV1
 {
-    // ==== modifiers ====
-    modifier onlyAdmin() {
-        require(msg.sender == admin, "BackedCommunityTokenV1: not admin");
-        _;
-    }
-
     // ==== constructor ====
-    function initialize(address _admin, address _descriptor)
-        public
-        initializer
-    {
+    function initialize(address _descriptorAddress) public initializer {
         __ERC721Soulbound_init("BackedCommunity", "BACKED");
-        admin = _admin;
-        descriptor = _descriptor;
+        descriptor = IBackedCommunityTokenDescriptorV1(_descriptorAddress);
     }
 
     // ==== state changing external functions ====
@@ -33,25 +23,23 @@ contract BackedCommunityTokenV1 is
     function addCategory(string memory displayName)
         external
         override
-        onlyAdmin
+        onlyOwner
     {
-        uint256 currentCategoryId = categoryCount++;
-        categoryIdToDisplayName[currentCategoryId] = displayName;
+        categoryIdToDisplayName[totalCategoryCount++] = displayName;
     }
 
     function addSpecialAccessory(address artContract)
         external
         override
-        onlyAdmin
+        onlyOwner
     {
-        uint256 currentAccessoryId = specialAccessoryCount++;
-        accessoryIdToArtContract[currentAccessoryId] = artContract;
+        accessoryIdToArtContract[totalSpecialyAccessoryCount++] = artContract;
     }
 
     function setCategoryScores(CategoryScoreChange[] memory changes)
         external
         override
-        onlyAdmin
+        onlyOwner
     {
         for (uint256 i = 0; i < changes.length; i++) {
             _setCategoryScore(changes[i]);
@@ -61,7 +49,7 @@ contract BackedCommunityTokenV1 is
     function unlockAccessories(AccessoryUnlockChange[] memory changes)
         external
         override
-        onlyAdmin
+        onlyOwner
     {
         for (uint256 i = 0; i < changes.length; i++) {
             _unlockAccessory(changes[i]);
@@ -84,12 +72,12 @@ contract BackedCommunityTokenV1 is
         addressToPFPTokenIdLink[msg.sender] = tokenId;
     }
 
-    function setBunnyPFPContract(address addr) external override onlyAdmin {
+    function setBunnyPFPContract(address addr) external override onlyOwner {
         bunnyPFPContractAddress = addr;
     }
 
-    function setDescriptorContract(address addr) external override onlyAdmin {
-        descriptor = addr;
+    function setDescriptorContract(address addr) external override onlyOwner {
+        descriptor = IBackedCommunityTokenDescriptorV1(addr);
     }
 
     function mint(address mintTo) external {
@@ -104,8 +92,8 @@ contract BackedCommunityTokenV1 is
         override
         returns (int256[] memory)
     {
-        int256[] memory unlocked = new int256[](specialAccessoryCount);
-        for (uint256 i = 0; i < specialAccessoryCount; i++) {
+        int256[] memory unlocked = new int256[](totalSpecialyAccessoryCount);
+        for (uint256 i = 0; i < totalSpecialyAccessoryCount; i++) {
             if (addressToAccessoryUnlocked[addr][i]) {
                 unlocked[i] = int256(i);
             } else {
@@ -122,12 +110,12 @@ contract BackedCommunityTokenV1 is
         returns (string memory)
     {
         address owner = ERC721SoulboundUpgradeable(this).ownerOf(tokenId);
-        uint256[] memory scores = new uint256[](categoryCount);
-        for (uint256 i = 0; i < categoryCount; i++) {
+        uint256[] memory scores = new uint256[](totalCategoryCount);
+        for (uint256 i = 0; i < totalCategoryCount; i++) {
             scores[i] = addressToCategoryScore[owner][i];
         }
         return
-            IBackedCommunityTokenDescriptorV1(descriptor).tokenURI(
+            descriptor.tokenURI(
                 owner,
                 scores,
                 accessoryIdToArtContract[addressToAccessoryEnabled[owner]]

@@ -7,7 +7,7 @@ const compile = require('./compile');
 const deploy = require('./deploy');
 const { DOMParser } = require('xmldom');
 
-const SOURCE = path.join(__dirname, '..', 'contracts', 'Renderer.sol');
+const SOURCE = path.join(__dirname, '..', 'contracts', 'src', 'BackedCommunityTokenDescriptorV1.sol');
 const DESTINATION = path.join(os.tmpdir(), 'hot-chain-svg-');
 
 async function main() {
@@ -21,7 +21,7 @@ async function main() {
   for (let i = 1; i < 256; i++) {
     const fileName = path.join(tempFolder, i + '.svg');
     console.log('Rendering', fileName);
-    const svg = await call(vm, address, abi, 'render', [i]);
+    const svg = await call(vm, address, abi, 'tokenURI', [0x6b2770a75a928989c1d7356366d4665a6487e1b4, [0], 0x6b2770a75a928989c1d7356366d4665a6487e1b4]);
     fs.writeFileSync(fileName, svg);
 
     // Throws on invalid XML

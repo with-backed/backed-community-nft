@@ -19,11 +19,15 @@ contract BackedCommunityTokenV1Test is Test {
 
     function setUp() public {
         communityToken = new BackedCommunityTokenV1();
+        vm.startPrank(address(0));
+        communityToken.transferOwnership(admin);
+        vm.stopPrank();
+
         backedBunnyPfp = new TestBackedBunnyPFP();
         descriptor = new BackedCommunityTokenDescriptorV1();
 
-        communityToken.initialize(admin, address(descriptor));
         vm.startPrank(admin);
+        communityToken.initialize(address(descriptor));
         communityToken.setBunnyPFPContract(address(backedBunnyPfp));
 
         communityToken.addCategory("CATEGORY_ONE");
@@ -35,8 +39,8 @@ contract BackedCommunityTokenV1Test is Test {
     }
 
     function testInitialize() public {
-        assertEq(admin, communityToken.admin());
-        assertEq(address(descriptor), communityToken.descriptor());
+        assertEq(admin, communityToken.owner());
+        assertEq(address(descriptor), address(communityToken.descriptor()));
         assertEq("BackedCommunity", communityToken.name());
         assertEq("BACKED", communityToken.symbol());
     }
@@ -54,25 +58,25 @@ contract BackedCommunityTokenV1Test is Test {
 
     // @notice categories added in set up
     function testAddCategory() public {
-        assertEq(communityToken.categoryCount(), 2);
+        assertEq(communityToken.totalCategoryCount(), 2);
         assertEq(communityToken.categoryIdToDisplayName(0), "CATEGORY_ONE");
         assertEq(communityToken.categoryIdToDisplayName(1), "CATEGORY_TWO");
     }
 
     function testAddCategoryFailsIfNotAdmin() public {
-        vm.expectRevert("BackedCommunityTokenV1: not admin");
+        vm.expectRevert("Ownable: caller is not the owner");
         communityToken.addCategory("CATEGORY");
     }
 
     // @notice accessories added in set up
     function testAddSpecialCategory() public {
-        assertEq(communityToken.specialAccessoryCount(), 2);
+        assertEq(communityToken.totalSpecialyAccessoryCount(), 2);
         assertEq(communityToken.accessoryIdToArtContract(0), address(4));
         assertEq(communityToken.accessoryIdToArtContract(1), address(5));
     }
 
     function testAddAccessoryFailsIfNotAdmin() public {
-        vm.expectRevert("BackedCommunityTokenV1: not admin");
+        vm.expectRevert("Ownable: caller is not the owner");
         communityToken.addSpecialAccessory(address(1));
     }
 
@@ -120,7 +124,7 @@ contract BackedCommunityTokenV1Test is Test {
             memory changes = new IBackedCommunityTokenV1.CategoryScoreChange[](
                 0
             );
-        vm.expectRevert("BackedCommunityTokenV1: not admin");
+        vm.expectRevert("Ownable: caller is not the owner");
         communityToken.setCategoryScores(changes);
     }
 
@@ -165,7 +169,7 @@ contract BackedCommunityTokenV1Test is Test {
             memory changes = new IBackedCommunityTokenV1.AccessoryUnlockChange[](
                 0
             );
-        vm.expectRevert("BackedCommunityTokenV1: not admin");
+        vm.expectRevert("Ownable: caller is not the owner");
         communityToken.unlockAccessories(changes);
     }
 
