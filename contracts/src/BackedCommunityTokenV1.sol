@@ -28,12 +28,18 @@ contract BackedCommunityTokenV1 is
         categoryIdToDisplayName[totalCategoryCount++] = displayName;
     }
 
-    function addSpecialAccessory(address artContract)
-        external
-        override
-        onlyOwner
-    {
-        accessoryIdToArtContract[totalSpecialyAccessoryCount++] = artContract;
+    function addSpecialAccessory(
+        IBackedCommunityTokenV1.Accessory memory accessory
+    ) external override onlyOwner {
+        accessoryIdToAccessory[
+            totalSpecialyAccessoryCount++
+        ] = IBackedCommunityTokenV1.Accessory({
+            name: accessory.name,
+            xpBased: accessory.xpBased,
+            artContract: accessory.artContract,
+            qualifyingXPScore: accessory.qualifyingXPScore,
+            xpCategory: accessory.xpCategory
+        });
     }
 
     function setCategoryScores(CategoryScoreChange[] memory changes)
@@ -118,12 +124,22 @@ contract BackedCommunityTokenV1 is
             descriptor.tokenURI(
                 owner,
                 scores,
-                accessoryIdToArtContract[addressToAccessoryEnabled[owner]]
+                accessoryIdToAccessory[addressToAccessoryEnabled[owner]]
+                    .artContract
             );
     }
 
     // === internal & private ===
     function _unlockAccessory(AccessoryUnlockChange memory change) internal {
+        IBackedCommunityTokenV1.Accessory
+            memory accessory = accessoryIdToAccessory[change.accessoryId];
+        if (accessory.xpBased) {
+            require(
+                addressToCategoryScore[change.addr][accessory.xpCategory] >=
+                    accessory.qualifyingXPScore,
+                "BackedCommunityTokenV1: user does not qualify"
+            );
+        }
         addressToAccessoryUnlocked[change.addr][change.accessoryId] = true;
     }
 

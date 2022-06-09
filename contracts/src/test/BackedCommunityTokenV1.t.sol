@@ -32,8 +32,24 @@ contract BackedCommunityTokenV1Test is Test {
 
         communityToken.addCategory("CATEGORY_ONE");
         communityToken.addCategory("CATEGORY_TWO");
-        communityToken.addSpecialAccessory(address(4));
-        communityToken.addSpecialAccessory(address(5));
+        communityToken.addSpecialAccessory(
+            IBackedCommunityTokenV1.Accessory({
+                name: "accessory_one",
+                xpBased: false,
+                artContract: address(0),
+                qualifyingXPScore: 0,
+                xpCategory: 0
+            })
+        );
+        communityToken.addSpecialAccessory(
+            IBackedCommunityTokenV1.Accessory({
+                name: "accessory_two",
+                xpBased: true,
+                artContract: address(0),
+                qualifyingXPScore: 50,
+                xpCategory: 1
+            })
+        );
 
         vm.stopPrank();
     }
@@ -70,14 +86,29 @@ contract BackedCommunityTokenV1Test is Test {
 
     // @notice accessories added in set up
     function testAddSpecialCategory() public {
+        (string memory nameOne, , , , ) = communityToken.accessoryIdToAccessory(
+            0
+        );
+        (string memory nameTwo, , , , ) = communityToken.accessoryIdToAccessory(
+            1
+        );
+
         assertEq(communityToken.totalSpecialyAccessoryCount(), 2);
-        assertEq(communityToken.accessoryIdToArtContract(0), address(4));
-        assertEq(communityToken.accessoryIdToArtContract(1), address(5));
+        assertEq(nameOne, "accessory_one");
+        assertEq(nameTwo, "accessory_two");
     }
 
     function testAddAccessoryFailsIfNotAdmin() public {
         vm.expectRevert("Ownable: caller is not the owner");
-        communityToken.addSpecialAccessory(address(1));
+        communityToken.addSpecialAccessory(
+            IBackedCommunityTokenV1.Accessory({
+                name: "accessory_three",
+                xpBased: false,
+                artContract: address(0),
+                qualifyingXPScore: 0,
+                xpCategory: 0
+            })
+        );
     }
 
     function testSetCategoryScores() public {
@@ -128,7 +159,7 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken.setCategoryScores(changes);
     }
 
-    function testUnlockAccessories() public {
+    function testUnlockAccessoriesNonXPBased() public {
         vm.startPrank(admin);
 
         IBackedCommunityTokenV1.AccessoryUnlockChange
@@ -141,25 +172,90 @@ contract BackedCommunityTokenV1Test is Test {
                 addr: userTwo,
                 accessoryId: 0
             });
-        IBackedCommunityTokenV1.AccessoryUnlockChange
-            memory changeThree = IBackedCommunityTokenV1.AccessoryUnlockChange({
-                addr: userOne,
-                accessoryId: 1
-            });
 
         IBackedCommunityTokenV1.AccessoryUnlockChange[]
             memory changes = new IBackedCommunityTokenV1.AccessoryUnlockChange[](
-                3
+                2
             );
         changes[0] = changeOne;
         changes[1] = changeTwo;
-        changes[2] = changeThree;
 
         communityToken.unlockAccessories(changes);
 
         assertTrue(communityToken.addressToAccessoryUnlocked(userOne, 0));
-        assertTrue(communityToken.addressToAccessoryUnlocked(userOne, 1));
         assertTrue(communityToken.addressToAccessoryUnlocked(userTwo, 0));
+
+        vm.stopPrank();
+    }
+
+    function testUnlockAccessoriesXPBased() public {
+        vm.startPrank(admin);
+
+        IBackedCommunityTokenV1.CategoryScoreChange
+            memory categoryChangeOne = IBackedCommunityTokenV1
+                .CategoryScoreChange({addr: userOne, categoryId: 1, score: 50});
+        IBackedCommunityTokenV1.CategoryScoreChange
+            memory categoryChangeTwo = IBackedCommunityTokenV1
+                .CategoryScoreChange({addr: userTwo, categoryId: 1, score: 60});
+
+        IBackedCommunityTokenV1.CategoryScoreChange[]
+            memory categoryChanges = new IBackedCommunityTokenV1.CategoryScoreChange[](
+                2
+            );
+        categoryChanges[0] = categoryChangeOne;
+        categoryChanges[1] = categoryChangeTwo;
+
+        communityToken.setCategoryScores(categoryChanges);
+
+        IBackedCommunityTokenV1.AccessoryUnlockChange
+            memory accessoryChangeOne = IBackedCommunityTokenV1
+                .AccessoryUnlockChange({addr: userOne, accessoryId: 1});
+        IBackedCommunityTokenV1.AccessoryUnlockChange
+            memory accessoryChangeTwo = IBackedCommunityTokenV1
+                .AccessoryUnlockChange({addr: userTwo, accessoryId: 1});
+
+        IBackedCommunityTokenV1.AccessoryUnlockChange[]
+            memory accessoryChanges = new IBackedCommunityTokenV1.AccessoryUnlockChange[](
+                2
+            );
+        accessoryChanges[0] = accessoryChangeOne;
+        accessoryChanges[1] = accessoryChangeTwo;
+
+        communityToken.unlockAccessories(accessoryChanges);
+
+        assertTrue(communityToken.addressToAccessoryUnlocked(userOne, 1));
+        assertTrue(communityToken.addressToAccessoryUnlocked(userTwo, 1));
+
+        vm.stopPrank();
+    }
+
+    function testUnlockAccessoriesXPBasedFailsIfUserDoesNotQualify() public {
+        vm.startPrank(admin);
+
+        IBackedCommunityTokenV1.CategoryScoreChange
+            memory categoryChangeOne = IBackedCommunityTokenV1
+                .CategoryScoreChange({addr: userOne, categoryId: 1, score: 20}); // user does not qualify
+
+        IBackedCommunityTokenV1.CategoryScoreChange[]
+            memory categoryChanges = new IBackedCommunityTokenV1.CategoryScoreChange[](
+                1
+            );
+        categoryChanges[0] = categoryChangeOne;
+
+        communityToken.setCategoryScores(categoryChanges);
+
+        IBackedCommunityTokenV1.AccessoryUnlockChange
+            memory accessoryChangeOne = IBackedCommunityTokenV1
+                .AccessoryUnlockChange({addr: userOne, accessoryId: 1});
+
+        IBackedCommunityTokenV1.AccessoryUnlockChange[]
+            memory accessoryChanges = new IBackedCommunityTokenV1.AccessoryUnlockChange[](
+                1
+            );
+        accessoryChanges[0] = accessoryChangeOne;
+
+        vm.expectRevert("BackedCommunityTokenV1: user does not qualify");
+        communityToken.unlockAccessories(accessoryChanges);
 
         vm.stopPrank();
     }

@@ -2,6 +2,14 @@
 pragma solidity 0.8.12;
 
 interface IBackedCommunityTokenV1 {
+    struct Accessory {
+        string name;
+        bool xpBased;
+        address artContract;
+        uint256 qualifyingXPScore;
+        uint256 xpCategory;
+    }
+
     struct CategoryScoreChange {
         address addr;
         uint256 categoryId;
@@ -15,7 +23,7 @@ interface IBackedCommunityTokenV1 {
 
     function addCategory(string memory displayName) external;
 
-    function addSpecialAccessory(address artContract) external;
+    function addSpecialAccessory(Accessory memory accessory) external;
 
     function unlockAccessories(AccessoryUnlockChange[] memory changes) external;
 

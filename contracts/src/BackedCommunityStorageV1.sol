@@ -2,6 +2,7 @@
 pragma solidity 0.8.12;
 
 import {IBackedCommunityTokenDescriptorV1} from "./interfaces/IBackedCommunityTokenDescriptorV1.sol";
+import {IBackedCommunityTokenV1} from "./interfaces/IBackedCommunityTokenV1.sol";
 
 contract BackedCommunityStorageV1 {
     // @notice keep track of the total number of community NFTs minted
@@ -21,7 +22,8 @@ contract BackedCommunityStorageV1 {
 
     // @notice accessory related storage
     uint256 public totalSpecialyAccessoryCount;
-    mapping(uint256 => address) public accessoryIdToArtContract;
+    mapping(uint256 => IBackedCommunityTokenV1.Accessory)
+        public accessoryIdToAccessory;
     mapping(address => mapping(uint256 => bool))
         public addressToAccessoryUnlocked;
     mapping(address => uint256) public addressToAccessoryEnabled;
