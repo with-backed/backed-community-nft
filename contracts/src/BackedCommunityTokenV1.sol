@@ -63,11 +63,13 @@ contract BackedCommunityTokenV1 is
     }
 
     function setEnabledAccessory(uint256 accessoryId) external override {
+        uint256 oldAccessory = addressToAccessoryEnabled[msg.sender];
         require(
             addressToAccessoryUnlocked[msg.sender][accessoryId],
             "BackedCommunityTokenV1: accessory not unlocked"
         );
         addressToAccessoryEnabled[msg.sender] = accessoryId;
+        emit AccessorySwapped(msg.sender, oldAccessory, accessoryId);
     }
 
     function linkBunnyPFP(uint256 tokenId) external override {
@@ -141,9 +143,19 @@ contract BackedCommunityTokenV1 is
             );
         }
         addressToAccessoryUnlocked[change.addr][change.accessoryId] = true;
+        emit AccessoryUnlocked(
+            change.addr,
+            change.accessoryId,
+            change.ipfsLink
+        );
     }
 
     function _setCategoryScore(CategoryScoreChange memory change) internal {
         addressToCategoryScore[change.addr][change.categoryId] = change.score;
+        emit CategoryScoreChanged(
+            change.addr,
+            change.categoryId,
+            change.ipfsLink
+        );
     }
 }

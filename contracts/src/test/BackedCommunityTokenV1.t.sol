@@ -9,6 +9,24 @@ import {BackedCommunityTokenDescriptorV1} from "../BackedCommunityTokenDescripto
 import {TestBackedBunnyPFP} from "./TestBackedBunnyPFP.sol";
 
 contract BackedCommunityTokenV1Test is Test {
+    event CategoryScoreChanged(
+        address indexed addr,
+        uint256 indexed categoryId,
+        string indexed ipfsLink
+    );
+
+    event AccessoryUnlocked(
+        address indexed addr,
+        uint256 indexed accessoryId,
+        string indexed ipfsLink
+    );
+
+    event AccessorySwapped(
+        address indexed addr,
+        uint256 indexed oldAccessory,
+        uint256 indexed newAccessory
+    );
+
     BackedCommunityTokenV1 communityToken;
     TestBackedBunnyPFP backedBunnyPfp;
     BackedCommunityTokenDescriptorV1 descriptor;
@@ -118,19 +136,22 @@ contract BackedCommunityTokenV1Test is Test {
             memory changeOne = IBackedCommunityTokenV1.CategoryScoreChange({
                 addr: userOne,
                 categoryId: 0,
-                score: 10
+                score: 10,
+                ipfsLink: ""
             });
         IBackedCommunityTokenV1.CategoryScoreChange
             memory changeTwo = IBackedCommunityTokenV1.CategoryScoreChange({
                 addr: userTwo,
                 categoryId: 0,
-                score: 20
+                score: 20,
+                ipfsLink: ""
             });
         IBackedCommunityTokenV1.CategoryScoreChange
             memory changeThree = IBackedCommunityTokenV1.CategoryScoreChange({
                 addr: userOne,
                 categoryId: 1,
-                score: 50
+                score: 50,
+                ipfsLink: ""
             });
 
         IBackedCommunityTokenV1.CategoryScoreChange[]
@@ -141,6 +162,10 @@ contract BackedCommunityTokenV1Test is Test {
         changes[1] = changeTwo;
         changes[2] = changeThree;
 
+        vm.expectEmit(true, true, true, false);
+        emit CategoryScoreChanged(userOne, 0, "");
+        emit CategoryScoreChanged(userTwo, 0, "");
+        emit CategoryScoreChanged(userOne, 1, "");
         communityToken.setCategoryScores(changes);
 
         assertEq(communityToken.addressToCategoryScore(userOne, 0), 10);
@@ -165,12 +190,14 @@ contract BackedCommunityTokenV1Test is Test {
         IBackedCommunityTokenV1.AccessoryUnlockChange
             memory changeOne = IBackedCommunityTokenV1.AccessoryUnlockChange({
                 addr: userOne,
-                accessoryId: 0
+                accessoryId: 0,
+                ipfsLink: ""
             });
         IBackedCommunityTokenV1.AccessoryUnlockChange
             memory changeTwo = IBackedCommunityTokenV1.AccessoryUnlockChange({
                 addr: userTwo,
-                accessoryId: 0
+                accessoryId: 0,
+                ipfsLink: ""
             });
 
         IBackedCommunityTokenV1.AccessoryUnlockChange[]
@@ -180,6 +207,9 @@ contract BackedCommunityTokenV1Test is Test {
         changes[0] = changeOne;
         changes[1] = changeTwo;
 
+        vm.expectEmit(true, true, true, false);
+        emit AccessoryUnlocked(userOne, 0, "");
+        emit AccessoryUnlocked(userTwo, 0, "");
         communityToken.unlockAccessories(changes);
 
         assertTrue(communityToken.addressToAccessoryUnlocked(userOne, 0));
@@ -193,10 +223,20 @@ contract BackedCommunityTokenV1Test is Test {
 
         IBackedCommunityTokenV1.CategoryScoreChange
             memory categoryChangeOne = IBackedCommunityTokenV1
-                .CategoryScoreChange({addr: userOne, categoryId: 1, score: 50});
+                .CategoryScoreChange({
+                    addr: userOne,
+                    categoryId: 1,
+                    score: 50,
+                    ipfsLink: ""
+                });
         IBackedCommunityTokenV1.CategoryScoreChange
             memory categoryChangeTwo = IBackedCommunityTokenV1
-                .CategoryScoreChange({addr: userTwo, categoryId: 1, score: 60});
+                .CategoryScoreChange({
+                    addr: userTwo,
+                    categoryId: 1,
+                    score: 60,
+                    ipfsLink: ""
+                });
 
         IBackedCommunityTokenV1.CategoryScoreChange[]
             memory categoryChanges = new IBackedCommunityTokenV1.CategoryScoreChange[](
@@ -209,10 +249,18 @@ contract BackedCommunityTokenV1Test is Test {
 
         IBackedCommunityTokenV1.AccessoryUnlockChange
             memory accessoryChangeOne = IBackedCommunityTokenV1
-                .AccessoryUnlockChange({addr: userOne, accessoryId: 1});
+                .AccessoryUnlockChange({
+                    addr: userOne,
+                    accessoryId: 1,
+                    ipfsLink: ""
+                });
         IBackedCommunityTokenV1.AccessoryUnlockChange
             memory accessoryChangeTwo = IBackedCommunityTokenV1
-                .AccessoryUnlockChange({addr: userTwo, accessoryId: 1});
+                .AccessoryUnlockChange({
+                    addr: userTwo,
+                    accessoryId: 1,
+                    ipfsLink: ""
+                });
 
         IBackedCommunityTokenV1.AccessoryUnlockChange[]
             memory accessoryChanges = new IBackedCommunityTokenV1.AccessoryUnlockChange[](
@@ -221,6 +269,9 @@ contract BackedCommunityTokenV1Test is Test {
         accessoryChanges[0] = accessoryChangeOne;
         accessoryChanges[1] = accessoryChangeTwo;
 
+        vm.expectEmit(true, true, true, false);
+        emit AccessoryUnlocked(userOne, 1, "");
+        emit AccessoryUnlocked(userTwo, 1, "");
         communityToken.unlockAccessories(accessoryChanges);
 
         assertTrue(communityToken.addressToAccessoryUnlocked(userOne, 1));
@@ -234,7 +285,12 @@ contract BackedCommunityTokenV1Test is Test {
 
         IBackedCommunityTokenV1.CategoryScoreChange
             memory categoryChangeOne = IBackedCommunityTokenV1
-                .CategoryScoreChange({addr: userOne, categoryId: 1, score: 20}); // user does not qualify
+                .CategoryScoreChange({
+                    addr: userOne,
+                    categoryId: 1,
+                    score: 20,
+                    ipfsLink: ""
+                }); // user does not qualify
 
         IBackedCommunityTokenV1.CategoryScoreChange[]
             memory categoryChanges = new IBackedCommunityTokenV1.CategoryScoreChange[](
@@ -246,7 +302,11 @@ contract BackedCommunityTokenV1Test is Test {
 
         IBackedCommunityTokenV1.AccessoryUnlockChange
             memory accessoryChangeOne = IBackedCommunityTokenV1
-                .AccessoryUnlockChange({addr: userOne, accessoryId: 1});
+                .AccessoryUnlockChange({
+                    addr: userOne,
+                    accessoryId: 1,
+                    ipfsLink: ""
+                });
 
         IBackedCommunityTokenV1.AccessoryUnlockChange[]
             memory accessoryChanges = new IBackedCommunityTokenV1.AccessoryUnlockChange[](
@@ -281,7 +341,8 @@ contract BackedCommunityTokenV1Test is Test {
         IBackedCommunityTokenV1.AccessoryUnlockChange
             memory changeOne = IBackedCommunityTokenV1.AccessoryUnlockChange({
                 addr: userOne,
-                accessoryId: accessoryId
+                accessoryId: accessoryId,
+                ipfsLink: ""
             });
         IBackedCommunityTokenV1.AccessoryUnlockChange[]
             memory changes = new IBackedCommunityTokenV1.AccessoryUnlockChange[](

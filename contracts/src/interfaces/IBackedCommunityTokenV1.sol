@@ -14,12 +14,32 @@ interface IBackedCommunityTokenV1 {
         address addr;
         uint256 categoryId;
         uint256 score;
+        string ipfsLink;
     }
 
     struct AccessoryUnlockChange {
         address addr;
         uint256 accessoryId;
+        string ipfsLink;
     }
+
+    event CategoryScoreChanged(
+        address indexed addr,
+        uint256 indexed categoryId,
+        string indexed ipfsLink
+    );
+
+    event AccessoryUnlocked(
+        address indexed addr,
+        uint256 indexed accessoryId,
+        string indexed ipfsLink
+    );
+
+    event AccessorySwapped(
+        address indexed addr,
+        uint256 indexed oldAccessory,
+        uint256 indexed newAccessory
+    );
 
     function addCategory(string memory displayName) external;
 
