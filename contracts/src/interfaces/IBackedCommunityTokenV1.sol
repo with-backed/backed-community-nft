@@ -56,4 +56,6 @@ interface IBackedCommunityTokenV1 {
         external
         view
         returns (int256[] memory);
+
+    function setBunnyPFPTokenApproval(bytes calldata message) external;
 }

@@ -6,6 +6,7 @@ import {IBackedCommunityTokenDescriptorV1} from "./interfaces/IBackedCommunityTo
 import {BackedCommunityStorageV1} from "./BackedCommunityStorageV1.sol";
 import {IERC721} from "../lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol";
 import {ERC721SoulboundUpgradeable} from "./ERC721SoulboundUpgradeable.sol";
+import {ICrossDomainMessenger} from "../lib/optimism/packages/contracts/contracts/libraries/bridge/ICrossDomainMessenger.sol";
 
 contract BackedCommunityTokenV1 is
     BackedCommunityStorageV1,
@@ -74,10 +75,30 @@ contract BackedCommunityTokenV1 is
         emit AccessorySwapped(msg.sender, oldAccessoryId, accessoryId);
     }
 
+    function setBunnyPFPTokenApproval(bytes calldata message)
+        external
+        override
+    {
+        (uint256 tokenId, address owner) = abi.decode(
+            message,
+            (uint256, address)
+        );
+        require(
+            msg.sender == cdmAddr,
+            "BackedCommunityTokenV1: caller must be cross domain messenger"
+        );
+        require(
+            ICrossDomainMessenger(cdmAddr).xDomainMessageSender() ==
+                bunnyPFPContractAddress,
+            "BackedCommunityTokenV1: origin must be Backed PFP"
+        );
+        tokenIdToAddressApprovals[tokenId] = owner;
+    }
+
     function linkBunnyPFP(uint256 tokenId) external override {
         require(
-            IERC721(bunnyPFPContractAddress).ownerOf(tokenId) == msg.sender,
-            "BackedCommunityTokenV1: not owner of PFP tokenId"
+            tokenIdToAddressApprovals[tokenId] == msg.sender,
+            "BackedCommunityTokenV1: must approve PFP on mainnet"
         );
         addressToPFPTokenIdLink[msg.sender] = tokenId;
     }
