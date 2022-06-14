@@ -80,8 +80,10 @@ contract BackedCommunityTokenV1Test is Test {
     }
 
     function testSoulbound() public {
+        vm.warp(1000);
         communityToken.mint(userOne);
         assertEq(communityToken.ownerOf(0), userOne);
+        assertEq(communityToken.addressToTimeMinted(userOne), 1000);
         vm.expectRevert("ERC721Soulbound: cannot own more than 1");
         communityToken.mint(userOne);
 
