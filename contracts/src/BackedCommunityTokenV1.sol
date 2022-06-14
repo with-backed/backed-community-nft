@@ -63,13 +63,23 @@ contract BackedCommunityTokenV1 is
     }
 
     function setEnabledAccessory(uint256 accessoryId) external override {
-        uint256 oldAccessory = addressToAccessoryEnabled[msg.sender];
-        require(
-            addressToAccessoryUnlocked[msg.sender][accessoryId],
-            "BackedCommunityTokenV1: accessory not unlocked"
-        );
+        uint256 oldAccessoryId = addressToAccessoryEnabled[msg.sender];
+        IBackedCommunityTokenV1.Accessory
+            memory accessory = accessoryIdToAccessory[accessoryId];
+        if (accessory.xpBased) {
+            require(
+                addressToCategoryScore[msg.sender][accessory.xpCategory] >=
+                    accessory.qualifyingXPScore,
+                "BackedCommunityTokenV1: user does not qualify"
+            );
+        } else {
+            require(
+                addressToAccessoryUnlocked[msg.sender][accessoryId],
+                "BackedCommunityTokenV1: accessory not unlocked"
+            );
+        }
         addressToAccessoryEnabled[msg.sender] = accessoryId;
-        emit AccessorySwapped(msg.sender, oldAccessory, accessoryId);
+        emit AccessorySwapped(msg.sender, oldAccessoryId, accessoryId);
     }
 
     function linkBunnyPFP(uint256 tokenId) external override {
@@ -135,13 +145,11 @@ contract BackedCommunityTokenV1 is
     function _unlockAccessory(AccessoryUnlockChange memory change) internal {
         IBackedCommunityTokenV1.Accessory
             memory accessory = accessoryIdToAccessory[change.accessoryId];
-        if (accessory.xpBased) {
-            require(
-                addressToCategoryScore[change.addr][accessory.xpCategory] >=
-                    accessory.qualifyingXPScore,
-                "BackedCommunityTokenV1: user does not qualify"
-            );
-        }
+        require(
+            !accessory.xpBased,
+            "BackedCommunityTokenV1: Accessory must be admin based"
+        );
+
         addressToAccessoryUnlocked[change.addr][change.accessoryId] = true;
         emit AccessoryUnlocked(
             change.addr,

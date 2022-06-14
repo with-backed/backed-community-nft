@@ -184,7 +184,7 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken.setCategoryScores(changes);
     }
 
-    function testUnlockAccessoriesNonXPBased() public {
+    function testUnlockAccessoriesAdminBased() public {
         vm.startPrank(admin);
 
         IBackedCommunityTokenV1.AccessoryUnlockChange
@@ -218,105 +218,26 @@ contract BackedCommunityTokenV1Test is Test {
         vm.stopPrank();
     }
 
-    function testUnlockAccessoriesXPBased() public {
+    function testUnlockAccessoriesFailsWhenXPBased() public {
         vm.startPrank(admin);
 
-        IBackedCommunityTokenV1.CategoryScoreChange
-            memory categoryChangeOne = IBackedCommunityTokenV1
-                .CategoryScoreChange({
-                    addr: userOne,
-                    categoryId: 1,
-                    score: 50,
-                    ipfsLink: ""
-                });
-        IBackedCommunityTokenV1.CategoryScoreChange
-            memory categoryChangeTwo = IBackedCommunityTokenV1
-                .CategoryScoreChange({
-                    addr: userTwo,
-                    categoryId: 1,
-                    score: 60,
-                    ipfsLink: ""
-                });
-
-        IBackedCommunityTokenV1.CategoryScoreChange[]
-            memory categoryChanges = new IBackedCommunityTokenV1.CategoryScoreChange[](
-                2
-            );
-        categoryChanges[0] = categoryChangeOne;
-        categoryChanges[1] = categoryChangeTwo;
-
-        communityToken.setCategoryScores(categoryChanges);
-
         IBackedCommunityTokenV1.AccessoryUnlockChange
-            memory accessoryChangeOne = IBackedCommunityTokenV1
-                .AccessoryUnlockChange({
-                    addr: userOne,
-                    accessoryId: 1,
-                    ipfsLink: ""
-                });
-        IBackedCommunityTokenV1.AccessoryUnlockChange
-            memory accessoryChangeTwo = IBackedCommunityTokenV1
-                .AccessoryUnlockChange({
-                    addr: userTwo,
-                    accessoryId: 1,
-                    ipfsLink: ""
-                });
-
-        IBackedCommunityTokenV1.AccessoryUnlockChange[]
-            memory accessoryChanges = new IBackedCommunityTokenV1.AccessoryUnlockChange[](
-                2
-            );
-        accessoryChanges[0] = accessoryChangeOne;
-        accessoryChanges[1] = accessoryChangeTwo;
-
-        vm.expectEmit(true, true, true, false);
-        emit AccessoryUnlocked(userOne, 1, "");
-        emit AccessoryUnlocked(userTwo, 1, "");
-        communityToken.unlockAccessories(accessoryChanges);
-
-        assertTrue(communityToken.addressToAccessoryUnlocked(userOne, 1));
-        assertTrue(communityToken.addressToAccessoryUnlocked(userTwo, 1));
-
-        vm.stopPrank();
-    }
-
-    function testUnlockAccessoriesXPBasedFailsIfUserDoesNotQualify() public {
-        vm.startPrank(admin);
-
-        IBackedCommunityTokenV1.CategoryScoreChange
-            memory categoryChangeOne = IBackedCommunityTokenV1
-                .CategoryScoreChange({
-                    addr: userOne,
-                    categoryId: 1,
-                    score: 20,
-                    ipfsLink: ""
-                }); // user does not qualify
-
-        IBackedCommunityTokenV1.CategoryScoreChange[]
-            memory categoryChanges = new IBackedCommunityTokenV1.CategoryScoreChange[](
-                1
-            );
-        categoryChanges[0] = categoryChangeOne;
-
-        communityToken.setCategoryScores(categoryChanges);
-
-        IBackedCommunityTokenV1.AccessoryUnlockChange
-            memory accessoryChangeOne = IBackedCommunityTokenV1
-                .AccessoryUnlockChange({
-                    addr: userOne,
-                    accessoryId: 1,
-                    ipfsLink: ""
-                });
+            memory changeOne = IBackedCommunityTokenV1.AccessoryUnlockChange({
+                addr: userOne,
+                accessoryId: 1,
+                ipfsLink: ""
+            });
 
         IBackedCommunityTokenV1.AccessoryUnlockChange[]
             memory accessoryChanges = new IBackedCommunityTokenV1.AccessoryUnlockChange[](
                 1
             );
-        accessoryChanges[0] = accessoryChangeOne;
+        accessoryChanges[0] = changeOne;
 
-        vm.expectRevert("BackedCommunityTokenV1: user does not qualify");
+        vm.expectRevert(
+            "BackedCommunityTokenV1: Accessory must be admin based"
+        );
         communityToken.unlockAccessories(accessoryChanges);
-
         vm.stopPrank();
     }
 
@@ -329,7 +250,8 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken.unlockAccessories(changes);
     }
 
-    function testSetEnabledAccessory() public {
+    // TODO this should fail cause accessory 33 doesn't exist??
+    function testSetEnabledAccessoryAdminBased() public {
         uint256 accessoryId = 33;
 
         vm.startPrank(userOne);
@@ -360,6 +282,74 @@ contract BackedCommunityTokenV1Test is Test {
             communityToken.addressToAccessoryEnabled(userOne),
             accessoryId
         );
+    }
+
+    function testSetEnabledAccessoryXPBased() public {
+        vm.startPrank(admin);
+
+        IBackedCommunityTokenV1.CategoryScoreChange
+            memory categoryChangeOne = IBackedCommunityTokenV1
+                .CategoryScoreChange({
+                    addr: userOne,
+                    categoryId: 1,
+                    score: 50,
+                    ipfsLink: ""
+                });
+        IBackedCommunityTokenV1.CategoryScoreChange
+            memory categoryChangeTwo = IBackedCommunityTokenV1
+                .CategoryScoreChange({
+                    addr: userTwo,
+                    categoryId: 1,
+                    score: 60,
+                    ipfsLink: ""
+                });
+
+        IBackedCommunityTokenV1.CategoryScoreChange[]
+            memory categoryChanges = new IBackedCommunityTokenV1.CategoryScoreChange[](
+                2
+            );
+        categoryChanges[0] = categoryChangeOne;
+        categoryChanges[1] = categoryChangeTwo;
+
+        communityToken.setCategoryScores(categoryChanges);
+        vm.stopPrank();
+
+        vm.startPrank(userOne);
+        communityToken.setEnabledAccessory(1);
+        assertEq(communityToken.addressToAccessoryEnabled(userOne), 1);
+        vm.stopPrank();
+
+        vm.startPrank(userTwo);
+        communityToken.setEnabledAccessory(1);
+        assertEq(communityToken.addressToAccessoryEnabled(userTwo), 1);
+        vm.stopPrank();
+    }
+
+    function testSetEnabledAccessoryXPBasedWhenUserDoesNotQualify() public {
+        vm.startPrank(admin);
+
+        IBackedCommunityTokenV1.CategoryScoreChange
+            memory categoryChangeOne = IBackedCommunityTokenV1
+                .CategoryScoreChange({
+                    addr: userOne,
+                    categoryId: 1,
+                    score: 20,
+                    ipfsLink: ""
+                }); // user does not qualify
+
+        IBackedCommunityTokenV1.CategoryScoreChange[]
+            memory categoryChanges = new IBackedCommunityTokenV1.CategoryScoreChange[](
+                1
+            );
+        categoryChanges[0] = categoryChangeOne;
+
+        communityToken.setCategoryScores(categoryChanges);
+        vm.stopPrank();
+
+        vm.startPrank(userOne);
+        vm.expectRevert("BackedCommunityTokenV1: user does not qualify");
+        communityToken.setEnabledAccessory(1);
+        vm.stopPrank();
     }
 
     function testLinkBunnyPFP() public {
