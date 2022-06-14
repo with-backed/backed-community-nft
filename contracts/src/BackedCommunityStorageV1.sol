@@ -31,7 +31,4 @@ contract BackedCommunityStorageV1 {
     // @notice storage to link potential BackedBunny PFP series
     address public bunnyPFPContractAddress;
     mapping(address => uint256) public addressToPFPTokenIdLink;
-
-    // @notice storage to map address to when they minted
-    mapping(address => uint256) public addressToTimeMinted;
 }

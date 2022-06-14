@@ -90,7 +90,6 @@ contract BackedCommunityTokenV1 is
 
     function mint(address mintTo) external {
         _mint(mintTo, nonce++);
-        addressToTimeMinted[mintTo] = block.timestamp;
     }
 
     // ==== external view ====
@@ -128,8 +127,7 @@ contract BackedCommunityTokenV1 is
                 owner,
                 scores,
                 accessoryIdToAccessory[addressToAccessoryEnabled[owner]]
-                    .artContract,
-                addressToTimeMinted[owner]
+                    .artContract
             );
     }
 
