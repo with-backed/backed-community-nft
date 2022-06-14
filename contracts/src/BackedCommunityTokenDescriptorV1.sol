@@ -103,14 +103,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                     '<rect class="starshine" x="7" y="0" width="1" height="1"><animate attributeName="opacity" values="0;.8;0" dur="4s" begin="3s" repeatCount="indefinite" /></rect>',
                     "</g>",
                     /* Define glow filter */
-                    '<filter id="glow" x="0" y="0" width="79" height="99" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">',
-                    '<feFlood flood-opacity="0" result="BackgroundImageFix"/>',
-                    '<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>',
-                    '<feGaussianBlur stdDeviation="6.5"/>',
-                    '<feComposite in2="hardAlpha" operator="out"/>',
-                    '<feColorMatrix type="matrix" values="0 0 0 0 0.509804 0 0 0 0 0.639216 0 0 0 0 0.368627 0 0 0 0.25 0"/>',
-                    "</filter>",
-                    '<filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">',
+                    '<filter id="glow" x="-30%" y="-30%" width="160%" height="160%">',
                     '<feFlood result="flood" flood-color="',
                     glowColor,
                     '" flood-opacity=".1"></feFlood>',
@@ -131,7 +124,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         return
             string(
                 abi.encodePacked(
-                    '<g filter="url(#shadow)">',
+                    '<g filter="url(#glow)">',
                     '<path d="M60.5683 42.4258C62.4008 68.8515 59.2417 79 34.456 79C9.67025 79 6.65071 69.3435 8.41338 42.6718C10.1761 16 14.7636 8 34.456 8C54.1484 8 58.7359 16 60.5683 42.4258Z" fill="white"/>',
                     "</g>"
                 )
@@ -215,13 +208,13 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
             string(
                 abi.encodePacked(
                     '<g transform="translate(36 51)">',
-                    '<text><tspan x="-2" y="2" class="st1">ACTIVITY</tspan><tspan x="-2" y="8" class="st1">CONTRIBUTOR</tspan><tspan x="-2" y="14" class="st1">COMMUNITY</tspan></text>',
+                    '<text><tspan x="-2" y="2" class="st1">ACTIVITY</tspan><tspan x="-2" y="7" class="st1">CONTRIBUTOR</tspan><tspan x="-2" y="12" class="st1">COMMUNITY</tspan></text>',
                     /* Activity */
                     starRow(scores[activityCategoryId], 0, "activity"),
                     /* Contributor */
-                    starRow(scores[contributorCategoryId], 6, "contributor"),
+                    starRow(scores[contributorCategoryId], 5, "contributor"),
                     /* Community */
-                    starRow(scores[communityCategoryId], 12, "community"),
+                    starRow(scores[communityCategoryId], 10, "community"),
                     "</g>",
                     '<text class="st3"><tspan x="35" y="69">',
                     traitName,
@@ -239,7 +232,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         uint256 yPos,
         string memory className
     ) internal view returns (string memory) {
-        bool showStars = score <= 4;
+        bool showStars = score <= 3;
         if (showStars) {
             return
                 string(
@@ -279,17 +272,6 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                                     '"/>'
                                 )
                             )
-                            : "",
-                        score >= 4
-                            ? string(
-                                abi.encodePacked(
-                                    '<use x="13" y="',
-                                    Strings.toString(yPos),
-                                    '" xlink:href="#earnedxp" class="',
-                                    className,
-                                    '"/>'
-                                )
-                            )
                             : ""
                     )
                 );
@@ -302,11 +284,9 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                         '" xlink:href="#counter" class="',
                         className,
                         '"/>',
-                        '<text x="',
-                        Strings.toString(getXPosForCounter(score)),
-                        '" y="',
+                        '<text x="9" y="',
                         Strings.toString(yPos + 2),
-                        '" class="st1">x',
+                        '" class="st2">x',
                         Strings.toString(score),
                         "</text>"
                     )
