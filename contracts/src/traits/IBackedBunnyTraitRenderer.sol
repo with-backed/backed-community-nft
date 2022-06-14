@@ -5,4 +5,6 @@ interface IBackedBunnyTraitRenderer {
     function renderTrait() external view returns (string memory);
 
     function traitName() external view returns (string memory);
+
+    function glowColor() external view returns (string memory);
 }

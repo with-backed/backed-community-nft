@@ -8,7 +8,7 @@ contract GoldKeyTrait is IBackedBunnyTraitRenderer {
         return
             string(
                 abi.encodePacked(
-                    '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" x="20" y="20">',
+                    '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" x="15" y="13">',
                     '<rect x="29" y="23" width="1" height="1" fill="#82A35E"/>',
                     '<rect x="30" y="23" width="1" height="1" fill="#82A35E"/>',
                     '<rect x="12" y="24" width="1" height="1" fill="#82A35E"/>',
@@ -109,5 +109,9 @@ contract GoldKeyTrait is IBackedBunnyTraitRenderer {
 
     function traitName() external view override returns (string memory) {
         return "Arbitrary Update Scarf";
+    }
+
+    function glowColor() external view override returns (string memory) {
+        return "#82A35E";
     }
 }

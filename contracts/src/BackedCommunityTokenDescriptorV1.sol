@@ -23,12 +23,16 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         string memory traitName = hasSpecialTrait
             ? IBackedBunnyTraitRenderer(specialTraitAddress).traitName()
             : "No trait"; // TODO ask joe about default trait placeholder name
+        string memory glowColor = hasSpecialTrait
+            ? IBackedBunnyTraitRenderer(specialTraitAddress).glowColor()
+            : "#000000";
+
         return
             string(
                 abi.encodePacked(
                     '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 79 99" style="width: 474; height: 594; margin: 100px auto;" xml:space="preserve">',
                     styles(),
-                    stars(),
+                    stars(glowColor),
                     tamogatchi(),
                     stats(owner, scores, traitName),
                     bunnyPfp(),
@@ -58,13 +62,17 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
             );
     }
 
-    function stars() internal view returns (string memory) {
+    function stars(string memory glowColor)
+        internal
+        view
+        returns (string memory)
+    {
         return
             string(
                 abi.encodePacked(
                     /* Define XP Stars */
                     "<defs>",
-                    '<g id="star" widht="3" height="3">',
+                    '<g id="star" width="3" height="3">',
                     '<rect x="1" y="0" width="1" height="1" />',
                     '<rect x="0" y="1" width="1" height="1" />',
                     '<rect x="1" y="1" width="1" height="1" />',
@@ -102,6 +110,18 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                     '<feComposite in2="hardAlpha" operator="out"/>',
                     '<feColorMatrix type="matrix" values="0 0 0 0 0.509804 0 0 0 0 0.639216 0 0 0 0 0.368627 0 0 0 0.25 0"/>',
                     "</filter>",
+                    '<filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">',
+                    '<feFlood result="flood" flood-color="',
+                    glowColor,
+                    '" flood-opacity=".1"></feFlood>',
+                    '<feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"></feComposite>',
+                    '<feMorphology in="mask" result="dilated" operator="dilate" radius="4"></feMorphology>',
+                    '<feGaussianBlur in="dilated" result="blurred" stdDeviation="3"></feGaussianBlur>',
+                    "<feMerge>",
+                    '<feMergeNode in="blurred"></feMergeNode>',
+                    '<feMergeNode in="SourceGraphic"></feMergeNode>',
+                    "</feMerge>",
+                    "</filter>",
                     "</defs>"
                 )
             );
@@ -111,8 +131,8 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         return
             string(
                 abi.encodePacked(
-                    '<g filter="url(#glow)">',
-                    '<path d="M65.3113 48.4258C67.7592 76.1673 64.6664 86 39.7198 86C14.7733 86 11.0325 76.6593 13.7576 48.6718C16.4827 20.6842 20.0692 13 39.5346 13C59 13 62.8635 20.6842 65.3113 48.4258Z" fill="white"/>',
+                    '<g filter="url(#shadow)">',
+                    '<path d="M60.5683 42.4258C62.4008 68.8515 59.2417 79 34.456 79C9.67025 79 6.65071 69.3435 8.41338 42.6718C10.1761 16 14.7636 8 34.456 8C54.1484 8 58.7359 16 60.5683 42.4258Z" fill="white"/>',
                     "</g>"
                 )
             );
@@ -122,7 +142,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         return
             string(
                 abi.encodePacked(
-                    '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" x="20" y="20">',
+                    '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" x="15" y="13">',
                     '<rect x="11" y="14" width="17" height="17" fill="black"/>',
                     '<rect x="12" y="15" width="15" height="15" fill="white"/>',
                     '<rect width="1" height="13" transform="matrix(-1 0 0 1 26 16)" fill="#010101"/>',
@@ -194,7 +214,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         return
             string(
                 abi.encodePacked(
-                    '<g transform="translate(41 58)">',
+                    '<g transform="translate(36 51)">',
                     '<text><tspan x="-2" y="2" class="st1">ACTIVITY</tspan><tspan x="-2" y="8" class="st1">CONTRIBUTOR</tspan><tspan x="-2" y="14" class="st1">COMMUNITY</tspan></text>',
                     /* Activity */
                     starRow(scores[activityCategoryId], 0, "activity"),
@@ -203,9 +223,9 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                     /* Community */
                     starRow(scores[communityCategoryId], 12, "community"),
                     "</g>",
-                    '<text class="st3"><tspan x="40" y="78">',
+                    '<text class="st3"><tspan x="35" y="69">',
                     traitName,
-                    '</tspan><tspan x="40" y="81">',
+                    '</tspan><tspan x="35" y="72">',
                     substring(Strings.toHexString(owner), 0, 6),
                     "...",
                     substring(Strings.toHexString(owner), 38, 42),
@@ -282,13 +302,25 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                         '" xlink:href="#counter" class="',
                         className,
                         '"/>',
-                        '<text x="13" y="', // TODO ask joe about x pos here
+                        '<text x="',
+                        Strings.toString(getXPosForCounter(score)),
+                        '" y="',
                         Strings.toString(yPos + 2),
                         '" class="st1">x',
                         Strings.toString(score),
                         "</text>"
                     )
                 );
+        }
+    }
+
+    function getXPosForCounter(uint256 value) public pure returns (uint256) {
+        if (value < 10) {
+            return 14;
+        } else if (value < 100) {
+            return 15;
+        } else {
+            return 17;
         }
     }
 
