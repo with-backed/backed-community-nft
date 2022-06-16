@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start:api:dev": "npx dotenv -e .env.development -- npx ts-node api/src/index.ts",
+    "start:api:prod": "npx ts-node api/src/index.ts",
     "test:api": "jest __tests__/api --runInBand",
     "reset:db:api": "docker-compose down && docker volume rm $(docker volume ls -q)",
     "prisma:studio:dev": "dotenv -e .env.development -- npx prisma studio --schema api/prisma/schema.prisma",
