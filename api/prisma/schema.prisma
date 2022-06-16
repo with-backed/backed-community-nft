@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+  PROCESSING
+  FINALIZED
+  FAULTY
+}
+
+enum ChangeType {
+  CATEGORY_SCORE
+  ACCESSORY_UNLOCK
+}
+
+model OnChainChangeProposal {
+  id String @id @default(uuid())
+
+  CommunityMember           CommunityMember @relation(fields: [communityMemberEthAddress], references: [ethAddress])
+  communityMemberEthAddress String
+
+  changeType             ChangeType
+  isAutomaticallyCreated Boolean    @default(false)
+  categoryOrAccessoryId  Int
+  reason                 String
+  status                 Status
+  gnosisSafeNonce        Int
+  txHash                 String     @db.VarChar(66)
+  ipfsURL                String     @db.VarChar(100)
+}
+
+model CommunityMember {
+  id                        String                  @id @default(uuid())
+  ethAddress                String                  @unique
+  prsMerged                 Int                     @default(0)
+  communityCallsAttended    Int                     @default(0)
+  lastCommunityCallAttended Int                     @default(0)
+  communityCallStreak       Int                     @default(0)
+  githubUsername            String?                 @unique
+  discordUsername           String?                 @unique
+  proposals                 OnChainChangeProposal[]
+}
