@@ -42,7 +42,7 @@ export function checkFromGithub(
     "utf8"
   );
   if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
-    return res.status(401).send({
+    return res.status(401).json({
       message: `Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`,
     });
   }

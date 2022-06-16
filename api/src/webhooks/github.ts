@@ -9,12 +9,12 @@ const GithubWebhookRouter = express.Router();
 GithubWebhookRouter.post("/pull_request", checkFromGithub, async (req, res) => {
   const { action, pull_request } = req.body;
   if (action !== "closed") {
-    return res.status(200).send({});
+    return res.status(200).json({});
   }
 
   const { user, merged } = pull_request;
   if (!merged) {
-    return res.status(200).send({});
+    return res.status(200).json({});
   }
 
   const handle = await prisma.handle.findUnique({

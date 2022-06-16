@@ -9,11 +9,11 @@ CommunityMemberRouter.post("/create", async (req, res) => {
 
   try {
     await createCommunityMember(ethAddress);
-    res.status(200).send({
+    res.status(200).json({
       message: `Community member with eth address ${ethAddress} successfully created`,
     });
   } catch (e) {
-    res.status(500).send({
+    res.status(500).json({
       message: "Unable to create community member",
     });
   }
