@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { Request, Response, NextFunction } from "express";
 
 export function authUser(req: Request, res: Response, next: NextFunction) {
@@ -18,12 +19,29 @@ export function authUser(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
+const secret = process.env.GITHUB_WEBHOOK_SECRET!;
+
+const sigHeaderName = "X-Hub-Signature-256";
+const sigHashAlg = "sha256";
+
 export function checkFromGithub(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  console.log({ headers: req.headers });
-  console.log({ body: req.body });
+  const rawBody = JSON.stringify(req.body);
+
+  const sig = Buffer.from(req.get(sigHeaderName) || "", "utf8");
+  const hmac = crypto.createHmac(sigHashAlg, secret);
+  const digest = Buffer.from(
+    sigHashAlg + "=" + hmac.update(rawBody).digest("hex"),
+    "utf8"
+  );
+  if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
+    return res.status(401).send({
+      message: `Request body digest (${digest}) did not match ${sigHeaderName} (${sig})`,
+    });
+  }
+
   next();
 }
