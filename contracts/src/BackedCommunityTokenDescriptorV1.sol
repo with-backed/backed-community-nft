@@ -54,8 +54,8 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                     ".st3{font-family: monospace; font-size: 2px; text-anchor: middle;}",
                     ".empty{fill: #EFEBE7; opacity: 0.8;}",
                     ".activity{fill: #FF5CDB;}",
-                    ".contributor{fill: #5653ff;}",
-                    ".community{fill: #ffcf53;}",
+                    ".contributor{fill: #ffcf53;}",
+                    ".community{fill: #5653ff;}",
                     ".starshine{opacity: 0; fill: white;}",
                     "</style>"
                 )
