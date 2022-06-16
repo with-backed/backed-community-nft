@@ -2,6 +2,7 @@ import express from "express";
 import { ChangeType, CommunityMember, Status } from "@prisma/client";
 import prisma from "../db";
 import { authUser } from "../auth";
+import { createCommunityMember } from "../communityMembers/crud";
 
 const ProposalsCrudRouter = express.Router();
 
@@ -108,15 +109,5 @@ ProposalsCrudRouter.get("/", async (_req, res) => {
     proposals: await prisma.onChainChangeProposal.findMany(),
   });
 });
-
-async function createCommunityMember(
-  ethAddress: string
-): Promise<CommunityMember> {
-  return await prisma.communityMember.create({
-    data: {
-      ethAddress,
-    },
-  });
-}
 
 export default ProposalsCrudRouter;

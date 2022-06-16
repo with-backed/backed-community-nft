@@ -7,7 +7,6 @@ import prisma from "../db";
 const GithubWebhookRouter = express.Router();
 
 GithubWebhookRouter.post("/pull_request", checkFromGithub, async (req, res) => {
-  console.log("webhook received");
   const { action, pull_request } = req.body;
   if (action !== "closed") {
     return res.status(200).send({});
@@ -15,7 +14,6 @@ GithubWebhookRouter.post("/pull_request", checkFromGithub, async (req, res) => {
 
   const { user, merged } = pull_request;
   if (!merged) {
-    console.log("this ran");
     return res.status(200).send({});
   }
 
