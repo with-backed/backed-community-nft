@@ -21,3 +21,5 @@ export async function createCommunityMember(
     },
   });
 }
+
+export default CommunityMemberRouter;
