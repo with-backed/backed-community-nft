@@ -23,5 +23,7 @@ export function checkFromGithub(
   res: Response,
   next: NextFunction
 ) {
+  console.log({ headers: req.headers });
+  console.log({ body: req.body });
   next();
 }
