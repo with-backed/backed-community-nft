@@ -65,7 +65,11 @@ GithubWebhookRouter.post("/pull_request", checkFromGithub, async (req, res) => {
 export async function getTotalGithubPrsMerged(ethAddress: string) {
   return (
     await prisma.offChainAchievement.findMany({
-      where: { communityMemberEthAddress: ethAddress },
+      where: {
+        communityMemberEthAddress: ethAddress,
+        achievement: Achievement.PULL_REQUEST,
+        platform: Platform.GITHUB,
+      },
     })
   ).length;
 }
