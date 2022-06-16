@@ -141,12 +141,18 @@ contract BackedCommunityTokenV1Test is Test {
             });
         IBackedCommunityTokenV1.CategoryScoreChange
             memory changeTwo = IBackedCommunityTokenV1.CategoryScoreChange({
-                addr: userTwo,
+                addr: userOne,
                 categoryId: 0,
                 ipfsLink: ""
             });
         IBackedCommunityTokenV1.CategoryScoreChange
             memory changeThree = IBackedCommunityTokenV1.CategoryScoreChange({
+                addr: userTwo,
+                categoryId: 0,
+                ipfsLink: ""
+            });
+        IBackedCommunityTokenV1.CategoryScoreChange
+            memory changeFour = IBackedCommunityTokenV1.CategoryScoreChange({
                 addr: userOne,
                 categoryId: 1,
                 ipfsLink: ""
@@ -154,19 +160,21 @@ contract BackedCommunityTokenV1Test is Test {
 
         IBackedCommunityTokenV1.CategoryScoreChange[]
             memory changes = new IBackedCommunityTokenV1.CategoryScoreChange[](
-                3
+                4
             );
         changes[0] = changeOne;
         changes[1] = changeTwo;
         changes[2] = changeThree;
+        changes[3] = changeFour;
 
         vm.expectEmit(true, true, true, false);
         emit CategoryScoreChanged(userOne, 0, "", 1);
+        emit CategoryScoreChanged(userOne, 0, "", 2);
         emit CategoryScoreChanged(userTwo, 0, "", 1);
         emit CategoryScoreChanged(userOne, 1, "", 1);
         communityToken.incrementCategoryScores(changes);
 
-        assertEq(communityToken.addressToCategoryScore(userOne, 0), 1);
+        assertEq(communityToken.addressToCategoryScore(userOne, 0), 2);
         assertEq(communityToken.addressToCategoryScore(userOne, 1), 1);
         assertEq(communityToken.addressToCategoryScore(userTwo, 0), 1);
 
