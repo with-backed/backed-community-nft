@@ -10,10 +10,18 @@ export function authUser(req: Request, res: Response, next: NextFunction) {
     username !== process.env.BASIC_AUTH_USERNAME ||
     password !== process.env.BASIC_AUTH_PASSWORD
   ) {
-    return res.status(401).send({
+    return res.status(401).json({
       message: "Not authenticated",
     });
   }
 
+  next();
+}
+
+export function checkFromGithub(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   next();
 }
