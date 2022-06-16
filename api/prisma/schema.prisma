@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+  PROCESSING
+  FINALIZED
+  FAULTY
+}
+
+enum ChangeType {
+  CATEGORY_SCORE
+  ACCESSORY_UNLOCK
+}
+
+model OnChainChangeProposal {
+  id String @id @default(uuid())
+
+  CommunityMember           CommunityMember @relation(fields: [communityMemberEthAddress], references: [ethAddress])
+  communityMemberEthAddress String
+
+  changeType             ChangeType
+  isAutomaticallyCreated Boolean    @default(false)
+  categoryOrAccessoryId  Int
+  reason                 String
+  status                 Status
+  gnosisSafeNonce        Int
+  txHash                 String     @db.VarChar(66)
+  ipfsURL                String     @db.VarChar(100)
+}
+
+model CommunityMember {
+  id                   String                  @id @default(uuid())
+  ethAddress           String                  @unique
+  proposals            OnChainChangeProposal[]
+  handles              Handle[]
+  offChainAchievements OffChainAchievement[]
+}
+
+enum Platform {
+  DISCORD
+  GITHUB
+}
+
+enum Achievement {
+  PULL_REQUEST
+  COMMUNITY_CALL
+}
+
+model Handle {
+  id                        String          @id @default(uuid())
+  CommunityMember           CommunityMember @relation(fields: [communityMemberEthAddress], references: [ethAddress])
+  communityMemberEthAddress String          @unique
+  platform                  Platform
+  identifier                String
+
+  @@unique([platform, identifier], name: "handleIdentifier")
+}
+
+model OffChainAchievement {
+  id                        String          @id @default(uuid())
+  CommunityMember           CommunityMember @relation(fields: [communityMemberEthAddress], references: [ethAddress])
+  communityMemberEthAddress String          @unique
+  platform                  Platform
+  achievement               Achievement
+  timestamp                 DateTime        @default(now())
+}
