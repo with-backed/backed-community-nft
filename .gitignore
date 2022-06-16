@@ -1,3 +1,4 @@
 /node_modules/
 .env.test
 .env.development
+.env.production.local
