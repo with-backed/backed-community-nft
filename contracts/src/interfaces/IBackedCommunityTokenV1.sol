@@ -13,7 +13,6 @@ interface IBackedCommunityTokenV1 {
     struct CategoryScoreChange {
         address addr;
         uint256 categoryId;
-        uint256 score;
         string ipfsLink;
     }
 
@@ -26,7 +25,8 @@ interface IBackedCommunityTokenV1 {
     event CategoryScoreChanged(
         address indexed addr,
         uint256 indexed categoryId,
-        string indexed ipfsLink
+        string indexed ipfsLink,
+        uint256 newScore
     );
 
     event AccessoryUnlocked(
@@ -49,7 +49,8 @@ interface IBackedCommunityTokenV1 {
 
     function setEnabledAccessory(uint256 accessoryId) external;
 
-    function setCategoryScores(CategoryScoreChange[] memory changes) external;
+    function incrementCategoryScores(CategoryScoreChange[] memory changes)
+        external;
 
     function linkBunnyPFP(uint256 tokenId) external;
 

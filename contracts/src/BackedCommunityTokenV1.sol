@@ -42,13 +42,13 @@ contract BackedCommunityTokenV1 is
         });
     }
 
-    function setCategoryScores(CategoryScoreChange[] memory changes)
+    function incrementCategoryScores(CategoryScoreChange[] memory changes)
         external
         override
         onlyOwner
     {
         for (uint256 i = 0; i < changes.length; i++) {
-            _setCategoryScore(changes[i]);
+            _incrementCategoryScore(changes[i]);
         }
     }
 
@@ -158,12 +158,17 @@ contract BackedCommunityTokenV1 is
         );
     }
 
-    function _setCategoryScore(CategoryScoreChange memory change) internal {
-        addressToCategoryScore[change.addr][change.categoryId] = change.score;
+    function _incrementCategoryScore(CategoryScoreChange memory change)
+        internal
+    {
+        uint256 newScore = ++addressToCategoryScore[change.addr][
+            change.categoryId
+        ];
         emit CategoryScoreChanged(
             change.addr,
             change.categoryId,
-            change.ipfsLink
+            change.ipfsLink,
+            newScore
         );
     }
 }
