@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
 export function authUser(req: Request, res: Response, next: NextFunction) {
-  if (req.path == "/") return next();
-
   const authHeader = req.headers.authorization!;
 
   const username = authHeader.substring(0, authHeader.indexOf(":"));
