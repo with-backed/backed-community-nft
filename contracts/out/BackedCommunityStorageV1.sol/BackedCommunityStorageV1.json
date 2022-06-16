@@ -1,0 +1,955 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "accessoryIdToAccessory",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "xpBased",
+          "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "artContract",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "qualifyingXPScore",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "xpCategory",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "addressToAccessoryEnabled",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "addressToAccessoryUnlocked",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "addressToCategoryScore",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "addressToPFPTokenIdLink",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "admin",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "bunnyPFPContractAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "categoryIdToDisplayName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "cdmAddr",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "descriptor",
+      "outputs": [
+        {
+          "internalType": "contract IBackedCommunityTokenDescriptorV1",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nonce",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenIdToAddressApprovals",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalCategoryCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalSpecialyAccessoryCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x608060405234801561001057600080fd5b5061055e806100206000396000f3fe608060405234801561001057600080fd5b50600436106100ea5760003560e01c8063957a27541161008c578063c17c7faa11610066578063c17c7faa1461023a578063db8a06cf1461024d578063dfcf2cf814610271578063f851a4401461028457600080fd5b8063957a2754146101fd578063affed0e014610228578063b2b52ef11461023157600080fd5b80634fb05fe2116100c85780634fb05fe21461017d5780637473660a146101a65780637a0c81af146101d4578063904b65d9146101f457600080fd5b80632fdaa490146100ef578063303e74df146101325780633ed0b70e1461015d575b600080fd5b61011d6100fd366004610411565b600960209081526000928352604080842090915290825290205460ff1681565b60405190151581526020015b60405180910390f35b600354610145906001600160a01b031681565b6040516001600160a01b039091168152602001610129565b61017061016b36600461043b565b610297565b60405161012991906104a1565b61014561018b36600461043b565b600d602052600090815260409020546001600160a01b031681565b6101c66101b43660046104bb565b600a6020526000908152604090205481565b604051908152602001610129565b6101c66101e23660046104bb565b600c6020526000908152604090205481565b6101c660075481565b6101c661020b366004610411565b600660209081526000928352604080842090915290825290205481565b6101c660005481565b6101c660045481565b600254610145906001600160a01b031681565b61026061025b36600461043b565b610331565b6040516101299594939291906104d6565b600b54610145906001600160a01b031681565b600154610145906001600160a01b031681565b600560205260009081526040902080546102b090610516565b80601f01602080910402602001604051908101604052809291908181526020018280546102dc90610516565b80156103295780601f106102fe57610100808354040283529160200191610329565b820191906000526020600020905b81548152906001019060200180831161030c57829003601f168201915b505050505081565b60086020526000908152604090208054819061034c90610516565b80601f016020809104026020016040519081016040528092919081815260200182805461037890610516565b80156103c55780601f1061039a576101008083540402835291602001916103c5565b820191906000526020600020905b8154815290600101906020018083116103a857829003601f168201915b5050505060018301546002840154600390940154929360ff8216936101009092046001600160a01b031692509085565b80356001600160a01b038116811461040c57600080fd5b919050565b6000806040838503121561042457600080fd5b61042d836103f5565b946020939093013593505050565b60006020828403121561044d57600080fd5b5035919050565b6000815180845260005b8181101561047a5760208185018101518683018201520161045e565b8181111561048c576000602083870101525b50601f01601f19169290920160200192915050565b6020815260006104b46020830184610454565b9392505050565b6000602082840312156104cd57600080fd5b6104b4826103f5565b60a0815260006104e960a0830188610454565b9515156020830152506001600160a01b039390931660408401526060830191909152608090910152919050565b600181811c9082168061052a57607f821691505b6020821081141561054b57634e487b7160e01b600052602260045260246000fd5b5091905056fea164736f6c634300080c000a",
+    "sourceMap": "249:1363:20:-:0;;;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x608060405234801561001057600080fd5b50600436106100ea5760003560e01c8063957a27541161008c578063c17c7faa11610066578063c17c7faa1461023a578063db8a06cf1461024d578063dfcf2cf814610271578063f851a4401461028457600080fd5b8063957a2754146101fd578063affed0e014610228578063b2b52ef11461023157600080fd5b80634fb05fe2116100c85780634fb05fe21461017d5780637473660a146101a65780637a0c81af146101d4578063904b65d9146101f457600080fd5b80632fdaa490146100ef578063303e74df146101325780633ed0b70e1461015d575b600080fd5b61011d6100fd366004610411565b600960209081526000928352604080842090915290825290205460ff1681565b60405190151581526020015b60405180910390f35b600354610145906001600160a01b031681565b6040516001600160a01b039091168152602001610129565b61017061016b36600461043b565b610297565b60405161012991906104a1565b61014561018b36600461043b565b600d602052600090815260409020546001600160a01b031681565b6101c66101b43660046104bb565b600a6020526000908152604090205481565b604051908152602001610129565b6101c66101e23660046104bb565b600c6020526000908152604090205481565b6101c660075481565b6101c661020b366004610411565b600660209081526000928352604080842090915290825290205481565b6101c660005481565b6101c660045481565b600254610145906001600160a01b031681565b61026061025b36600461043b565b610331565b6040516101299594939291906104d6565b600b54610145906001600160a01b031681565b600154610145906001600160a01b031681565b600560205260009081526040902080546102b090610516565b80601f01602080910402602001604051908101604052809291908181526020018280546102dc90610516565b80156103295780601f106102fe57610100808354040283529160200191610329565b820191906000526020600020905b81548152906001019060200180831161030c57829003601f168201915b505050505081565b60086020526000908152604090208054819061034c90610516565b80601f016020809104026020016040519081016040528092919081815260200182805461037890610516565b80156103c55780601f1061039a576101008083540402835291602001916103c5565b820191906000526020600020905b8154815290600101906020018083116103a857829003601f168201915b5050505060018301546002840154600390940154929360ff8216936101009092046001600160a01b031692509085565b80356001600160a01b038116811461040c57600080fd5b919050565b6000806040838503121561042457600080fd5b61042d836103f5565b946020939093013593505050565b60006020828403121561044d57600080fd5b5035919050565b6000815180845260005b8181101561047a5760208185018101518683018201520161045e565b8181111561048c576000602083870101525b50601f01601f19169290920160200192915050565b6020815260006104b46020830184610454565b9392505050565b6000602082840312156104cd57600080fd5b6104b4826103f5565b60a0815260006104e960a0830188610454565b9515156020830152506001600160a01b039390931660408401526060830191909152608090910152919050565b600181811c9082168061052a57607f821691505b6020821081141561054b57634e487b7160e01b600052602260045260246000fd5b5091905056fea164736f6c634300080c000a",
+    "sourceMap": "249:1363:20:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1104:86;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;616:14:37;;609:22;591:41;;579:2;564:18;1104:86:20;;;;;;;;626:51;;;;;-1:-1:-1;;;;;626:51:20;;;;;;-1:-1:-1;;;;;850:32:37;;;832:51;;820:2;805:18;626:51:20;643:246:37;763:57:20;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;1549:60::-;;;;;;:::i;:::-;;;;;;;;;;;;-1:-1:-1;;;;;1549:60:20;;;1196;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;2326:25:37;;;2314:2;2299:18;1196:60:20;2180:177:37;1371:58:20;;;;;;:::i;:::-;;;;;;;;;;;;;;959:42;;;;;;826:85;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;360:20;;;;;;724:33;;;;;;532:22;;;;;-1:-1:-1;;;;;532:22:20;;;1007:91;;;;;;:::i;:::-;;:::i;:::-;;;;;;;;;;;:::i;1327:38::-;;;;;-1:-1:-1;;;;;1327:38:20;;;451:20;;;;;-1:-1:-1;;;;;451:20:20;;;763:57;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;1007:91::-;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;1007:91:20;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;1007:91:20;;-1:-1:-1;1007:91:20;;:::o;14:173:37:-;82:20;;-1:-1:-1;;;;;131:31:37;;121:42;;111:70;;177:1;174;167:12;111:70;14:173;;;:::o;192:254::-;260:6;268;321:2;309:9;300:7;296:23;292:32;289:52;;;337:1;334;327:12;289:52;360:29;379:9;360:29;:::i;:::-;350:39;436:2;421:18;;;;408:32;;-1:-1:-1;;;192:254:37:o;894:180::-;953:6;1006:2;994:9;985:7;981:23;977:32;974:52;;;1022:1;1019;1012:12;974:52;-1:-1:-1;1045:23:37;;894:180;-1:-1:-1;894:180:37:o;1079:472::-;1121:3;1159:5;1153:12;1186:6;1181:3;1174:19;1211:1;1221:162;1235:6;1232:1;1229:13;1221:162;;;1297:4;1353:13;;;1349:22;;1343:29;1325:11;;;1321:20;;1314:59;1250:12;1221:162;;;1401:6;1398:1;1395:13;1392:87;;;1467:1;1460:4;1451:6;1446:3;1442:16;1438:27;1431:38;1392:87;-1:-1:-1;1533:2:37;1512:15;-1:-1:-1;;1508:29:37;1499:39;;;;1540:4;1495:50;;1079:472;-1:-1:-1;;1079:472:37:o;1556:220::-;1705:2;1694:9;1687:21;1668:4;1725:45;1766:2;1755:9;1751:18;1743:6;1725:45;:::i;:::-;1717:53;1556:220;-1:-1:-1;;;1556:220:37:o;1989:186::-;2048:6;2101:2;2089:9;2080:7;2076:23;2072:32;2069:52;;;2117:1;2114;2107:12;2069:52;2140:29;2159:9;2140:29;:::i;2362:543::-;2617:3;2606:9;2599:22;2580:4;2638:46;2679:3;2668:9;2664:19;2656:6;2638:46;:::i;:::-;2727:14;;2720:22;2715:2;2700:18;;2693:50;-1:-1:-1;;;;;;2779:32:37;;;;2774:2;2759:18;;2752:60;2843:2;2828:18;;2821:34;;;;2886:3;2871:19;;;2864:35;2630:54;2362:543;-1:-1:-1;2362:543:37:o;2910:380::-;2989:1;2985:12;;;;3032;;;3053:61;;3107:4;3099:6;3095:17;3085:27;;3053:61;3160:2;3152:6;3149:14;3129:18;3126:38;3123:161;;;3206:10;3201:3;3197:20;3194:1;3187:31;3241:4;3238:1;3231:15;3269:4;3266:1;3259:15;3123:161;;2910:380;;;:::o",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "/Users/adamgobran/Documents/backed-community-nft/contracts/src/BackedCommunityStorageV1.sol",
+    "exportedSymbols": {
+      "BackedCommunityStorageV1": [
+        22795
+      ],
+      "IBackedCommunityTokenDescriptorV1": [
+        23465
+      ],
+      "IBackedCommunityTokenV1": [
+        23577
+      ]
+    },
+    "id": 22796,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 22742,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".12"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "39:23:20"
+      },
+      {
+        "absolutePath": "/Users/adamgobran/Documents/backed-community-nft/contracts/src/interfaces/IBackedCommunityTokenDescriptorV1.sol",
+        "file": "./interfaces/IBackedCommunityTokenDescriptorV1.sol",
+        "id": 22744,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 22796,
+        "sourceUnit": 23466,
+        "src": "64:101:20",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 22743,
+              "name": "IBackedCommunityTokenDescriptorV1",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 23465,
+              "src": "72:33:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_type$_t_contract$_IBackedCommunityTokenDescriptorV1_$23465_$",
+                "typeString": "type(contract IBackedCommunityTokenDescriptorV1)"
+              }
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/adamgobran/Documents/backed-community-nft/contracts/src/interfaces/IBackedCommunityTokenV1.sol",
+        "file": "./interfaces/IBackedCommunityTokenV1.sol",
+        "id": 22746,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 22796,
+        "sourceUnit": 23578,
+        "src": "166:81:20",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 22745,
+              "name": "IBackedCommunityTokenV1",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 23577,
+              "src": "174:23:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_type$_t_contract$_IBackedCommunityTokenV1_$23577_$",
+                "typeString": "type(contract IBackedCommunityTokenV1)"
+              }
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "BackedCommunityStorageV1",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 22795,
+        "linearizedBaseContracts": [
+          22795
+        ],
+        "name": "BackedCommunityStorageV1",
+        "nameLocation": "258:24:20",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "functionSelector": "affed0e0",
+            "id": 22748,
+            "mutability": "mutable",
+            "name": "nonce",
+            "nameLocation": "375:5:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "360:20:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 22747,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "360:7:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "f851a440",
+            "id": 22750,
+            "mutability": "mutable",
+            "name": "admin",
+            "nameLocation": "466:5:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "451:20:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 22749,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "451:7:20",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "c17c7faa",
+            "id": 22752,
+            "mutability": "mutable",
+            "name": "cdmAddr",
+            "nameLocation": "547:7:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "532:22:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 22751,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "532:7:20",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "303e74df",
+            "id": 22755,
+            "mutability": "mutable",
+            "name": "descriptor",
+            "nameLocation": "667:10:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "626:51:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_IBackedCommunityTokenDescriptorV1_$23465",
+              "typeString": "contract IBackedCommunityTokenDescriptorV1"
+            },
+            "typeName": {
+              "id": 22754,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 22753,
+                "name": "IBackedCommunityTokenDescriptorV1",
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 23465,
+                "src": "626:33:20"
+              },
+              "referencedDeclaration": 23465,
+              "src": "626:33:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IBackedCommunityTokenDescriptorV1_$23465",
+                "typeString": "contract IBackedCommunityTokenDescriptorV1"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "b2b52ef1",
+            "id": 22757,
+            "mutability": "mutable",
+            "name": "totalCategoryCount",
+            "nameLocation": "739:18:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "724:33:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 22756,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "724:7:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "3ed0b70e",
+            "id": 22761,
+            "mutability": "mutable",
+            "name": "categoryIdToDisplayName",
+            "nameLocation": "797:23:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "763:57:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+              "typeString": "mapping(uint256 => string)"
+            },
+            "typeName": {
+              "id": 22760,
+              "keyType": {
+                "id": 22758,
+                "name": "uint256",
+                "nodeType": "ElementaryTypeName",
+                "src": "771:7:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "763:26:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_string_storage_$",
+                "typeString": "mapping(uint256 => string)"
+              },
+              "valueType": {
+                "id": 22759,
+                "name": "string",
+                "nodeType": "ElementaryTypeName",
+                "src": "782:6:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                }
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "957a2754",
+            "id": 22767,
+            "mutability": "mutable",
+            "name": "addressToCategoryScore",
+            "nameLocation": "889:22:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "826:85:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+              "typeString": "mapping(address => mapping(uint256 => uint256))"
+            },
+            "typeName": {
+              "id": 22766,
+              "keyType": {
+                "id": 22762,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "834:7:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "826:47:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_uint256_$_$",
+                "typeString": "mapping(address => mapping(uint256 => uint256))"
+              },
+              "valueType": {
+                "id": 22765,
+                "keyType": {
+                  "id": 22763,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "853:7:20",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "nodeType": "Mapping",
+                "src": "845:27:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
+                  "typeString": "mapping(uint256 => uint256)"
+                },
+                "valueType": {
+                  "id": 22764,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "864:7:20",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                }
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "904b65d9",
+            "id": 22769,
+            "mutability": "mutable",
+            "name": "totalSpecialyAccessoryCount",
+            "nameLocation": "974:27:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "959:42:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 22768,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "959:7:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "db8a06cf",
+            "id": 22774,
+            "mutability": "mutable",
+            "name": "accessoryIdToAccessory",
+            "nameLocation": "1076:22:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "1007:91:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Accessory_$23478_storage_$",
+              "typeString": "mapping(uint256 => struct IBackedCommunityTokenV1.Accessory)"
+            },
+            "typeName": {
+              "id": 22773,
+              "keyType": {
+                "id": 22770,
+                "name": "uint256",
+                "nodeType": "ElementaryTypeName",
+                "src": "1015:7:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "1007:53:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Accessory_$23478_storage_$",
+                "typeString": "mapping(uint256 => struct IBackedCommunityTokenV1.Accessory)"
+              },
+              "valueType": {
+                "id": 22772,
+                "nodeType": "UserDefinedTypeName",
+                "pathNode": {
+                  "id": 22771,
+                  "name": "IBackedCommunityTokenV1.Accessory",
+                  "nodeType": "IdentifierPath",
+                  "referencedDeclaration": 23478,
+                  "src": "1026:33:20"
+                },
+                "referencedDeclaration": 23478,
+                "src": "1026:33:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Accessory_$23478_storage_ptr",
+                  "typeString": "struct IBackedCommunityTokenV1.Accessory"
+                }
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "2fdaa490",
+            "id": 22780,
+            "mutability": "mutable",
+            "name": "addressToAccessoryUnlocked",
+            "nameLocation": "1164:26:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "1104:86:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_bool_$_$",
+              "typeString": "mapping(address => mapping(uint256 => bool))"
+            },
+            "typeName": {
+              "id": 22779,
+              "keyType": {
+                "id": 22775,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "1112:7:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "1104:44:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_bool_$_$",
+                "typeString": "mapping(address => mapping(uint256 => bool))"
+              },
+              "valueType": {
+                "id": 22778,
+                "keyType": {
+                  "id": 22776,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1131:7:20",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "nodeType": "Mapping",
+                "src": "1123:24:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_bool_$",
+                  "typeString": "mapping(uint256 => bool)"
+                },
+                "valueType": {
+                  "id": 22777,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1142:4:20",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                }
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "7473660a",
+            "id": 22784,
+            "mutability": "mutable",
+            "name": "addressToAccessoryEnabled",
+            "nameLocation": "1231:25:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "1196:60:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
+              "typeString": "mapping(address => uint256)"
+            },
+            "typeName": {
+              "id": 22783,
+              "keyType": {
+                "id": 22781,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "1204:7:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "1196:27:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
+                "typeString": "mapping(address => uint256)"
+              },
+              "valueType": {
+                "id": 22782,
+                "name": "uint256",
+                "nodeType": "ElementaryTypeName",
+                "src": "1215:7:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "dfcf2cf8",
+            "id": 22786,
+            "mutability": "mutable",
+            "name": "bunnyPFPContractAddress",
+            "nameLocation": "1342:23:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "1327:38:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 22785,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "1327:7:20",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "7a0c81af",
+            "id": 22790,
+            "mutability": "mutable",
+            "name": "addressToPFPTokenIdLink",
+            "nameLocation": "1406:23:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "1371:58:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
+              "typeString": "mapping(address => uint256)"
+            },
+            "typeName": {
+              "id": 22789,
+              "keyType": {
+                "id": 22787,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "1379:7:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "1371:27:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
+                "typeString": "mapping(address => uint256)"
+              },
+              "valueType": {
+                "id": 22788,
+                "name": "uint256",
+                "nodeType": "ElementaryTypeName",
+                "src": "1390:7:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "4fb05fe2",
+            "id": 22794,
+            "mutability": "mutable",
+            "name": "tokenIdToAddressApprovals",
+            "nameLocation": "1584:25:20",
+            "nodeType": "VariableDeclaration",
+            "scope": 22795,
+            "src": "1549:60:20",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_address_$",
+              "typeString": "mapping(uint256 => address)"
+            },
+            "typeName": {
+              "id": 22793,
+              "keyType": {
+                "id": 22791,
+                "name": "uint256",
+                "nodeType": "ElementaryTypeName",
+                "src": "1557:7:20",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "1549:27:20",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_address_$",
+                "typeString": "mapping(uint256 => address)"
+              },
+              "valueType": {
+                "id": 22792,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "1568:7:20",
+                "stateMutability": "nonpayable",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              }
+            },
+            "visibility": "public"
+          }
+        ],
+        "scope": 22796,
+        "src": "249:1363:20",
+        "usedErrors": []
+      }
+    ],
+    "src": "39:1574:20"
+  }
+}
