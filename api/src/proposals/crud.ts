@@ -3,7 +3,7 @@ import { ChangeType, CommunityMember, Status } from "@prisma/client";
 import prisma from "../db";
 import { authUser } from "../auth";
 
-const CrudRouter = express.Router();
+const ProposalsCrudRouter = express.Router();
 
 export type CreateProposalBody = {
   ethAddress: string;
@@ -16,7 +16,7 @@ type DecisionProposalBody = {
   id: string;
 };
 
-CrudRouter.post("/create", async (req, res) => {
+ProposalsCrudRouter.post("/create", async (req, res) => {
   const { ethAddress, changeType, categoryOrAccessoryId, reason } =
     req.body as CreateProposalBody;
 
@@ -52,7 +52,7 @@ CrudRouter.post("/create", async (req, res) => {
 });
 
 //TODO(adamgobes): add auth middleware for this endpoint
-CrudRouter.post("/:id/approve", authUser, async (req, res) => {
+ProposalsCrudRouter.post("/:id/approve", authUser, async (req, res) => {
   const { id } = req.params as DecisionProposalBody;
 
   const proposal = await prisma.onChainChangeProposal.findUnique({
@@ -78,7 +78,7 @@ CrudRouter.post("/:id/approve", authUser, async (req, res) => {
 });
 
 //TODO(adamgobes): add auth middleware for this endpoint
-CrudRouter.post("/:id/reject", authUser, async (req, res) => {
+ProposalsCrudRouter.post("/:id/reject", authUser, async (req, res) => {
   const { id } = req.params as DecisionProposalBody;
 
   await prisma.onChainChangeProposal.update({
@@ -93,7 +93,7 @@ CrudRouter.post("/:id/reject", authUser, async (req, res) => {
   });
 });
 
-CrudRouter.get("/:id", async (req, res) => {
+ProposalsCrudRouter.get("/:id", async (req, res) => {
   const { id } = req.params as DecisionProposalBody;
 
   return res.json({
@@ -103,7 +103,7 @@ CrudRouter.get("/:id", async (req, res) => {
   });
 });
 
-CrudRouter.get("/", async (_req, res) => {
+ProposalsCrudRouter.get("/", async (_req, res) => {
   return res.json({
     proposals: await prisma.onChainChangeProposal.findMany(),
   });
@@ -119,4 +119,4 @@ async function createCommunityMember(
   });
 }
 
-export default CrudRouter;
+export default ProposalsCrudRouter;

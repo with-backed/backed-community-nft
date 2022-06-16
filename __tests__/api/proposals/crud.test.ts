@@ -12,7 +12,7 @@ const categoryIdOne = 0;
 const categoryIdTwo = 1;
 
 describe("CRUD methods for proposals", () => {
-  afterAll(async () => {
+  afterEach(async () => {
     await prisma.onChainChangeProposal.deleteMany({});
     await prisma.communityMember.deleteMany({});
   });
@@ -53,6 +53,12 @@ describe("CRUD methods for proposals", () => {
       ({ body } = await supertest(app).get(`/proposals`).expect(200));
 
       expect(body.proposals.length).toEqual(2);
+
+      // ensure CommunityMember entry got created
+      const communityMember = await prisma.communityMember.findUnique({
+        where: { ethAddress: address },
+      });
+      expect(communityMember).toBeDefined;
     });
   });
 
