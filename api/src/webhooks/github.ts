@@ -48,6 +48,7 @@ GithubWebhookRouter.post("/pull_request", checkFromGithub, async (req, res) => {
         changeType: ChangeType.CATEGORY_SCORE,
         reason: githubMergeReason,
         status: Status.APPROVED,
+        isAutomaticallyCreated: true,
         communityMemberEthAddress: handle.communityMemberEthAddress,
         txHash: "",
         gnosisSafeNonce: 0,

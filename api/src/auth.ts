@@ -29,6 +29,10 @@ export function checkFromGithub(
   res: Response,
   next: NextFunction
 ) {
+  if (process.env.JEST_WORKER_ID !== undefined) {
+    return next();
+  }
+
   const rawBody = JSON.stringify(req.body);
 
   const sig = Buffer.from(req.get(sigHeaderName) || "", "utf8");

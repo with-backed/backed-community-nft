@@ -6,7 +6,7 @@ const CommunityMemberRouter = express.Router();
 
 CommunityMemberRouter.post("/create", async (req, res) => {
   const { ethAddress } = req.body as { ethAddress: string };
-  console.log({ ethAddress });
+
   try {
     await createCommunityMember(ethAddress);
     res.status(200).send({
@@ -14,7 +14,7 @@ CommunityMemberRouter.post("/create", async (req, res) => {
     });
   } catch (e) {
     res.status(500).send({
-      message: "Unable to create commuinty member",
+      message: "Unable to create community member",
     });
   }
 });

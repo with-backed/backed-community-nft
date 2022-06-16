@@ -51,6 +51,7 @@ describe("Github webhooks", () => {
       expect(body.proposals[0].communityMemberEthAddress).toEqual(address);
       expect(body.proposals[0].reason).toEqual("Github PR merged");
       expect(body.proposals[0].status).toEqual("APPROVED");
+      expect(body.proposals[0].isAutomaticallyCreated).toBeTruthy;
     });
 
     it("does nothing if webhook is received but PR is not closed (e.g. it was opened)", async () => {
