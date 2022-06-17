@@ -62,7 +62,7 @@ enum Achievement {
 model Handle {
   id                        String          @id @default(uuid())
   CommunityMember           CommunityMember @relation(fields: [communityMemberEthAddress], references: [ethAddress])
-  communityMemberEthAddress String          @unique
+  communityMemberEthAddress String
   platform                  Platform
   identifier                String
 
@@ -72,7 +72,7 @@ model Handle {
 model OffChainAchievement {
   id                        String          @id @default(uuid())
   CommunityMember           CommunityMember @relation(fields: [communityMemberEthAddress], references: [ethAddress])
-  communityMemberEthAddress String          @unique
+  communityMemberEthAddress String
   platform                  Platform
   achievement               Achievement
   timestamp                 DateTime        @default(now())

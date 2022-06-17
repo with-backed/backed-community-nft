@@ -59,13 +59,7 @@ CREATE TABLE "OffChainAchievement" (
 CREATE UNIQUE INDEX "CommunityMember_ethAddress_key" ON "CommunityMember"("ethAddress");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Handle_communityMemberEthAddress_key" ON "Handle"("communityMemberEthAddress");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Handle_platform_identifier_key" ON "Handle"("platform", "identifier");
-
--- CreateIndex
-CREATE UNIQUE INDEX "OffChainAchievement_communityMemberEthAddress_key" ON "OffChainAchievement"("communityMemberEthAddress");
 
 -- AddForeignKey
 ALTER TABLE "OnChainChangeProposal" ADD CONSTRAINT "OnChainChangeProposal_communityMemberEthAddress_fkey" FOREIGN KEY ("communityMemberEthAddress") REFERENCES "CommunityMember"("ethAddress") ON DELETE RESTRICT ON UPDATE CASCADE;
