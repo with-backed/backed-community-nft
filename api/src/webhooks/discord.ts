@@ -21,6 +21,7 @@ export function setupDiscordVoiceChannelListener() {
     // make sure we are on the community call channel id
     if (newState.channelID !== process.env.COMMUNITY_CALL_CHANNEL_ID!) return;
 
+    console.log({ user: newState.member?.user });
     const username = newState.member?.user.username;
     if (!username) return;
 

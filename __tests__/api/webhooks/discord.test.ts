@@ -1,6 +1,5 @@
 import { Achievement, Platform } from "@prisma/client";
 import dayjs from "dayjs";
-import Discord from "discord.js";
 import { Wallet } from "ethers";
 import prisma from "../../../api/src/db";
 import {
