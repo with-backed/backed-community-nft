@@ -4,7 +4,7 @@ import SafeServiceClient from "@gnosis.pm/safe-service-client";
 import Safe from "@gnosis.pm/safe-core-sdk";
 import { SafeTransactionDataPartial } from "@gnosis.pm/safe-core-sdk-types";
 import { getNetwork } from "@ethersproject/networks";
-// import BackedCommunityNFTABI from "../../contracts/out/BackedCommunityTokenV1.sol/BackedCommunityTokenV1.json";
+import BackedCommunityNFTABI from "../../contracts/out/BackedCommunityTokenV1.sol/BackedCommunityTokenV1.json";
 import _ from "lodash";
 import { OnChainChangeProposal } from "@prisma/client";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
@@ -12,8 +12,6 @@ import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 const { utils } = ethers;
 
 const GNOSIS_SENDER: string = process.env.GNOSIS_SAFE_OWNER_ADDRESS!;
-
-const BackedCommunityNFTABI = { abi: "" };
 
 async function initGnosisSdk(safeAddress: string) {
   const ethAdapter = new EthersAdapter({
