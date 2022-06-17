@@ -50,7 +50,7 @@ export async function handleDiscordVoiceUpdate(username: string) {
   const totalCalls = await getTotalNumberOfCallsJoined(
     handle.communityMemberEthAddress
   );
-  if (totalCalls === 1 || totalCalls % 5 === 0) {
+  if (totalCalls === 1) {
     await prisma.onChainChangeProposal.create({
       data: {
         categoryOrAccessoryId: communityCategoryId,
@@ -105,15 +105,19 @@ export async function getTotalCallStreak(ethAddress: string) {
       platform: Platform.DISCORD,
       achievement: Achievement.COMMUNITY_CALL,
     },
+    orderBy: {
+      timestamp: "desc",
+    },
   });
 
-  const sortedCallTimestamps = allCallsAttended
-    .sort((a, b) => b.timestamp.getDate() - a.timestamp.getDate())
-    .map((call) => call.timestamp.getDate());
-
   let currentStreak = 1;
-  for (let i = 1; i < sortedCallTimestamps.length; i++) {
-    if (areWithinAWeek(sortedCallTimestamps[i - 1], sortedCallTimestamps[i])) {
+  for (let i = 1; i < allCallsAttended.length; i++) {
+    if (
+      areWithinAWeek(
+        allCallsAttended[i - 1].timestamp,
+        allCallsAttended[i].timestamp
+      )
+    ) {
       currentStreak++;
     } else {
       break;
@@ -135,7 +139,9 @@ async function hasReceivedStreakAward(ethAddress: string) {
   return proposals.length > 0;
 }
 
-function areWithinAWeek(dateTimeOne: number, dateTimeTwo: number) {
-  const milliSecondsBetween = dayjs(dateTimeOne).diff(dateTimeTwo);
+function areWithinAWeek(dateTimeOne: Date, dateTimeTwo: Date) {
+  const milliSecondsBetween = dayjs(dateTimeOne.getMilliseconds()).diff(
+    dateTimeTwo.getMilliseconds()
+  );
   return dayjs.duration(milliSecondsBetween).asDays() < 8;
 }

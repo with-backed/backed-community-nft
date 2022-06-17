@@ -53,6 +53,7 @@ describe("Discord voice API listener", () => {
           },
         });
       }
+
       expect(await getTotalCallStreak(address)).toEqual(6);
     });
   });
