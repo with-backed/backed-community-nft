@@ -5,10 +5,14 @@
   "license": "MIT",
   "scripts": {
     "start:api:dev": "npx dotenv -e .env.development -- npx ts-node api/src/index.ts",
+    "start:api:prod": "npx ts-node api/src/index.ts",
     "test:api": "jest __tests__/api --runInBand",
     "reset:db:api": "docker-compose down && docker volume rm $(docker volume ls -q)",
     "prisma:studio:dev": "dotenv -e .env.development -- npx prisma studio --schema api/prisma/schema.prisma",
     "prisma:migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev --schema api/prisma/schema.prisma",
+    "prisma:studio:prod": "dotenv -e .env.production.local -- npx prisma studio --schema api/prisma/schema.prisma",
+    "prisma:migrate:prod": "dotenv -e .env.production.local -- npx prisma migrate deploy --schema api/prisma/schema.prisma",
+    "prisma:generate": "npx prisma generate --schema api/prisma/schema.prisma",
     "svg:reload": "node svg-reload/index.js"
   },
   "dependencies": {
@@ -25,6 +29,7 @@
     "axios": "^0.27.2",
     "bignumber.js": "^9.0.2",
     "body-parser": "^1.20.0",
+    "crypto": "^1.0.1",
     "dayjs": "^1.11.2",
     "eip-712": "^1.0.0",
     "eth-typed-data": "^0.1.0-beta.0",
