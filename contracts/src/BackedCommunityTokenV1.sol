@@ -112,10 +112,18 @@ contract BackedCommunityTokenV1 is
     {
         int256[] memory unlocked = new int256[](totalSpecialyAccessoryCount);
         for (uint256 i = 0; i < totalSpecialyAccessoryCount; i++) {
-            if (addressToAccessoryUnlocked[addr][i]) {
-                unlocked[i] = int256(i);
+            IBackedCommunityTokenV1.Accessory
+                memory accessory = accessoryIdToAccessory[i];
+            if (accessory.xpBased) {
+                unlocked[i] = addressToCategoryScore[addr][
+                    accessory.xpCategory
+                ] >= accessory.qualifyingXPScore
+                    ? int256(i)
+                    : -1;
             } else {
-                unlocked[i] = -1;
+                unlocked[i] = addressToAccessoryUnlocked[addr][i]
+                    ? int256(i)
+                    : -1;
             }
         }
         return unlocked;
