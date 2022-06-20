@@ -2,7 +2,13 @@ import crypto from "crypto";
 import { Request, Response, NextFunction } from "express";
 
 export function authUser(req: Request, res: Response, next: NextFunction) {
-  const authHeader = req.headers.authorization!;
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({
+      message: "Not authenticated",
+    });
+  }
 
   const username = authHeader.substring(0, authHeader.indexOf(":"));
   const password = authHeader.substring(username.length + 1);
