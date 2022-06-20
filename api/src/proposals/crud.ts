@@ -82,6 +82,16 @@ ProposalsCrudRouter.post("/:id/approve", authUser, async (req, res) => {
 ProposalsCrudRouter.post("/:id/reject", authUser, async (req, res) => {
   const { id } = req.params as DecisionProposalBody;
 
+  const proposal = await prisma.onChainChangeProposal.findUnique({
+    where: { id },
+  });
+
+  if (proposal?.status !== Status.PENDING) {
+    return res.status(400).json({
+      message: "Proposal is not in PENDING state",
+    });
+  }
+
   await prisma.onChainChangeProposal.update({
     where: { id },
     data: {
