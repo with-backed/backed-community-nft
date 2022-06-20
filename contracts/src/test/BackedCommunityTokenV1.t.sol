@@ -61,7 +61,7 @@ contract BackedCommunityTokenV1Test is Test {
             IBackedCommunityTokenV1.Accessory({
                 name: "accessory_one",
                 xpBased: false,
-                artContract: address(0),
+                artContract: address(10),
                 qualifyingXPScore: 0,
                 xpCategory: 0
             })
@@ -70,7 +70,7 @@ contract BackedCommunityTokenV1Test is Test {
             IBackedCommunityTokenV1.Accessory({
                 name: "accessory_two",
                 xpBased: true,
-                artContract: address(0),
+                artContract: address(10),
                 qualifyingXPScore: 2,
                 xpCategory: categoryTwoId
             })
@@ -299,7 +299,6 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken.unlockAccessoryOrIncrementCategory(changes);
     }
 
-    // TODO this should fail cause accessory 33 doesn't exist??
     function testSetEnabledAccessoryAdminBased() public {
         vm.startPrank(userOne);
         vm.expectRevert("BackedCommunityTokenV1: accessory not unlocked");

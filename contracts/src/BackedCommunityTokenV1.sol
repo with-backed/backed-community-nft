@@ -151,6 +151,10 @@ contract BackedCommunityTokenV1 is
             !accessory.xpBased,
             "BackedCommunityTokenV1: Accessory must be admin based"
         );
+        require(
+            accessory.artContract != address(0),
+            "BackedCommunityTokenV1: Accessory does not exist"
+        );
 
         addressToAccessoryUnlocked[change.addr][change.changeableId] = true;
         emit AccessoryUnlocked(
