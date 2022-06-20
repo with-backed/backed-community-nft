@@ -6,7 +6,7 @@ import { SafeTransactionDataPartial } from "@gnosis.pm/safe-core-sdk-types";
 import { getNetwork } from "@ethersproject/networks";
 import BackedCommunityNFTABI from "../../contracts/out/BackedCommunityTokenV1.sol/BackedCommunityTokenV1.json";
 import _ from "lodash";
-import { OnChainChangeProposal } from "@prisma/client";
+import { ChangeType, OnChainChangeProposal } from "@prisma/client";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 
 const { utils } = ethers;
@@ -46,10 +46,19 @@ export async function proposeTx(
 
   const iface = new ethers.utils.Interface(BackedCommunityNFTABI.abi);
 
-  // TODO(adamgobes): properly encode method params, to be done in a follow up PR
+  const changesParams = changeProposals.map((proposal) => [
+    proposal.changeType === ChangeType.CATEGORY_SCORE ? true : false,
+    proposal.communityMemberEthAddress,
+    proposal.categoryOrAccessoryId,
+    proposal.ipfsURL,
+  ]);
+
   const transaction: SafeTransactionDataPartial = {
     to,
-    data: iface.encodeFunctionData("", []),
+    data: iface.encodeFunctionData(
+      "unlockAccessoryOrIncrementCategory(tuple(bool,address,uint256,string)",
+      [changesParams]
+    ),
     value: "0",
   };
 
