@@ -10,15 +10,10 @@ interface IBackedCommunityTokenV1 {
         uint256 xpCategory;
     }
 
-    struct CategoryScoreChange {
+    struct CategoryOrAccessoryChange {
+        bool isCategoryChange;
         address addr;
-        uint256 categoryId;
-        string ipfsLink;
-    }
-
-    struct AccessoryUnlockChange {
-        address addr;
-        uint256 accessoryId;
+        uint256 changeableId;
         string ipfsLink;
     }
 
@@ -45,12 +40,11 @@ interface IBackedCommunityTokenV1 {
 
     function addSpecialAccessory(Accessory memory accessory) external;
 
-    function unlockAccessories(AccessoryUnlockChange[] memory changes) external;
+    function unlockAccessoryOrIncrementCategory(
+        CategoryOrAccessoryChange[] memory changes
+    ) external;
 
     function setEnabledAccessory(uint256 accessoryId) external;
-
-    function incrementCategoryScores(CategoryScoreChange[] memory changes)
-        external;
 
     function linkBunnyPFP(uint256 tokenId) external;
 
