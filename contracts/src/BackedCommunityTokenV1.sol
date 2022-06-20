@@ -42,23 +42,15 @@ contract BackedCommunityTokenV1 is
         });
     }
 
-    function incrementCategoryScores(CategoryScoreChange[] memory changes)
-        external
-        override
-        onlyOwner
-    {
+    function unlockAccessoryOrIncrementCategory(
+        CategoryOrAccessoryChange[] memory changes
+    ) external override onlyOwner {
         for (uint256 i = 0; i < changes.length; i++) {
-            _incrementCategoryScore(changes[i]);
-        }
-    }
-
-    function unlockAccessories(AccessoryUnlockChange[] memory changes)
-        external
-        override
-        onlyOwner
-    {
-        for (uint256 i = 0; i < changes.length; i++) {
-            _unlockAccessory(changes[i]);
+            if (changes[i].isCategoryChange) {
+                _incrementCategoryScore(changes[i]);
+            } else {
+                _unlockAccessory(changes[i]);
+            }
         }
     }
 
@@ -150,31 +142,33 @@ contract BackedCommunityTokenV1 is
     }
 
     // === internal & private ===
-    function _unlockAccessory(AccessoryUnlockChange memory change) internal {
+    function _unlockAccessory(CategoryOrAccessoryChange memory change)
+        internal
+    {
         IBackedCommunityTokenV1.Accessory
-            memory accessory = accessoryIdToAccessory[change.accessoryId];
+            memory accessory = accessoryIdToAccessory[change.changeableId];
         require(
             !accessory.xpBased,
             "BackedCommunityTokenV1: Accessory must be admin based"
         );
 
-        addressToAccessoryUnlocked[change.addr][change.accessoryId] = true;
+        addressToAccessoryUnlocked[change.addr][change.changeableId] = true;
         emit AccessoryUnlocked(
             change.addr,
-            change.accessoryId,
+            change.changeableId,
             change.ipfsLink
         );
     }
 
-    function _incrementCategoryScore(CategoryScoreChange memory change)
+    function _incrementCategoryScore(CategoryOrAccessoryChange memory change)
         internal
     {
         uint256 newScore = ++addressToCategoryScore[change.addr][
-            change.categoryId
+            change.changeableId
         ];
         emit CategoryScoreChanged(
             change.addr,
-            change.categoryId,
+            change.changeableId,
             change.ipfsLink,
             newScore
         );
