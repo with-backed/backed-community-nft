@@ -75,13 +75,10 @@ contract BackedCommunityTokenV1 is
         emit AccessorySwapped(msg.sender, oldAccessoryId, accessoryId);
     }
 
-    function setBunnyPFPTokenApproval(bytes calldata message)
-        external
-        override
-    {
-        (uint256 tokenId, address owner) = abi.decode(
+    function setBunnyPFPSVGFromL1(bytes calldata message) external override {
+        (address owner, string memory svg) = abi.decode(
             message,
-            (uint256, address)
+            (address, string)
         );
         require(
             msg.sender == cdmAddr,
@@ -92,15 +89,11 @@ contract BackedCommunityTokenV1 is
                 bunnyPFPContractAddress,
             "BackedCommunityTokenV1: origin must be Backed PFP"
         );
-        tokenIdToAddressApprovals[tokenId] = owner;
+        addressToPFPSVGLink[owner] = svg;
     }
 
-    function linkBunnyPFP(uint256 tokenId) external override {
-        require(
-            tokenIdToAddressApprovals[tokenId] == msg.sender,
-            "BackedCommunityTokenV1: must approve PFP on mainnet"
-        );
-        addressToPFPTokenIdLink[msg.sender] = tokenId;
+    function clearBunnyPFPLink() external override {
+        addressToPFPSVGLink[msg.sender] = "";
     }
 
     function setBunnyPFPContract(address addr) external override onlyOwner {
@@ -109,6 +102,14 @@ contract BackedCommunityTokenV1 is
 
     function setDescriptorContract(address addr) external override onlyOwner {
         descriptor = IBackedCommunityTokenDescriptorV1(addr);
+    }
+
+    function setOptimismCrossChainMessengerAddress(address addr)
+        external
+        override
+        onlyOwner
+    {
+        cdmAddr = addr;
     }
 
     function mint(address mintTo) external {

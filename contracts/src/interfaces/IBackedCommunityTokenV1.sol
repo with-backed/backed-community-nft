@@ -46,16 +46,18 @@ interface IBackedCommunityTokenV1 {
 
     function setEnabledAccessory(uint256 accessoryId) external;
 
-    function linkBunnyPFP(uint256 tokenId) external;
+    function clearBunnyPFPLink() external;
 
     function setBunnyPFPContract(address addr) external;
 
     function setDescriptorContract(address addr) external;
+
+    function setOptimismCrossChainMessengerAddress(address addr) external;
 
     function getUnlockedAccessoriesForAddress(address addr)
         external
         view
         returns (int256[] memory);
 
-    function setBunnyPFPTokenApproval(bytes calldata message) external;
+    function setBunnyPFPSVGFromL1(bytes calldata message) external;
 }
