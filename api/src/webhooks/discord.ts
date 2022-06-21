@@ -41,15 +41,20 @@ export function setupDiscordVoiceChannelListener() {
     console.log({ constructedUsername });
 
     try {
-      await prisma.handle.update({
+      await prisma.handle.upsert({
+        create: {
+          communityMemberEthAddress: message.content,
+          identifier: constructedUsername,
+          platform: Platform.DISCORD,
+        },
+        update: {
+          communityMemberEthAddress: message.content,
+        },
         where: {
           handleIdentifier: {
-            platform: Platform.DISCORD,
             identifier: constructedUsername,
+            platform: Platform.DISCORD,
           },
-        },
-        data: {
-          communityMemberEthAddress: message.content,
         },
       });
     } catch (e) {
