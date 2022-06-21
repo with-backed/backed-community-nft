@@ -2,6 +2,7 @@ import { Achievement, ChangeType, Platform, Status } from "@prisma/client";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import Discord from "discord.js";
+import { findOrCreateCommunityMember } from "../communityMembers/crud";
 import {
   communityCallReason,
   communityCallStreakReason,
@@ -26,6 +27,36 @@ export function setupDiscordVoiceChannelListener() {
     if (!username) return;
 
     await handleDiscordVoiceUpdate(username);
+  });
+
+  client.on("message", async (message) => {
+    console.log({ content: message.content });
+    if (!message.member?.user) return;
+    if (message.channel.id !== process.env.DISCORD_USERNAME_LINK_CHANNEL_ID!)
+      return;
+
+    if (!message.content.startsWith("0x")) return;
+
+    const constructedUsername = `${message.member.user.username}#${message.member.user.discriminator}`;
+    console.log({ constructedUsername });
+
+    try {
+      await prisma.handle.update({
+        where: {
+          handleIdentifier: {
+            platform: Platform.DISCORD,
+            identifier: constructedUsername,
+          },
+        },
+        data: {
+          communityMemberEthAddress: message.content,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      return;
+    }
   });
 }
 
