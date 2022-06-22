@@ -6,6 +6,7 @@ import {IBackedCommunityTokenDescriptorV1} from "./interfaces/IBackedCommunityTo
 import {BackedCommunityStorageV1} from "./BackedCommunityStorageV1.sol";
 import {IERC721} from "../lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol";
 import {ERC721SoulboundUpgradeable} from "./ERC721SoulboundUpgradeable.sol";
+import {ICrossDomainMessenger} from "../lib/optimism/packages/contracts/contracts/libraries/bridge/ICrossDomainMessenger.sol";
 
 contract BackedCommunityTokenV1 is
     BackedCommunityStorageV1,
@@ -74,12 +75,25 @@ contract BackedCommunityTokenV1 is
         emit AccessorySwapped(msg.sender, oldAccessoryId, accessoryId);
     }
 
-    function linkBunnyPFP(uint256 tokenId) external override {
-        require(
-            IERC721(bunnyPFPContractAddress).ownerOf(tokenId) == msg.sender,
-            "BackedCommunityTokenV1: not owner of PFP tokenId"
+    function setBunnyPFPSVGFromL1(bytes calldata message) external override {
+        (address owner, string memory svg) = abi.decode(
+            message,
+            (address, string)
         );
-        addressToPFPTokenIdLink[msg.sender] = tokenId;
+        require(
+            msg.sender == cdmAddr,
+            "BackedCommunityTokenV1: caller must be cross domain messenger"
+        );
+        require(
+            ICrossDomainMessenger(cdmAddr).xDomainMessageSender() ==
+                bunnyPFPContractAddress,
+            "BackedCommunityTokenV1: origin must be Backed PFP"
+        );
+        addressToPFPSVGLink[owner] = svg;
+    }
+
+    function clearBunnyPFPLink() external override {
+        addressToPFPSVGLink[msg.sender] = "";
     }
 
     function setBunnyPFPContract(address addr) external override onlyOwner {
@@ -88,6 +102,14 @@ contract BackedCommunityTokenV1 is
 
     function setDescriptorContract(address addr) external override onlyOwner {
         descriptor = IBackedCommunityTokenDescriptorV1(addr);
+    }
+
+    function setOptimismCrossChainMessengerAddress(address addr)
+        external
+        override
+        onlyOwner
+    {
+        cdmAddr = addr;
     }
 
     function mint(address mintTo) external {

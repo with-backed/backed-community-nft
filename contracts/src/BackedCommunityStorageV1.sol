@@ -11,6 +11,9 @@ contract BackedCommunityStorageV1 {
     // @notice admin multi sig that stat changes must come from
     address public admin;
 
+    // @notice optimism cross chain messenger address
+    address public cdmAddr;
+
     // @notice descriptor contract responsible for rendering SVG
     IBackedCommunityTokenDescriptorV1 public descriptor;
 
@@ -30,5 +33,8 @@ contract BackedCommunityStorageV1 {
 
     // @notice storage to link potential BackedBunny PFP series
     address public bunnyPFPContractAddress;
-    mapping(address => uint256) public addressToPFPTokenIdLink;
+
+    // @notice this mapping is only mutable via message pass from L1 to L2
+    // L2 cannot directly mutate this except to clear an entry
+    mapping(address => string) public addressToPFPSVGLink;
 }

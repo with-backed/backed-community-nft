@@ -394,23 +394,4 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken.setEnabledAccessory(1);
         vm.stopPrank();
     }
-
-    function testLinkBunnyPFP() public {
-        vm.startPrank(userOne);
-        uint256 tokenId = backedBunnyPfp.mint();
-        communityToken.linkBunnyPFP(tokenId);
-        assertEq(communityToken.addressToPFPTokenIdLink(userOne), tokenId);
-        vm.stopPrank();
-    }
-
-    function testLinkBunnyPFPFailsIfAddressNotOwner() public {
-        vm.startPrank(userOne);
-        uint256 tokenId = backedBunnyPfp.mint();
-        vm.stopPrank();
-
-        vm.startPrank(userTwo);
-        vm.expectRevert("BackedCommunityTokenV1: not owner of PFP tokenId");
-        communityToken.linkBunnyPFP(tokenId);
-        vm.stopPrank();
-    }
 }
