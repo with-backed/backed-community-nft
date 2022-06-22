@@ -7,7 +7,7 @@ const compile = require('./compile');
 const deploy = require('./deploy');
 
 const SOURCE = path.join(__dirname, '..', 'contracts', 'src', 'BackedCommunityTokenDescriptorV1.sol');
-const TRAIT_SOURCE = path.join(__dirname, '..', 'contracts', 'src', 'traits', 'GoldKeyTrait.sol');
+const TRAIT_SOURCE = path.join(__dirname, '..', 'contracts', 'src', 'traits', 'DefaultTrait.sol');
 
 async function main() {
   const { vm, pk } = await boot();
@@ -19,7 +19,7 @@ async function main() {
     const address = await deploy(vm, pk, bytecode);
     const traitAddress = await deploy(vm, pk, traitByteCode);
     
-    const result = await call(vm, address, abi, 'tokenURI', ["0x6b2770a75a928989c1d7356366d4665a6487e1b4", [3, 8, 1], traitAddress.toString()]);
+    const result = await call(vm, address, abi, 'tokenURI', ["0x6b2770a75a928989c1d7356366d4665a6487e1b4", [2, 8, 1], traitAddress.toString(), ""]);
     return result;
   }
 

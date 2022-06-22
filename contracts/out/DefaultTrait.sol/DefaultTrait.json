@@ -1,0 +1,421 @@
+{
+  "abi": [
+    {
+      "inputs": [],
+      "name": "glowColor",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renderTrait",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "traitName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x608060405234801561001057600080fd5b5061012a806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c806331bc805714610046578063328ecd1c1461006c57806342aa4e82146100a5575b600080fd5b6040805160208101909152600081525b60405161006391906100c8565b60405180910390f35b60408051808201909152601781527f4261636b656420436f6d6d756e697479204d656d6265720000000000000000006020820152610056565b6040805180820190915260078152660233030303030360cc1b6020820152610056565b600060208083528351808285015260005b818110156100f5578581018301518582016040015282016100d9565b81811115610107576000604083870101525b50601f01601f191692909201604001939250505056fea164736f6c634300080c000a",
+    "sourceMap": "140:385:28:-:0;;;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c806331bc805714610046578063328ecd1c1461006c57806342aa4e82146100a5575b600080fd5b6040805160208101909152600081525b60405161006391906100c8565b60405180910390f35b60408051808201909152601781527f4261636b656420436f6d6d756e697479204d656d6265720000000000000000006020820152610056565b6040805180820190915260078152660233030303030360cc1b6020820152610056565b600060208083528351808285015260005b818110156100f5578581018301518582016040015282016100d9565b81811115610107576000604083870101525b50601f01601f191692909201604001939250505056fea164736f6c634300080c000a",
+    "sourceMap": "140:385:28:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;197:96;277:9;;;;;;;;;-1:-1:-1;277:9:28;;197:96;;;;;;;:::i;:::-;;;;;;;;299:117;377:32;;;;;;;;;;;;;;;;;299:117;;422:101;500:16;;;;;;;;;;;;-1:-1:-1;;;500:16:28;;;;422:101;;14:597:40;126:4;155:2;184;173:9;166:21;216:6;210:13;259:6;254:2;243:9;239:18;232:34;284:1;294:140;308:6;305:1;302:13;294:140;;;403:14;;;399:23;;393:30;369:17;;;388:2;365:26;358:66;323:10;;294:140;;;452:6;449:1;446:13;443:91;;;522:1;517:2;508:6;497:9;493:22;489:31;482:42;443:91;-1:-1:-1;595:2:40;574:15;-1:-1:-1;;570:29:40;555:45;;;;602:2;551:54;;14:597;-1:-1:-1;;;14:597:40:o",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "/Users/adamgobran/Documents/backed-community-nft/contracts/src/traits/DefaultTrait.sol",
+    "exportedSymbols": {
+      "DefaultTrait": [
+        25271
+      ],
+      "IBackedBunnyTraitRenderer": [
+        25289
+      ]
+    },
+    "id": 25272,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 25239,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".12"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "39:23:28"
+      },
+      {
+        "absolutePath": "/Users/adamgobran/Documents/backed-community-nft/contracts/src/traits/IBackedBunnyTraitRenderer.sol",
+        "file": "./IBackedBunnyTraitRenderer.sol",
+        "id": 25241,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 25272,
+        "sourceUnit": 25290,
+        "src": "64:74:28",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 25240,
+              "name": "IBackedBunnyTraitRenderer",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 25289,
+              "src": "72:25:28",
+              "typeDescriptions": {
+                "typeIdentifier": "t_type$_t_contract$_IBackedBunnyTraitRenderer_$25289_$",
+                "typeString": "type(contract IBackedBunnyTraitRenderer)"
+              }
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 25242,
+              "name": "IBackedBunnyTraitRenderer",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 25289,
+              "src": "165:25:28"
+            },
+            "id": 25243,
+            "nodeType": "InheritanceSpecifier",
+            "src": "165:25:28"
+          }
+        ],
+        "canonicalName": "DefaultTrait",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 25271,
+        "linearizedBaseContracts": [
+          25271,
+          25289
+        ],
+        "name": "DefaultTrait",
+        "nameLocation": "149:12:28",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "baseFunctions": [
+              25278
+            ],
+            "body": {
+              "id": 25251,
+              "nodeType": "Block",
+              "src": "267:26:28",
+              "statements": [
+                {
+                  "expression": {
+                    "hexValue": "",
+                    "id": 25249,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "string",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "284:2:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+                      "typeString": "literal_string \"\""
+                    },
+                    "value": ""
+                  },
+                  "functionReturnParameters": 25248,
+                  "id": 25250,
+                  "nodeType": "Return",
+                  "src": "277:9:28"
+                }
+              ]
+            },
+            "functionSelector": "31bc8057",
+            "id": 25252,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "renderTrait",
+            "nameLocation": "206:11:28",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 25245,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "234:8:28"
+            },
+            "parameters": {
+              "id": 25244,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "217:2:28"
+            },
+            "returnParameters": {
+              "id": 25248,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 25247,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 25252,
+                  "src": "252:13:28",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 25246,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "252:6:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "251:15:28"
+            },
+            "scope": 25271,
+            "src": "197:96:28",
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "baseFunctions": [
+              25283
+            ],
+            "body": {
+              "id": 25260,
+              "nodeType": "Block",
+              "src": "367:49:28",
+              "statements": [
+                {
+                  "expression": {
+                    "hexValue": "4261636b656420436f6d6d756e697479204d656d626572",
+                    "id": 25258,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "string",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "384:25:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_stringliteral_5a9a8ea3049434e8e6f2d7a5fadd87fee6f021e88aeb5a5d176e6afdfc0eb70b",
+                      "typeString": "literal_string \"Backed Community Member\""
+                    },
+                    "value": "Backed Community Member"
+                  },
+                  "functionReturnParameters": 25257,
+                  "id": 25259,
+                  "nodeType": "Return",
+                  "src": "377:32:28"
+                }
+              ]
+            },
+            "functionSelector": "328ecd1c",
+            "id": 25261,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "traitName",
+            "nameLocation": "308:9:28",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 25254,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "334:8:28"
+            },
+            "parameters": {
+              "id": 25253,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "317:2:28"
+            },
+            "returnParameters": {
+              "id": 25257,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 25256,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 25261,
+                  "src": "352:13:28",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 25255,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "352:6:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "351:15:28"
+            },
+            "scope": 25271,
+            "src": "299:117:28",
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "baseFunctions": [
+              25288
+            ],
+            "body": {
+              "id": 25269,
+              "nodeType": "Block",
+              "src": "490:33:28",
+              "statements": [
+                {
+                  "expression": {
+                    "hexValue": "23303030303030",
+                    "id": 25267,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "string",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "507:9:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_stringliteral_9c4cb0e0696b02a9382bc32619ef000bc4e01ae21db0ef84d1471c3a02d4092a",
+                      "typeString": "literal_string \"#000000\""
+                    },
+                    "value": "#000000"
+                  },
+                  "functionReturnParameters": 25266,
+                  "id": 25268,
+                  "nodeType": "Return",
+                  "src": "500:16:28"
+                }
+              ]
+            },
+            "functionSelector": "42aa4e82",
+            "id": 25270,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "glowColor",
+            "nameLocation": "431:9:28",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 25263,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "457:8:28"
+            },
+            "parameters": {
+              "id": 25262,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "440:2:28"
+            },
+            "returnParameters": {
+              "id": 25266,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 25265,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 25270,
+                  "src": "475:13:28",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 25264,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "475:6:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "474:15:28"
+            },
+            "scope": 25271,
+            "src": "422:101:28",
+            "stateMutability": "pure",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 25272,
+        "src": "140:385:28",
+        "usedErrors": []
+      }
+    ],
+    "src": "39:487:28"
+  }
+}
