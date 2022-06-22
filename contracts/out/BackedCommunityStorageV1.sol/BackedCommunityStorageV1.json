@@ -253,10 +253,10 @@
         22791
       ],
       "IBackedCommunityTokenDescriptorV1": [
-        23461
+        23474
       ],
       "IBackedCommunityTokenV1": [
-        23559
+        23577
       ]
     },
     "id": 22792,
@@ -280,7 +280,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 22792,
-        "sourceUnit": 23462,
+        "sourceUnit": 23475,
         "src": "64:101:20",
         "symbolAliases": [
           {
@@ -289,10 +289,10 @@
               "name": "IBackedCommunityTokenDescriptorV1",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "referencedDeclaration": 23461,
+              "referencedDeclaration": 23474,
               "src": "72:33:20",
               "typeDescriptions": {
-                "typeIdentifier": "t_type$_t_contract$_IBackedCommunityTokenDescriptorV1_$23461_$",
+                "typeIdentifier": "t_type$_t_contract$_IBackedCommunityTokenDescriptorV1_$23474_$",
                 "typeString": "type(contract IBackedCommunityTokenDescriptorV1)"
               }
             },
@@ -308,7 +308,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 22792,
-        "sourceUnit": 23560,
+        "sourceUnit": 23578,
         "src": "166:81:20",
         "symbolAliases": [
           {
@@ -317,10 +317,10 @@
               "name": "IBackedCommunityTokenV1",
               "nodeType": "Identifier",
               "overloadedDeclarations": [],
-              "referencedDeclaration": 23559,
+              "referencedDeclaration": 23577,
               "src": "174:23:20",
               "typeDescriptions": {
-                "typeIdentifier": "t_type$_t_contract$_IBackedCommunityTokenV1_$23559_$",
+                "typeIdentifier": "t_type$_t_contract$_IBackedCommunityTokenV1_$23577_$",
                 "typeString": "type(contract IBackedCommunityTokenV1)"
               }
             },
@@ -443,7 +443,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_IBackedCommunityTokenDescriptorV1_$23461",
+              "typeIdentifier": "t_contract$_IBackedCommunityTokenDescriptorV1_$23474",
               "typeString": "contract IBackedCommunityTokenDescriptorV1"
             },
             "typeName": {
@@ -453,13 +453,13 @@
                 "id": 22753,
                 "name": "IBackedCommunityTokenDescriptorV1",
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 23461,
+                "referencedDeclaration": 23474,
                 "src": "626:33:20"
               },
-              "referencedDeclaration": 23461,
+              "referencedDeclaration": 23474,
               "src": "626:33:20",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IBackedCommunityTokenDescriptorV1_$23461",
+                "typeIdentifier": "t_contract$_IBackedCommunityTokenDescriptorV1_$23474",
                 "typeString": "contract IBackedCommunityTokenDescriptorV1"
               }
             },
@@ -647,7 +647,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Accessory_$23474_storage_$",
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Accessory_$23487_storage_$",
               "typeString": "mapping(uint256 => struct IBackedCommunityTokenV1.Accessory)"
             },
             "typeName": {
@@ -665,7 +665,7 @@
               "nodeType": "Mapping",
               "src": "1007:53:20",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Accessory_$23474_storage_$",
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_Accessory_$23487_storage_$",
                 "typeString": "mapping(uint256 => struct IBackedCommunityTokenV1.Accessory)"
               },
               "valueType": {
@@ -675,13 +675,13 @@
                   "id": 22771,
                   "name": "IBackedCommunityTokenV1.Accessory",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 23474,
+                  "referencedDeclaration": 23487,
                   "src": "1026:33:20"
                 },
-                "referencedDeclaration": 23474,
+                "referencedDeclaration": 23487,
                 "src": "1026:33:20",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Accessory_$23474_storage_ptr",
+                  "typeIdentifier": "t_struct$_Accessory_$23487_storage_ptr",
                   "typeString": "struct IBackedCommunityTokenV1.Accessory"
                 }
               }
