@@ -18,6 +18,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         IBackedBunnyTraitRenderer specialTraitRenderer,
         string memory bunnyPFPSVG
     ) external view override returns (string memory) {
+        // todo(adamgobes): this should return base64 encoded json
         return svgImage(owner, scores, specialTraitRenderer, bunnyPFPSVG);
     }
 
