@@ -22,11 +22,11 @@ export function setupDiscordVoiceChannelListener() {
     // make sure we are on the community call channel id
     if (newState.channelID !== process.env.COMMUNITY_CALL_CHANNEL_ID!) return;
 
-    console.log({ user: newState.member?.user });
-    const username = newState.member?.user.username;
-    if (!username) return;
+    if (!newState.member?.user) return;
 
-    await handleDiscordVoiceUpdate(username);
+    const identifier = generateIdentifierFromUserObject(newState.member.user);
+
+    await handleDiscordVoiceUpdate(identifier);
   });
 
   client.on("message", async (message) => {
@@ -37,7 +37,9 @@ export function setupDiscordVoiceChannelListener() {
 
     if (!message.content.startsWith("0x")) return;
 
-    const constructedUsername = `${message.member.user.username}#${message.member.user.discriminator}`;
+    const constructedUsername = generateIdentifierFromUserObject(
+      message.member.user
+    );
     console.log({ constructedUsername });
 
     try {
@@ -63,6 +65,10 @@ export function setupDiscordVoiceChannelListener() {
       return;
     }
   });
+}
+
+function generateIdentifierFromUserObject(user: Discord.User): string {
+  return `${user.username}#${user.discriminator}`;
 }
 
 export async function handleDiscordVoiceUpdate(username: string) {
