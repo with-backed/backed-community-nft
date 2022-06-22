@@ -7,7 +7,7 @@ const compile = require('./compile');
 const deploy = require('./deploy');
 
 const SOURCE = path.join(__dirname, '..', 'contracts', 'src', 'BackedCommunityTokenDescriptorV1.sol');
-const TRAIT_SOURCE = path.join(__dirname, '..', 'contracts', 'src', 'traits', 'GoldKeyTrait.sol');
+const TRAIT_SOURCE = path.join(__dirname, '..', 'contracts', 'src', 'traits', 'DefaultTrait.sol');
 
 async function main() {
   const { vm, pk } = await boot();

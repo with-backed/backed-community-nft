@@ -73,38 +73,51 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
     {
         return
             string.concat(
-                /* Define XP Stars */
-                "<defs>",
-                '<g id="star" width="3" height="3">',
-                '<rect x="1" y="0" width="1" height="1" />',
-                '<rect x="0" y="1" width="1" height="1" />',
-                '<rect x="1" y="1" width="1" height="1" />',
-                '<rect x="2" y="1" width="1" height="1" />',
-                '<rect x="1" y="2" width="1" height="1" />',
-                "</g>",
-                '<g id="starrow" class="empty" width="21" height="3">',
-                '<use x="0" xlink:href="#star"/>',
-                '<use x="5" xlink:href="#star"/>',
-                '<use x="10" xlink:href="#star"/>',
-                "</g>",
-                '<g id="earnedxp" width="3" height="3">',
-                '<use x="0" xlink:href="#star"/>',
-                '<rect class="starshine" x="0" y="1" width="1" height="1"><animate attributeName="opacity" values="0;.6;0" dur="5s" begin="0s" repeatCount="indefinite" /></rect>',
-                '<rect class="starshine" x="1" y="2" width="1" height="1"><animate attributeName="opacity" values="0;.8;0" dur="5s" begin="2s" repeatCount="indefinite" /></rect>',
-                '<rect class="starshine" x="1" y="1" width="1" height="1"><animate attributeName="opacity" values="0;.5;0" dur="5s" begin="1200ms" repeatCount="indefinite" /></rect>',
-                "</g>",
-                '<g id="counter">',
-                '<use x="3" xlink:href="#star"/>',
-                '<rect class="starshine" x="3" y="1" width="1" height="1"><animate attributeName="opacity" values="0;.6;0" dur="3s" begin="0s" repeatCount="indefinite" /></rect>',
-                '<rect class="starshine" x="4" y="2" width="1" height="1"><animate attributeName="opacity" values="0;.8;0" dur="3s" begin="2s" repeatCount="indefinite" /></rect>',
-                '<rect class="starshine" x="4" y="1" width="1" height="1"><animate attributeName="opacity" values="0;.5;0" dur="3s" begin="1200ms" repeatCount="indefinite" /></rect>',
-                '<rect x="0" y="0" width="1" height="1" />',
-                '<rect x="1" y="2" width="1" height="1" />',
-                '<rect x="7" y="0" width="1" height="1" />',
-                '<rect class="starshine" x="0" y="0" width="1" height="1"><animate attributeName="opacity" values="0;.6;0" dur="4s" begin="0s" repeatCount="indefinite" /></rect>',
-                '<rect class="starshine" x="1" y="2" width="1" height="1"><animate attributeName="opacity" values="0;.8;0" dur="4s" begin="2s" repeatCount="indefinite" /></rect>',
-                '<rect class="starshine" x="7" y="0" width="1" height="1"><animate attributeName="opacity" values="0;.8;0" dur="4s" begin="3s" repeatCount="indefinite" /></rect>',
-                "</g>",
+                string.concat(
+                    "<defs>",
+                    '<g id="star" width="3" height="3">',
+                    '<rect x="1" y="0" width="1" height="1" />',
+                    '<rect x="0" y="1" width="1" height="1" />',
+                    '<rect x="1" y="1" width="1" height="1" />',
+                    '<rect x="2" y="1" width="1" height="1" />',
+                    '<rect x="1" y="2" width="1" height="1" />',
+                    "</g>",
+                    '<g id="starrow" class="empty" width="21" height="3">',
+                    '<use x="0" xlink:href="#star"/>',
+                    '<use x="5" xlink:href="#star"/>',
+                    '<use x="10" xlink:href="#star"/>',
+                    "</g>",
+                    '<g id="earnedxp" width="3" height="3">',
+                    '<use x="0" xlink:href="#star"/>',
+                    '<rect class="starshine" x="0" y="1" width="1" height="1"><animate attributeName="opacity" values="0;.6;0" dur="5s" begin="0s" repeatCount="indefinite" /></rect>',
+                    '<rect class="starshine" x="1" y="2" width="1" height="1"><animate attributeName="opacity" values="0;.8;0" dur="5s" begin="2s" repeatCount="indefinite" /></rect>',
+                    '<rect class="starshine" x="1" y="1" width="1" height="1"><animate attributeName="opacity" values="0;.5;0" dur="5s" begin="1200ms" repeatCount="indefinite" /></rect>',
+                    "</g>",
+                    '<g id="counter">',
+                    '<use x="3" xlink:href="#star"/>',
+                    '<rect class="starshine" x="3" y="1" width="1" height="1"><animate attributeName="opacity" values="0;.6;0" dur="3s" begin="0s" repeatCount="indefinite" /></rect>',
+                    '<rect class="starshine" x="4" y="2" width="1" height="1"><animate attributeName="opacity" values="0;.8;0" dur="3s" begin="2s" repeatCount="indefinite" /></rect>',
+                    '<rect class="starshine" x="4" y="1" width="1" height="1"><animate attributeName="opacity" values="0;.5;0" dur="3s" begin="1200ms" repeatCount="indefinite" /></rect>',
+                    '<rect x="0" y="0" width="1" height="1" />',
+                    '<rect x="1" y="2" width="1" height="1" />',
+                    '<rect x="7" y="0" width="1" height="1" />',
+                    '<rect class="starshine" x="0" y="0" width="1" height="1"><animate attributeName="opacity" values="0;.6;0" dur="4s" begin="0s" repeatCount="indefinite" /></rect>',
+                    '<rect class="starshine" x="1" y="2" width="1" height="1"><animate attributeName="opacity" values="0;.8;0" dur="4s" begin="2s" repeatCount="indefinite" /></rect>',
+                    '<rect class="starshine" x="7" y="0" width="1" height="1"><animate attributeName="opacity" values="0;.8;0" dur="4s" begin="3s" repeatCount="indefinite" /></rect>',
+                    "</g>"
+                ),
+                glowFilter(glowColor),
+                "</defs>"
+            );
+    }
+
+    function glowFilter(string memory glowColor)
+        internal
+        pure
+        returns (string memory)
+    {
+        return
+            string.concat(
                 /* Define glow filter */
                 '<filter id="glow" x="-30%" y="-30%" width="160%" height="160%">',
                 '<feFlood result="flood" flood-color="',
@@ -117,12 +130,11 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                 '<feMergeNode in="blurred"></feMergeNode>',
                 '<feMergeNode in="SourceGraphic"></feMergeNode>',
                 "</feMerge>",
-                "</filter>",
-                "</defs>"
+                "</filter>"
             );
     }
 
-    function tamogatchi() public pure returns (string memory) {
+    function tamogatchi() internal pure returns (string memory) {
         return
             string.concat(
                 '<g filter="url(#glow)">',
@@ -134,66 +146,74 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
     function defaultBunnyPFP() internal pure returns (string memory) {
         return
             string.concat(
-                '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" x="15" y="13">',
-                '<rect x="11" y="14" width="17" height="17" fill="black"/>',
-                '<rect x="12" y="15" width="15" height="15" fill="white"/>',
-                '<rect width="1" height="13" transform="matrix(-1 0 0 1 26 16)" fill="#010101"/>',
-                '<rect width="1" height="13" transform="matrix(-1 0 0 1 14 16)" fill="#010101"/>',
-                '<rect width="3" height="1" transform="matrix(-1 0 0 1 21 16)" fill="#010101"/>',
-                '<rect x="6" y="8" width="1" height="4" fill="#010101"/>',
-                '<rect x="16" y="8" width="1" height="2" fill="#010101"/>',
-                '<rect x="24" y="2" width="1" height="2" fill="#010101"/>',
-                '<rect x="20" y="8" width="1" height="4" fill="#010101"/>',
-                '<rect x="19" y="4" width="1" height="4" fill="#010101"/>',
-                '<rect x="25" y="4" width="1" height="3" fill="#010101"/>',
-                '<rect x="26" y="7" width="1" height="3" fill="#010101"/>',
-                '<rect x="25" y="10" width="1" height="4" fill="#010101"/>',
-                '<rect x="13" y="13" width="1" height="2" fill="#010101"/>',
-                '<rect x="14" y="15" width="1" height="2" fill="#010101"/>',
-                '<rect x="24" y="14" width="1" height="3" fill="#010101"/>',
-                '<rect x="17" y="10" width="1" height="7" fill="#010101"/>',
-                '<rect x="21" y="12" width="1" height="5" fill="#010101"/>',
-                '<rect x="7" y="7" width="1" height="1" fill="#010101"/>',
-                '<rect x="14" y="6" width="1" height="1" fill="#010101"/>',
-                '<rect x="15" y="7" width="1" height="1" fill="#010101"/>',
-                '<rect x="20" y="2" width="1" height="2" fill="#010101"/>',
-                '<rect x="14" y="9" width="1" height="1" fill="#010101"/>',
-                '<rect x="12" y="12" width="1" height="1" fill="#010101"/>',
-                '<rect x="8" y="6" width="3" height="1" fill="#010101"/>',
-                '<rect x="7" y="12" width="3" height="1" fill="#010101"/>',
-                '<rect x="12" y="10" width="2" height="1" fill="#010101"/>',
-                '<rect x="10" y="11" width="3" height="1" fill="#010101"/>',
-                '<rect x="11" y="5" width="3" height="1" fill="#010101"/>',
-                '<rect x="11" y="6" width="3" height="1" fill="#FEFEFE"/>',
-                '<rect x="21" y="2" width="3" height="2" fill="#FEFEFE"/>',
-                '<rect x="20" y="4" width="5" height="3" fill="#FEFEFE"/>',
-                '<rect x="20" y="7" width="6" height="1" fill="#FEFEFE"/>',
-                '<rect x="21" y="8" width="5" height="2" fill="#FEFEFE"/>',
-                '<rect x="21" y="10" width="4" height="2" fill="#FEFEFE"/>',
-                '<rect x="22" y="12" width="3" height="2" fill="#FEFEFE"/>',
-                '<rect x="22" y="14" width="2" height="3" fill="#FEFEFE"/>',
-                '<rect x="14" y="10" width="3" height="1" fill="#FEFEFE"/>',
-                '<rect x="13" y="11" width="4" height="2" fill="#FEFEFE"/>',
-                '<rect x="14" y="13" width="3" height="2" fill="#FEFEFE"/>',
-                '<rect x="15" y="15" width="2" height="2" fill="#FEFEFE"/>',
-                '<rect x="7" y="11" width="3" height="1" fill="#FEFEFE"/>',
-                '<rect x="8" y="7" width="7" height="1" fill="#FEFEFE"/>',
-                '<rect x="7" y="8" width="9" height="1" fill="#FEFEFE"/>',
-                '<rect x="15" y="9" width="1" height="1" fill="#FEFEFE"/>',
-                '<rect x="7" y="9" width="7" height="1" fill="#FEFEFE"/>',
-                '<rect x="7" y="10" width="5" height="1" fill="#FEFEFE"/>',
-                '<rect x="21" y="1" width="3" height="1" fill="#010101"/>',
-                '<rect width="11" height="1" transform="matrix(-1 0 0 1 25 28)" fill="#010101"/>',
-                '<rect width="11" height="11" transform="matrix(-1 0 0 1 25 17)" fill="#FEFEFE"/>',
-                '<rect x="16" y="20" width="1" height="1" fill="#010101"/>',
-                '<rect x="22" y="20" width="1" height="1" fill="#010101"/>',
-                '<rect x="15" y="21" width="1" height="1" fill="#010101"/>',
-                '<rect x="17" y="21" width="1" height="1" fill="#010101"/>',
-                '<rect x="21" y="21" width="1" height="1" fill="#010101"/>',
-                '<rect x="23" y="21" width="1" height="1" fill="#010101"/>',
-                '<rect x="18" y="24" width="3" height="1" fill="#010101"/>',
-                '<rect x="19" y="25" width="1" height="1" fill="#010101"/>',
-                "</svg>"
+                string.concat(
+                    '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" x="15" y="13">',
+                    '<rect x="11" y="14" width="17" height="17" fill="black"/>',
+                    '<rect x="12" y="15" width="15" height="15" fill="white"/>',
+                    '<rect width="1" height="13" transform="matrix(-1 0 0 1 26 16)" fill="#010101"/>',
+                    '<rect width="1" height="13" transform="matrix(-1 0 0 1 14 16)" fill="#010101"/>',
+                    '<rect width="3" height="1" transform="matrix(-1 0 0 1 21 16)" fill="#010101"/>',
+                    '<rect x="6" y="8" width="1" height="4" fill="#010101"/>',
+                    '<rect x="16" y="8" width="1" height="2" fill="#010101"/>',
+                    '<rect x="24" y="2" width="1" height="2" fill="#010101"/>',
+                    '<rect x="20" y="8" width="1" height="4" fill="#010101"/>',
+                    '<rect x="19" y="4" width="1" height="4" fill="#010101"/>',
+                    '<rect x="25" y="4" width="1" height="3" fill="#010101"/>',
+                    '<rect x="26" y="7" width="1" height="3" fill="#010101"/>',
+                    '<rect x="25" y="10" width="1" height="4" fill="#010101"/>',
+                    '<rect x="13" y="13" width="1" height="2" fill="#010101"/>'
+                ),
+                string.concat(
+                    '<rect x="14" y="15" width="1" height="2" fill="#010101"/>',
+                    '<rect x="24" y="14" width="1" height="3" fill="#010101"/>',
+                    '<rect x="17" y="10" width="1" height="7" fill="#010101"/>',
+                    '<rect x="21" y="12" width="1" height="5" fill="#010101"/>',
+                    '<rect x="7" y="7" width="1" height="1" fill="#010101"/>',
+                    '<rect x="14" y="6" width="1" height="1" fill="#010101"/>',
+                    '<rect x="15" y="7" width="1" height="1" fill="#010101"/>',
+                    '<rect x="20" y="2" width="1" height="2" fill="#010101"/>',
+                    '<rect x="14" y="9" width="1" height="1" fill="#010101"/>',
+                    '<rect x="12" y="12" width="1" height="1" fill="#010101"/>',
+                    '<rect x="8" y="6" width="3" height="1" fill="#010101"/>',
+                    '<rect x="7" y="12" width="3" height="1" fill="#010101"/>',
+                    '<rect x="12" y="10" width="2" height="1" fill="#010101"/>',
+                    '<rect x="10" y="11" width="3" height="1" fill="#010101"/>',
+                    '<rect x="11" y="5" width="3" height="1" fill="#010101"/>',
+                    '<rect x="11" y="6" width="3" height="1" fill="#FEFEFE"/>',
+                    '<rect x="21" y="2" width="3" height="2" fill="#FEFEFE"/>'
+                ),
+                string.concat(
+                    '<rect x="20" y="4" width="5" height="3" fill="#FEFEFE"/>',
+                    '<rect x="20" y="7" width="6" height="1" fill="#FEFEFE"/>',
+                    '<rect x="21" y="8" width="5" height="2" fill="#FEFEFE"/>',
+                    '<rect x="21" y="10" width="4" height="2" fill="#FEFEFE"/>',
+                    '<rect x="22" y="12" width="3" height="2" fill="#FEFEFE"/>',
+                    '<rect x="22" y="14" width="2" height="3" fill="#FEFEFE"/>',
+                    '<rect x="14" y="10" width="3" height="1" fill="#FEFEFE"/>',
+                    '<rect x="13" y="11" width="4" height="2" fill="#FEFEFE"/>',
+                    '<rect x="14" y="13" width="3" height="2" fill="#FEFEFE"/>',
+                    '<rect x="15" y="15" width="2" height="2" fill="#FEFEFE"/>',
+                    '<rect x="7" y="11" width="3" height="1" fill="#FEFEFE"/>',
+                    '<rect x="8" y="7" width="7" height="1" fill="#FEFEFE"/>',
+                    '<rect x="7" y="8" width="9" height="1" fill="#FEFEFE"/>',
+                    '<rect x="15" y="9" width="1" height="1" fill="#FEFEFE"/>',
+                    '<rect x="7" y="9" width="7" height="1" fill="#FEFEFE"/>',
+                    '<rect x="7" y="10" width="5" height="1" fill="#FEFEFE"/>',
+                    '<rect x="21" y="1" width="3" height="1" fill="#010101"/>'
+                ),
+                string.concat(
+                    '<rect width="11" height="1" transform="matrix(-1 0 0 1 25 28)" fill="#010101"/>',
+                    '<rect width="11" height="11" transform="matrix(-1 0 0 1 25 17)" fill="#FEFEFE"/>',
+                    '<rect x="16" y="20" width="1" height="1" fill="#010101"/>',
+                    '<rect x="22" y="20" width="1" height="1" fill="#010101"/>',
+                    '<rect x="15" y="21" width="1" height="1" fill="#010101"/>',
+                    '<rect x="17" y="21" width="1" height="1" fill="#010101"/>',
+                    '<rect x="21" y="21" width="1" height="1" fill="#010101"/>',
+                    '<rect x="23" y="21" width="1" height="1" fill="#010101"/>',
+                    '<rect x="18" y="24" width="3" height="1" fill="#010101"/>',
+                    '<rect x="19" y="25" width="1" height="1" fill="#010101"/>',
+                    "</svg>"
+                )
             );
     }
 

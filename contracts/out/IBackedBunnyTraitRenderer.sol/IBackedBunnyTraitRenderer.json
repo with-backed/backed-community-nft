@@ -1,0 +1,262 @@
+{
+  "abi": [
+    {
+      "inputs": [],
+      "name": "glowColor",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renderTrait",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "traitName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "/Users/adamgobran/Documents/backed-community-nft/contracts/src/traits/IBackedBunnyTraitRenderer.sol",
+    "exportedSymbols": {
+      "IBackedBunnyTraitRenderer": [
+        25289
+      ]
+    },
+    "id": 25290,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 25273,
+        "literals": [
+          "solidity",
+          "0.8",
+          ".12"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "39:23:29"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IBackedBunnyTraitRenderer",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 25289,
+        "linearizedBaseContracts": [
+          25289
+        ],
+        "name": "IBackedBunnyTraitRenderer",
+        "nameLocation": "74:25:29",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "31bc8057",
+            "id": 25278,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "renderTrait",
+            "nameLocation": "115:11:29",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 25274,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "126:2:29"
+            },
+            "returnParameters": {
+              "id": 25277,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 25276,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 25278,
+                  "src": "152:13:29",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 25275,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "152:6:29",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "151:15:29"
+            },
+            "scope": 25289,
+            "src": "106:61:29",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "328ecd1c",
+            "id": 25283,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "traitName",
+            "nameLocation": "182:9:29",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 25279,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "191:2:29"
+            },
+            "returnParameters": {
+              "id": 25282,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 25281,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 25283,
+                  "src": "217:13:29",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 25280,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "217:6:29",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "216:15:29"
+            },
+            "scope": 25289,
+            "src": "173:59:29",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "42aa4e82",
+            "id": 25288,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "glowColor",
+            "nameLocation": "247:9:29",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 25284,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "256:2:29"
+            },
+            "returnParameters": {
+              "id": 25287,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 25286,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 25288,
+                  "src": "282:13:29",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 25285,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "282:6:29",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "281:15:29"
+            },
+            "scope": 25289,
+            "src": "238:59:29",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 25290,
+        "src": "64:235:29",
+        "usedErrors": []
+      }
+    ],
+    "src": "39:261:29"
+  }
+}
