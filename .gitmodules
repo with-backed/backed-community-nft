@@ -1,0 +1,3 @@
+[submodule "contracts/lib/base64"]
+	path = contracts/lib/base64
+	url = https://github.com/Brechtpd/base64
