@@ -157,6 +157,7 @@ contract BackedCommunityTokenV1 is
         }
         return
             descriptor.tokenURI(
+                tokenId,
                 owner,
                 scores,
                 IBackedBunnyTraitRenderer(
