@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.12;
 
+import {IBackedBunnyTraitRenderer} from "./traits/IBackedBunnyTraitRenderer.sol";
 import {IBackedCommunityTokenV1} from "./interfaces/IBackedCommunityTokenV1.sol";
 import {IBackedCommunityTokenDescriptorV1} from "./interfaces/IBackedCommunityTokenDescriptorV1.sol";
 import {BackedCommunityStorageV1} from "./BackedCommunityStorageV1.sol";
@@ -158,8 +159,10 @@ contract BackedCommunityTokenV1 is
             descriptor.tokenURI(
                 owner,
                 scores,
-                accessoryIdToAccessory[addressToAccessoryEnabled[owner]]
-                    .artContract,
+                IBackedBunnyTraitRenderer(
+                    accessoryIdToAccessory[addressToAccessoryEnabled[owner]]
+                        .artContract
+                ),
                 addressToPFPSVGLink[owner]
             );
     }
