@@ -26,11 +26,11 @@ export function setupDiscordVoiceChannelListener() {
 
     const identifier = generateIdentifierFromUserObject(newState.member.user);
 
+    console.log({ identifier });
     await handleDiscordVoiceUpdate(identifier);
   });
 
   client.on("message", async (message) => {
-    console.log({ content: message.content });
     if (!message.member?.user) return;
     if (message.channel.id !== process.env.DISCORD_USERNAME_LINK_CHANNEL_ID!)
       return;
@@ -40,7 +40,6 @@ export function setupDiscordVoiceChannelListener() {
     const constructedUsername = generateIdentifierFromUserObject(
       message.member.user
     );
-    console.log({ constructedUsername });
 
     try {
       await prisma.handle.upsert({
@@ -80,6 +79,7 @@ export async function handleDiscordVoiceUpdate(username: string) {
       },
     },
   });
+  console.log({ handle });
   if (!handle) return;
 
   await prisma.offChainAchievement.create({
