@@ -159,7 +159,8 @@ contract BackedCommunityTokenV1 is
                 owner,
                 scores,
                 accessoryIdToAccessory[addressToAccessoryEnabled[owner]]
-                    .artContract
+                    .artContract,
+                addressToPFPSVGLink[owner]
             );
     }
 

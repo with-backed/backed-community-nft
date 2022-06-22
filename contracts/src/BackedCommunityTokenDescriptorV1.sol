@@ -14,18 +14,17 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
     function tokenURI(
         address owner,
         uint256[] memory scores,
-        address specialTraitAddress
+        address specialTraitAddress,
+        string memory bunnyPFPSVG
     ) external view override returns (string memory) {
-        bool hasSpecialTrait = specialTraitAddress != address(0);
-        string memory traitSVG = hasSpecialTrait
-            ? IBackedBunnyTraitRenderer(specialTraitAddress).renderTrait()
-            : "";
-        string memory traitName = hasSpecialTrait
-            ? IBackedBunnyTraitRenderer(specialTraitAddress).traitName()
-            : "No trait"; // TODO ask joe about default trait placeholder name
-        string memory glowColor = hasSpecialTrait
-            ? IBackedBunnyTraitRenderer(specialTraitAddress).glowColor()
-            : "#000000";
+        string memory traitSVG = IBackedBunnyTraitRenderer(specialTraitAddress)
+            .renderTrait();
+
+        string memory traitName = IBackedBunnyTraitRenderer(specialTraitAddress)
+            .traitName();
+
+        string memory glowColor = IBackedBunnyTraitRenderer(specialTraitAddress)
+            .glowColor();
 
         return
             string(
@@ -35,14 +34,16 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                     stars(glowColor),
                     tamogatchi(),
                     stats(owner, scores, traitName),
-                    bunnyPfp(),
+                    bytes(bunnyPFPSVG).length == 0
+                        ? defaultBunnyPFP()
+                        : bunnyPFPSVG,
                     traitSVG,
                     "</svg>"
                 )
             );
     }
 
-    function styles() internal view returns (string memory) {
+    function styles() internal pure returns (string memory) {
         return
             string(
                 abi.encodePacked(
@@ -64,7 +65,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
 
     function stars(string memory glowColor)
         internal
-        view
+        pure
         returns (string memory)
     {
         return
@@ -131,7 +132,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
             );
     }
 
-    function bunnyPfp() internal view returns (string memory) {
+    function defaultBunnyPFP() internal pure returns (string memory) {
         return
             string(
                 abi.encodePacked(
@@ -203,7 +204,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         address owner,
         uint256[] memory scores,
         string memory traitName
-    ) internal view returns (string memory) {
+    ) internal pure returns (string memory) {
         return
             string(
                 abi.encodePacked(
@@ -231,7 +232,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         uint256 score,
         uint256 yPos,
         string memory className
-    ) internal view returns (string memory) {
+    ) internal pure returns (string memory) {
         bool showStars = score <= 3;
         if (showStars) {
             return
