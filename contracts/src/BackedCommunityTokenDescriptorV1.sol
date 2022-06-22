@@ -2,10 +2,9 @@
 pragma solidity 0.8.12;
 
 import {IBackedCommunityTokenDescriptorV1} from "./interfaces/IBackedCommunityTokenDescriptorV1.sol";
-
 import {IBackedBunnyTraitRenderer} from "./traits/IBackedBunnyTraitRenderer.sol";
-
 import "./utils/Strings.sol";
+import "../lib/base64/base64.sol";
 
 contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
     uint256 constant activityCategoryId = 0;
@@ -13,13 +12,61 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
     uint256 constant communityCategoryId = 2;
 
     function tokenURI(
+        uint256 tokenId,
         address owner,
         uint256[] memory scores,
         IBackedBunnyTraitRenderer specialTraitRenderer,
         string memory bunnyPFPSVG
     ) external view override returns (string memory) {
-        // todo(adamgobes): this should return base64 encoded json
-        return svgImage(owner, scores, specialTraitRenderer, bunnyPFPSVG);
+        return
+            string.concat(
+                "data:application/json;base64,",
+                Base64.encode(
+                    bytes(
+                        string.concat(
+                            '{"name":"Backed Community NFT #',
+                            Strings.toString(tokenId),
+                            '", "description":"',
+                            "This NFT tracks a Backed community member's achievements throughout their Backed journey.",
+                            '", "attributes": [',
+                            "{",
+                            '"trait_type": "Activity XP"',
+                            '"value":"',
+                            Strings.toString(scores[activityCategoryId]),
+                            '"}',
+                            ", {",
+                            '"trait_type": "Contributor XP"',
+                            '"value":"',
+                            Strings.toString(scores[contributorCategoryId]),
+                            '"}',
+                            ", {",
+                            '"trait_type": "Community XP"',
+                            '"value":"',
+                            Strings.toString(scores[communityCategoryId]),
+                            '"}',
+                            ", {",
+                            '"trait_type": "Accessory"',
+                            '"value":"',
+                            specialTraitRenderer.traitName(),
+                            '"}',
+                            "]",
+                            ', "image": "'
+                            "data:image/svg+xml;base64,",
+                            Base64.encode(
+                                bytes(
+                                    svgImage(
+                                        owner,
+                                        scores,
+                                        specialTraitRenderer,
+                                        bunnyPFPSVG
+                                    )
+                                )
+                            ),
+                            '"}'
+                        )
+                    )
+                )
+            );
     }
 
     function svgImage(

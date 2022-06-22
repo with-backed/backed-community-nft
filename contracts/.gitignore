@@ -1,2 +1,4 @@
 cache/
 lib/
+out/
+!out/BackedCommunityTokenV1.sol

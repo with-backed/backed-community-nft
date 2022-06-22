@@ -5,6 +5,7 @@ import {IBackedBunnyTraitRenderer} from "../traits/IBackedBunnyTraitRenderer.sol
 
 interface IBackedCommunityTokenDescriptorV1 {
     function tokenURI(
+        uint256 tokenId,
         address owner,
         uint256[] memory scores,
         IBackedBunnyTraitRenderer specialTraitRenderer,
