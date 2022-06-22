@@ -19,6 +19,19 @@ CommunityMemberRouter.post("/create", async (req, res) => {
   }
 });
 
+export async function findOrCreateCommunityMember(
+  ethAddress: string
+): Promise<CommunityMember> {
+  const communityMember = await prisma.communityMember.findUnique({
+    where: { ethAddress },
+  });
+  if (communityMember) {
+    return communityMember;
+  }
+
+  return createCommunityMember(ethAddress);
+}
+
 export async function createCommunityMember(
   ethAddress: string
 ): Promise<CommunityMember> {

@@ -2,6 +2,7 @@ import { Achievement, ChangeType, Platform, Status } from "@prisma/client";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import Discord from "discord.js";
+import { findOrCreateCommunityMember } from "../communityMembers/crud";
 import {
   communityCallReason,
   communityCallStreakReason,
@@ -21,12 +22,51 @@ export function setupDiscordVoiceChannelListener() {
     // make sure we are on the community call channel id
     if (newState.channelID !== process.env.COMMUNITY_CALL_CHANNEL_ID!) return;
 
-    console.log({ user: newState.member?.user });
-    const username = newState.member?.user.username;
-    if (!username) return;
+    if (!newState.member?.user) return;
 
-    await handleDiscordVoiceUpdate(username);
+    const identifier = generateIdentifierFromUserObject(newState.member.user);
+
+    await handleDiscordVoiceUpdate(identifier);
   });
+
+  client.on("message", async (message) => {
+    if (!message.member?.user) return;
+    if (message.channel.id !== process.env.DISCORD_USERNAME_LINK_CHANNEL_ID!)
+      return;
+
+    if (!message.content.startsWith("0x")) return;
+
+    const constructedUsername = generateIdentifierFromUserObject(
+      message.member.user
+    );
+
+    try {
+      await prisma.handle.upsert({
+        create: {
+          communityMemberEthAddress: message.content,
+          identifier: constructedUsername,
+          platform: Platform.DISCORD,
+        },
+        update: {
+          communityMemberEthAddress: message.content,
+        },
+        where: {
+          handleIdentifier: {
+            identifier: constructedUsername,
+            platform: Platform.DISCORD,
+          },
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      return;
+    }
+  });
+}
+
+function generateIdentifierFromUserObject(user: Discord.User): string {
+  return `${user.username}#${user.discriminator}`;
 }
 
 export async function handleDiscordVoiceUpdate(username: string) {
@@ -38,6 +78,7 @@ export async function handleDiscordVoiceUpdate(username: string) {
       },
     },
   });
+
   if (!handle) return;
 
   await prisma.offChainAchievement.create({
