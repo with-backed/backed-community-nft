@@ -26,7 +26,6 @@ export function setupDiscordVoiceChannelListener() {
 
     const identifier = generateIdentifierFromUserObject(newState.member.user);
 
-    console.log({ identifier });
     await handleDiscordVoiceUpdate(identifier);
   });
 
@@ -79,7 +78,7 @@ export async function handleDiscordVoiceUpdate(username: string) {
       },
     },
   });
-  console.log({ handle });
+
   if (!handle) return;
 
   await prisma.offChainAchievement.create({
