@@ -22,6 +22,7 @@ contract BackedCommunityTokenV1 is
 
     // ==== state changing external functions ====
 
+    // TODO(adamgobes): may return categoryId from this method
     function addCategory(string memory displayName)
         external
         override
@@ -93,9 +94,15 @@ contract BackedCommunityTokenV1 is
         addressToPFPSVGLink[owner] = svg;
     }
 
+    function mint(address mintTo) external {
+        _mint(mintTo, nonce++);
+    }
+
     function clearBunnyPFPLink() external override {
         addressToPFPSVGLink[msg.sender] = "";
     }
+
+    // === owner only ===
 
     function setBunnyPFPContract(address addr) external override onlyOwner {
         bunnyPFPContractAddress = addr;
@@ -111,10 +118,6 @@ contract BackedCommunityTokenV1 is
         onlyOwner
     {
         cdmAddr = addr;
-    }
-
-    function mint(address mintTo) external {
-        _mint(mintTo, nonce++);
     }
 
     // ==== external view ====
@@ -144,6 +147,7 @@ contract BackedCommunityTokenV1 is
         return unlocked;
     }
 
+    // TODO(adamgobes): write tests for tokenURI
     function tokenURI(uint256 tokenId)
         public
         view

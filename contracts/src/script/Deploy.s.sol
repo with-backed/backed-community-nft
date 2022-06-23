@@ -6,12 +6,18 @@ import {TransparentUpgradeableProxy} from "../../lib/openzeppelin-contracts/cont
 import {BackedCommunityTokenV1} from "../BackedCommunityTokenV1.sol";
 import {BackedCommunityTokenDescriptorV1} from "../BackedCommunityTokenDescriptorV1.sol";
 
+// run with: forge script src/script/Deploy.s.sol:Deploy --rpc-url $RINKEBY_RPC_URL  --private-key $PRIVATE_KEY -vvvv
+// broadcast with: forge script src/script/Deploy.s.sol:Deploy --rpc-url $RINKEBY_RPC_URL  --private-key $PRIVATE_KEY --broadcast
+
 contract Deploy is Test {
     BackedCommunityTokenV1 backedCommunityToken;
     BackedCommunityTokenDescriptorV1 descriptor;
     TransparentUpgradeableProxy proxy;
 
+    // TODO(adamgobes): change this to something else, maybe multisig? need to figure out strategy
     address admin = 0xE89CB2053A04Daf86ABaa1f4bC6D50744e57d39E;
+
+    // TODO(adamgobes): configure the initial set of categories and accessories
 
     function run() public {
         // all calls that we want to go on chain go in between startBroadcast and stopBroadcast
@@ -33,16 +39,15 @@ contract Deploy is Test {
 
         vm.stopBroadcast();
 
-        // verify BackedCommunityTokenV1 owner and TransparentUpgradeableProxy admin were set correctly
-
-        bytes memory ownerData = abi.encodeWithSignature("owner()");
+        // == verify BackedCommunityTokenV1 owner and TransparentUpgradeableProxy admin were set correctly ==
 
         // need to prank since deployer of proxy cannot ever call underlying logic contract!
         vm.startPrank(address(0));
-        (bool success, bytes memory returnBytes) = address(proxy).call(
-            ownerData
+        (bool success, bytes memory ownerBytes) = address(proxy).call(
+            abi.encodeWithSignature("owner()")
         );
-        address owner = abi.decode(returnBytes, (address));
+        require(success);
+        address owner = abi.decode(ownerBytes, (address));
         vm.stopPrank();
 
         vm.startPrank(admin);
