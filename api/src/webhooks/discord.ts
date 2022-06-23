@@ -92,7 +92,7 @@ export async function handleDiscordVoiceUpdate(username: string) {
   const totalCalls = await getTotalNumberOfCallsJoined(
     handle.communityMemberEthAddress
   );
-  if (totalCalls === 1) {
+  if (isPowerOfTwo(totalCalls)) {
     await prisma.onChainChangeProposal.create({
       data: {
         categoryOrAccessoryId: communityCategoryId,
@@ -107,26 +107,10 @@ export async function handleDiscordVoiceUpdate(username: string) {
       },
     });
   }
-
-  if (
-    (await getTotalCallStreak(handle.communityMemberEthAddress)) === 4 &&
-    !(await hasReceivedStreakAward(handle.communityMemberEthAddress))
-  ) {
-    await prisma.onChainChangeProposal.create({
-      data: {
-        categoryOrAccessoryId: communityCategoryId,
-        changeType: ChangeType.CATEGORY_SCORE,
-        reason: communityCallStreakReason,
-        status: Status.APPROVED,
-        isAutomaticallyCreated: true,
-        communityMemberEthAddress: handle.communityMemberEthAddress,
-        txHash: "",
-        gnosisSafeNonce: 0,
-        ipfsURL: "",
-      },
-    });
-  }
 }
+
+export const isPowerOfTwo = (n: number) =>
+  Math.ceil(Math.log2(n)) === Math.floor(Math.log2(n));
 
 export async function getTotalNumberOfCallsJoined(ethAddress: string) {
   return (
@@ -138,52 +122,4 @@ export async function getTotalNumberOfCallsJoined(ethAddress: string) {
       },
     })
   ).length;
-}
-
-export async function getTotalCallStreak(ethAddress: string) {
-  const allCallsAttended = await prisma.offChainAchievement.findMany({
-    where: {
-      communityMemberEthAddress: ethAddress,
-      platform: Platform.DISCORD,
-      achievement: Achievement.COMMUNITY_CALL,
-    },
-    orderBy: {
-      timestamp: "desc",
-    },
-  });
-
-  let currentStreak = 1;
-  for (let i = 1; i < allCallsAttended.length; i++) {
-    if (
-      areWithinAWeek(
-        allCallsAttended[i - 1].timestamp,
-        allCallsAttended[i].timestamp
-      )
-    ) {
-      currentStreak++;
-    } else {
-      break;
-    }
-  }
-  return currentStreak;
-}
-
-async function hasReceivedStreakAward(ethAddress: string) {
-  const proposals = await prisma.onChainChangeProposal.findMany({
-    where: {
-      communityMemberEthAddress: ethAddress,
-      reason: communityCallStreakReason,
-      isAutomaticallyCreated: true,
-    },
-  });
-  // should probably have some alerting here if above length is greater than 1
-
-  return proposals.length > 0;
-}
-
-function areWithinAWeek(dateTimeOne: Date, dateTimeTwo: Date) {
-  const milliSecondsBetween = dayjs(dateTimeOne.getMilliseconds()).diff(
-    dateTimeTwo.getMilliseconds()
-  );
-  return dayjs.duration(milliSecondsBetween).asDays() < 8;
 }

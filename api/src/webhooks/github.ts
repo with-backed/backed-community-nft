@@ -37,25 +37,19 @@ GithubWebhookRouter.post("/pull_request", checkFromGithub, async (req, res) => {
     },
   });
 
-  const totalGithubPrsMerged = await getTotalGithubPrsMerged(
-    handle.communityMemberEthAddress
-  );
-
-  if (totalGithubPrsMerged === 1 || totalGithubPrsMerged % 5 === 0) {
-    await prisma.onChainChangeProposal.create({
-      data: {
-        categoryOrAccessoryId: contributorCategoryId,
-        changeType: ChangeType.CATEGORY_SCORE,
-        reason: githubMergeReason,
-        status: Status.APPROVED,
-        isAutomaticallyCreated: true,
-        communityMemberEthAddress: handle.communityMemberEthAddress,
-        txHash: "",
-        gnosisSafeNonce: 0,
-        ipfsURL: "",
-      },
-    });
-  }
+  await prisma.onChainChangeProposal.create({
+    data: {
+      categoryOrAccessoryId: contributorCategoryId,
+      changeType: ChangeType.CATEGORY_SCORE,
+      reason: githubMergeReason,
+      status: Status.APPROVED,
+      isAutomaticallyCreated: true,
+      communityMemberEthAddress: handle.communityMemberEthAddress,
+      txHash: "",
+      gnosisSafeNonce: 0,
+      ipfsURL: "",
+    },
+  });
 
   return res.status(200).json({
     message: "Webhook successfully received",
