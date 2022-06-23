@@ -22,7 +22,6 @@ contract BackedCommunityTokenV1 is
 
     // ==== state changing external functions ====
 
-    // TODO(adamgobes): may return categoryId from this method
     function addCategory(string memory displayName)
         external
         override

@@ -19,7 +19,7 @@ async function main() {
     const address = await deploy(vm, pk, bytecode);
     const traitAddress = await deploy(vm, pk, traitByteCode);
     
-    const result = await call(vm, address, abi, 'tokenURI', ["0x6b2770a75a928989c1d7356366d4665a6487e1b4", [2, 8, 1], traitAddress.toString(), ""]);
+    const result = await call(vm, address, abi, 'svgImage', ["0x6b2770a75a928989c1d7356366d4665a6487e1b4", [2, 8, 1], traitAddress.toString(), ""]);
     return result;
   }
 

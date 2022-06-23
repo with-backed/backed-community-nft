@@ -13,6 +13,6 @@ contract DefaultTrait is IBackedBunnyTraitRenderer {
     }
 
     function glowColor() external pure override returns (string memory) {
-        return "#000000";
+        return "#aaaaaa";
     }
 }
