@@ -25,6 +25,7 @@ contract ERC721SoulboundUpgradeable is
         onlyInitializing
     {
         __ERC721_init(name_, symbol_);
+        __Ownable_init();
     }
 
     // ------------- //
