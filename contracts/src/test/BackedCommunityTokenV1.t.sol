@@ -6,7 +6,7 @@ import "../../lib/forge-std/src/Test.sol";
 import {IBackedCommunityTokenV1} from "../interfaces/IBackedCommunityTokenV1.sol";
 import {BackedCommunityTokenV1} from "../BackedCommunityTokenV1.sol";
 import {BackedCommunityTokenDescriptorV1} from "../BackedCommunityTokenDescriptorV1.sol";
-import {TestBackedBunnyPFP} from "./TestBackedBunnyPFP.sol";
+import {DefaultTrait} from "../traits/DefaultTrait.sol";
 
 contract BackedCommunityTokenV1Test is Test {
     event CategoryScoreChanged(
@@ -29,15 +29,16 @@ contract BackedCommunityTokenV1Test is Test {
     );
 
     BackedCommunityTokenV1 communityToken;
-    TestBackedBunnyPFP backedBunnyPfp;
     BackedCommunityTokenDescriptorV1 descriptor;
+    DefaultTrait defaultTrait;
 
     address admin = address(1);
     address userOne = address(2);
     address userTwo = address(3);
 
     uint256 categoryOneId = 0;
-    uint256 categoryTwoId = 2;
+    uint256 categoryTwoId = 1;
+    uint256 categoryThreeId = 2;
 
     uint256 adminBasedAccessoryId = 0;
     uint256 xpBasedAccessoryId = 1;
@@ -47,20 +48,21 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken = new BackedCommunityTokenV1();
         vm.stopPrank();
 
-        backedBunnyPfp = new TestBackedBunnyPFP();
         descriptor = new BackedCommunityTokenDescriptorV1();
 
         vm.startPrank(admin);
         communityToken.initialize(address(descriptor));
-        communityToken.setBunnyPFPContract(address(backedBunnyPfp));
+
+        defaultTrait = new DefaultTrait();
 
         communityToken.addCategory("CATEGORY_ONE");
         communityToken.addCategory("CATEGORY_TWO");
+        communityToken.addCategory("CATEGORY_THREE");
         communityToken.addSpecialAccessory(
             IBackedCommunityTokenV1.Accessory({
                 name: "accessory_one",
                 xpBased: false,
-                artContract: address(10),
+                artContract: address(defaultTrait),
                 qualifyingXPScore: 0,
                 xpCategory: 0
             })
@@ -98,9 +100,10 @@ contract BackedCommunityTokenV1Test is Test {
 
     // @notice categories added in set up
     function testAddCategory() public {
-        assertEq(communityToken.totalCategoryCount(), 2);
+        assertEq(communityToken.totalCategoryCount(), 3);
         assertEq(communityToken.categoryIdToDisplayName(0), "CATEGORY_ONE");
         assertEq(communityToken.categoryIdToDisplayName(1), "CATEGORY_TWO");
+        assertEq(communityToken.categoryIdToDisplayName(2), "CATEGORY_THREE");
     }
 
     function testAddCategoryFailsIfNotAdmin() public {
@@ -392,5 +395,10 @@ contract BackedCommunityTokenV1Test is Test {
         vm.expectRevert("BackedCommunityTokenV1: user does not qualify");
         communityToken.setEnabledAccessory(1);
         vm.stopPrank();
+    }
+
+    function testTokenURI() public {
+        communityToken.mint(userOne);
+        communityToken.tokenURI(0);
     }
 }
