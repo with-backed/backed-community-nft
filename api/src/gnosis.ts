@@ -18,7 +18,12 @@ async function initGnosisSdk(safeAddress: string) {
     ethers,
     signer: new Wallet(
       process.env.GNOSIS_SAFE_OWNER_PK!,
-      ethers.getDefaultProvider(getNetwork(parseInt(process.env.CHAIN_ID!)))
+      new ethers.providers.AlchemyProvider(
+        "rinkeby",
+        process.env.ALCHEMY_URL!.substring(
+          process.env.ALCHEMY_URL!.lastIndexOf("/") + 1
+        )
+      )
     ),
   });
   const txServiceUrl = process.env.GNOSIS_TX_SERVICE_URL!;
