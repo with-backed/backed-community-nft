@@ -56,7 +56,7 @@ export async function proposeTx(
   const transaction: SafeTransactionDataPartial = {
     to,
     data: iface.encodeFunctionData(
-      "unlockAccessoryOrIncrementCategory(tuple(bool,address,uint256,string))",
+      "unlockAccessoryOrIncrementCategory(tuple(bool,address,uint256,string)[])",
       [changesParams]
     ),
     value: "0",
