@@ -8,9 +8,6 @@ contract BackedCommunityStorageV1 {
     // @notice keep track of the total number of community NFTs minted
     uint256 public nonce;
 
-    // @notice admin multi sig that stat changes must come from
-    address public admin;
-
     // @notice optimism cross chain messenger address
     address public cdmAddr;
 

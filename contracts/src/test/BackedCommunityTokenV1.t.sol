@@ -43,9 +43,8 @@ contract BackedCommunityTokenV1Test is Test {
     uint256 xpBasedAccessoryId = 1;
 
     function setUp() public {
+        vm.startPrank(admin);
         communityToken = new BackedCommunityTokenV1();
-        vm.startPrank(address(0));
-        communityToken.transferOwnership(admin);
         vm.stopPrank();
 
         backedBunnyPfp = new TestBackedBunnyPFP();
