@@ -30,7 +30,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                             "This NFT tracks a Backed community member's achievements throughout their Backed journey.",
                             '", "attributes": [',
                             "{",
-                            '"trait_type": "Activity XP"',
+                            '"trait_type": "Activity XP",',
                             '"value":"',
                             Strings.toString(scores[activityCategoryId]),
                             '"}',
