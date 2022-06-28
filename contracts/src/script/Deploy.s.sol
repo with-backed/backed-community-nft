@@ -4,7 +4,18 @@ pragma solidity 0.8.12;
 import "../../lib/forge-std/src/Test.sol";
 import {TransparentUpgradeableProxy} from "../../lib/openzeppelin-contracts/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 import {BackedCommunityTokenV1} from "../BackedCommunityTokenV1.sol";
+import {IBackedCommunityTokenV1} from "../interfaces/IBackedCommunityTokenV1.sol";
 import {BackedCommunityTokenDescriptorV1} from "../BackedCommunityTokenDescriptorV1.sol";
+import {DefaultTrait} from "../traits/DefaultTrait.sol";
+import {GoldChain} from "../traits/GoldChain.sol";
+import {GoldKey} from "../traits/GoldKey.sol";
+import {LifePreserver} from "../traits/LifePreserver.sol";
+import {PinkLei} from "../traits/PinkLei.sol";
+import {PurpleScarf} from "../traits/PurpleScarf.sol";
+import {Snake} from "../traits/Snake.sol";
+import {UpgradedGoldChain} from "../traits/UpgradedGoldChain.sol";
+import {UpgradedLei} from "../traits/UpgradedLei.sol";
+import {UpgradedScarf} from "../traits/UpgradedScarf.sol";
 
 // run with: forge script src/script/Deploy.s.sol:Deploy --rpc-url $RINKEBY_RPC_URL  --private-key $PRIVATE_KEY -vvvv
 // broadcast with: forge script src/script/Deploy.s.sol:Deploy --rpc-url $RINKEBY_RPC_URL  --private-key $PRIVATE_KEY --broadcast
@@ -14,10 +25,12 @@ contract Deploy is Test {
     BackedCommunityTokenDescriptorV1 descriptor;
     TransparentUpgradeableProxy proxy;
 
-    // TODO(adamgobes): change this to something else, maybe multisig? need to figure out strategy
-    address admin = 0xE89CB2053A04Daf86ABaa1f4bC6D50744e57d39E;
+    DefaultTrait defaultTrait;
 
-    // TODO(adamgobes): configure the initial set of categories and accessories
+    // TODO(adamgobes): change this to something else, maybe multisig? need to figure out strategy
+    address deployer = 0xE89CB2053A04Daf86ABaa1f4bC6D50744e57d39E;
+    address proxyContractAdmin = 0x6b2770A75A928989C1D7356366d4665a6487e1b4;
+    address multiSigAddress = 0x9289C561E312d485f41519c2d78D013cdad85C11;
 
     function run() public {
         // all calls that we want to go on chain go in between startBroadcast and stopBroadcast
@@ -26,35 +39,59 @@ contract Deploy is Test {
         descriptor = new BackedCommunityTokenDescriptorV1();
         backedCommunityToken = new BackedCommunityTokenV1();
 
-        bytes memory initializerData = abi.encodeWithSignature(
-            "initialize(address)",
-            address(descriptor)
-        );
-
         proxy = new TransparentUpgradeableProxy(
             address(backedCommunityToken),
-            admin,
-            initializerData
+            proxyContractAdmin,
+            abi.encodeWithSignature("initialize(address)", address(descriptor))
+        );
+
+        // add categories
+        (bool success, ) = address(proxy).call(
+            abi.encodeWithSignature("addCategory(string)", "Activity")
+        );
+        (success, ) = address(proxy).call(
+            abi.encodeWithSignature("addCategory(string)", "Contributor")
+        );
+        (success, ) = address(proxy).call(
+            abi.encodeWithSignature("addCategory(string)", "Community")
+        );
+
+        // add default accessory
+        defaultTrait = new DefaultTrait();
+        IBackedCommunityTokenV1.Accessory
+            memory defaultAccessory = IBackedCommunityTokenV1.Accessory({
+                name: "Default Trait",
+                xpBased: false,
+                artContract: address(defaultTrait),
+                qualifyingXPScore: 0,
+                xpCategory: 0
+            });
+        (success, ) = address(proxy).call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addSpecialAccessory.selector,
+                defaultAccessory
+            )
         );
 
         vm.stopBroadcast();
 
         // == verify BackedCommunityTokenV1 owner and TransparentUpgradeableProxy admin were set correctly ==
 
-        // need to prank since deployer of proxy cannot ever call underlying logic contract!
-        vm.startPrank(address(0));
-        (bool success, bytes memory ownerBytes) = address(proxy).call(
+        (, bytes memory ownerBytes) = address(proxy).call(
             abi.encodeWithSignature("owner()")
         );
-        require(success);
-        address owner = abi.decode(ownerBytes, (address));
-        vm.stopPrank();
 
-        vm.startPrank(admin);
+        address owner = abi.decode(ownerBytes, (address));
+
+        // need to prank since only admin of proxy can call admin related methods
+        vm.startPrank(proxyContractAdmin);
         address proxyAdmin = proxy.admin();
         vm.stopPrank();
 
-        require(owner == admin, "owner was not set correctly");
-        require(proxyAdmin == admin, "proxy admin was not set correctly");
+        require(owner == deployer, "owner was not set correctly");
+        require(
+            proxyAdmin == proxyContractAdmin,
+            "proxy admin was not set correctly"
+        );
     }
 }

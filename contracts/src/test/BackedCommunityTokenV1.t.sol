@@ -40,8 +40,9 @@ contract BackedCommunityTokenV1Test is Test {
     uint256 categoryTwoId = 1;
     uint256 categoryThreeId = 2;
 
-    uint256 adminBasedAccessoryId = 0;
-    uint256 xpBasedAccessoryId = 1;
+    uint256 defaultAccessoryId = 0;
+    uint256 adminBasedAccessoryId = 1;
+    uint256 xpBasedAccessoryId = 2;
 
     function setUp() public {
         vm.startPrank(admin);
@@ -60,9 +61,18 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken.addCategory("CATEGORY_THREE");
         communityToken.addSpecialAccessory(
             IBackedCommunityTokenV1.Accessory({
-                name: "accessory_one",
+                name: "default_accessory",
                 xpBased: false,
                 artContract: address(defaultTrait),
+                qualifyingXPScore: 0,
+                xpCategory: 0
+            })
+        );
+        communityToken.addSpecialAccessory(
+            IBackedCommunityTokenV1.Accessory({
+                name: "accessory_one",
+                xpBased: false,
+                artContract: address(10),
                 qualifyingXPScore: 0,
                 xpCategory: 0
             })
@@ -119,10 +129,13 @@ contract BackedCommunityTokenV1Test is Test {
         (string memory nameTwo, , , , ) = communityToken.accessoryIdToAccessory(
             1
         );
+        (string memory nameThree, , , , ) = communityToken
+            .accessoryIdToAccessory(2);
 
-        assertEq(communityToken.totalSpecialyAccessoryCount(), 2);
-        assertEq(nameOne, "accessory_one");
-        assertEq(nameTwo, "accessory_two");
+        assertEq(communityToken.totalSpecialyAccessoryCount(), 3);
+        assertEq(nameOne, "default_accessory");
+        assertEq(nameTwo, "accessory_one");
+        assertEq(nameThree, "accessory_two");
     }
 
     function testAddAccessoryFailsIfNotAdmin() public {
@@ -247,8 +260,8 @@ contract BackedCommunityTokenV1Test is Test {
         changes[1] = accessoryChangeTwo;
 
         vm.expectEmit(true, true, true, false);
-        emit AccessoryUnlocked(userOne, 0, "");
-        emit AccessoryUnlocked(userTwo, 0, "");
+        emit AccessoryUnlocked(userOne, adminBasedAccessoryId, "");
+        emit AccessoryUnlocked(userTwo, adminBasedAccessoryId, "");
         communityToken.unlockAccessoryOrIncrementCategory(changes);
 
         assertTrue(
@@ -365,8 +378,11 @@ contract BackedCommunityTokenV1Test is Test {
         vm.stopPrank();
 
         vm.startPrank(userOne);
-        communityToken.setEnabledAccessory(1);
-        assertEq(communityToken.addressToAccessoryEnabled(userOne), 1);
+        communityToken.setEnabledAccessory(xpBasedAccessoryId);
+        assertEq(
+            communityToken.addressToAccessoryEnabled(userOne),
+            xpBasedAccessoryId
+        );
         vm.stopPrank();
     }
 
@@ -393,7 +409,7 @@ contract BackedCommunityTokenV1Test is Test {
 
         vm.startPrank(userOne);
         vm.expectRevert("BackedCommunityTokenV1: user does not qualify");
-        communityToken.setEnabledAccessory(1);
+        communityToken.setEnabledAccessory(xpBasedAccessoryId);
         vm.stopPrank();
     }
 
