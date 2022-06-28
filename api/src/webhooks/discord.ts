@@ -83,6 +83,18 @@ export async function handleDiscordVoiceUpdate(username: string) {
 
   if (!handle) return;
 
+  const mostRecentCallJoined = await prisma.offChainAchievement.findFirst({
+    where: { communityMemberEthAddress: handle.communityMemberEthAddress },
+    orderBy: { timestamp: "desc" },
+  });
+
+  if (
+    !!mostRecentCallJoined &&
+    areWithinAWeek(new Date(), mostRecentCallJoined.timestamp)
+  ) {
+    return;
+  }
+
   await prisma.offChainAchievement.create({
     data: {
       achievement: Achievement.COMMUNITY_CALL,
@@ -124,4 +136,11 @@ export async function getTotalNumberOfCallsJoined(ethAddress: string) {
       },
     })
   ).length;
+}
+
+function areWithinAWeek(dateTimeOne: Date, dateTimeTwo: Date) {
+  const milliSecondsBetween = dayjs(dateTimeOne.getMilliseconds()).diff(
+    dateTimeTwo.getMilliseconds()
+  );
+  return dayjs.duration(milliSecondsBetween).asDays() < 7;
 }
