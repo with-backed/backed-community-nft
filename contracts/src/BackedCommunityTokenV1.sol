@@ -58,20 +58,10 @@ contract BackedCommunityTokenV1 is
 
     function setEnabledAccessory(uint256 accessoryId) external override {
         uint256 oldAccessoryId = addressToAccessoryEnabled[msg.sender];
-        IBackedCommunityTokenV1.Accessory
-            memory accessory = accessoryIdToAccessory[accessoryId];
-        if (accessory.xpBased) {
-            require(
-                addressToCategoryScore[msg.sender][accessory.xpCategory] >=
-                    accessory.qualifyingXPScore,
-                "BackedCommunityTokenV1: user does not qualify"
-            );
-        } else {
-            require(
-                addressToAccessoryUnlocked[msg.sender][accessoryId],
-                "BackedCommunityTokenV1: accessory not unlocked"
-            );
-        }
+        require(
+            isAccessoryUnlocked(msg.sender, accessoryId),
+            "BackedCommunityTokenV1: user not eligible for accessory"
+        );
         addressToAccessoryEnabled[msg.sender] = accessoryId;
         emit AccessorySwapped(msg.sender, oldAccessoryId, accessoryId);
     }
@@ -129,24 +119,11 @@ contract BackedCommunityTokenV1 is
     {
         int256[] memory unlocked = new int256[](totalSpecialyAccessoryCount);
         for (uint256 i = 0; i < totalSpecialyAccessoryCount; i++) {
-            IBackedCommunityTokenV1.Accessory
-                memory accessory = accessoryIdToAccessory[i];
-            if (accessory.xpBased) {
-                unlocked[i] = addressToCategoryScore[addr][
-                    accessory.xpCategory
-                ] >= accessory.qualifyingXPScore
-                    ? int256(i)
-                    : -1;
-            } else {
-                unlocked[i] = addressToAccessoryUnlocked[addr][i]
-                    ? int256(i)
-                    : -1;
-            }
+            unlocked[i] = isAccessoryUnlocked(addr, i) ? int256(i) : -1;
         }
         return unlocked;
     }
 
-    // TODO(adamgobes): write tests for tokenURI
     function tokenURI(uint256 tokenId)
         public
         view
@@ -206,5 +183,23 @@ contract BackedCommunityTokenV1 is
             change.ipfsLink,
             newScore
         );
+    }
+
+    function isAccessoryUnlocked(address addr, uint256 accessoryId)
+        internal
+        view
+        returns (bool)
+    {
+        IBackedCommunityTokenV1.Accessory
+            memory accessory = accessoryIdToAccessory[accessoryId];
+        if (accessory.xpBased) {
+            return
+                addressToCategoryScore[addr][accessory.xpCategory] >=
+                accessory.qualifyingXPScore;
+        } else {
+            return
+                addressToAccessoryUnlocked[addr][accessoryId] ||
+                accessoryId == 0;
+        }
     }
 }

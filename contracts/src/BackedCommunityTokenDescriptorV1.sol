@@ -31,19 +31,19 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                             '", "attributes": [',
                             "{",
                             '"trait_type": "Activity XP",',
-                            '"value":"',
+                            '"value":',
                             Strings.toString(scores[activityCategoryId]),
-                            '"}',
+                            "}",
                             ", {",
                             '"trait_type": "Contributor XP",',
-                            '"value":"',
+                            '"value":',
                             Strings.toString(scores[contributorCategoryId]),
-                            '"}',
+                            "}",
                             ", {",
                             '"trait_type": "Community XP",',
-                            '"value":"',
+                            '"value":',
                             Strings.toString(scores[communityCategoryId]),
-                            '"}',
+                            "}",
                             ", {",
                             '"trait_type": "Accessory",',
                             '"value":"',
@@ -83,7 +83,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
 
         return
             string.concat(
-                '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 79 99" style="width: 474; height: 594; margin: 100px auto;" xml:space="preserve">',
+                '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 69 87" xml:space="preserve" shape-rendering="crispEdges">',
                 styles(),
                 stars(glowColor),
                 tamogatchi(),
@@ -100,8 +100,6 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         return
             string.concat(
                 '<style type="text/css">',
-                ".checker{fill: #fff; opacity: 0.8;}",
-                ".background{fill: #EFEBE7; opacity: 0.4;}",
                 ".st1{font-family: monospace; font-size: 2px; letter-spacing: 0.2px; text-anchor: end;}",
                 ".st2{font-family: monospace; font-size: 2px;}",
                 ".st3{font-family: monospace; font-size: 2px; text-anchor: middle;}",
@@ -184,40 +182,39 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
 
     function tamogatchi() internal pure returns (string memory) {
         return
-            string.concat(
-                '<g filter="url(#glow)">',
-                '<path d="M60.5683 42.4258C62.4008 68.8515 59.2417 79 34.456 79C9.67025 79 6.65071 69.3435 8.41338 42.6718C10.1761 16 14.7636 8 34.456 8C54.1484 8 58.7359 16 60.5683 42.4258Z" fill="white"/>',
-                "</g>"
-            );
+            '<g filter="url(#glow)"><path d="M60.5683 42.4258C62.4008 68.8515 59.2417 79 34.456 79C9.67025 79 6.65071 69.3435 8.41338 42.6718C10.1761 16 14.7636 8 34.456 8C54.1484 8 58.7359 16 60.5683 42.4258Z" fill="white"/></g>';
     }
 
     function defaultBunnyPFP() internal pure returns (string memory) {
         return
             string.concat(
                 string.concat(
-                    '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg" x="15" y="13">',
-                    '<rect x="11" y="14" width="17" height="17" fill="black"/>',
-                    '<rect x="12" y="15" width="15" height="15" fill="white"/>',
-                    '<rect width="1" height="13" transform="matrix(-1 0 0 1 26 16)" fill="#010101"/>',
-                    '<rect width="1" height="13" transform="matrix(-1 0 0 1 14 16)" fill="#010101"/>',
-                    '<rect width="3" height="1" transform="matrix(-1 0 0 1 21 16)" fill="#010101"/>',
+                    '<g transform="translate(15 13)">'
+                    '<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">',
+                    '<rect x="11" y="14" width="17" height="17" fill="#010101"/>',
+                    '<rect x="12" y="15" width="15" height="15" fill="#fefefe"/>',
+                    '<rect x="25" y="16" width="1" height="13" fill="#010101"/>',
+                    '<rect x="13" y="16" width="1" height="13" fill="#010101"/>',
+                    '<rect x="18" y="16" width="3" height="1" fill="#010101"/>',
                     '<rect x="6" y="8" width="1" height="4" fill="#010101"/>',
                     '<rect x="16" y="8" width="1" height="2" fill="#010101"/>',
                     '<rect x="24" y="2" width="1" height="2" fill="#010101"/>',
-                    '<rect x="20" y="8" width="1" height="4" fill="#010101"/>',
+                    '<rect x="20" y="8" width="1" height="4" fill="#010101"/>'
+                ),
+                string.concat(
                     '<rect x="19" y="4" width="1" height="4" fill="#010101"/>',
                     '<rect x="25" y="4" width="1" height="3" fill="#010101"/>',
                     '<rect x="26" y="7" width="1" height="3" fill="#010101"/>',
                     '<rect x="25" y="10" width="1" height="4" fill="#010101"/>',
-                    '<rect x="13" y="13" width="1" height="2" fill="#010101"/>'
-                ),
-                string.concat(
+                    '<rect x="13" y="13" width="1" height="2" fill="#010101"/>',
                     '<rect x="14" y="15" width="1" height="2" fill="#010101"/>',
                     '<rect x="24" y="14" width="1" height="3" fill="#010101"/>',
                     '<rect x="17" y="10" width="1" height="7" fill="#010101"/>',
                     '<rect x="21" y="12" width="1" height="5" fill="#010101"/>',
                     '<rect x="7" y="7" width="1" height="1" fill="#010101"/>',
-                    '<rect x="14" y="6" width="1" height="1" fill="#010101"/>',
+                    '<rect x="14" y="6" width="1" height="1" fill="#010101"/>'
+                ),
+                string.concat(
                     '<rect x="15" y="7" width="1" height="1" fill="#010101"/>',
                     '<rect x="20" y="2" width="1" height="2" fill="#010101"/>',
                     '<rect x="14" y="9" width="1" height="1" fill="#010101"/>',
@@ -241,26 +238,29 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                     '<rect x="13" y="11" width="4" height="2" fill="#FEFEFE"/>',
                     '<rect x="14" y="13" width="3" height="2" fill="#FEFEFE"/>',
                     '<rect x="15" y="15" width="2" height="2" fill="#FEFEFE"/>',
-                    '<rect x="7" y="11" width="3" height="1" fill="#FEFEFE"/>',
+                    '<rect x="7" y="11" width="3" height="1" fill="#FEFEFE"/>'
+                ),
+                string.concat(
                     '<rect x="8" y="7" width="7" height="1" fill="#FEFEFE"/>',
                     '<rect x="7" y="8" width="9" height="1" fill="#FEFEFE"/>',
                     '<rect x="15" y="9" width="1" height="1" fill="#FEFEFE"/>',
                     '<rect x="7" y="9" width="7" height="1" fill="#FEFEFE"/>',
                     '<rect x="7" y="10" width="5" height="1" fill="#FEFEFE"/>',
-                    '<rect x="21" y="1" width="3" height="1" fill="#010101"/>'
-                ),
-                string.concat(
-                    '<rect width="11" height="1" transform="matrix(-1 0 0 1 25 28)" fill="#010101"/>',
-                    '<rect width="11" height="11" transform="matrix(-1 0 0 1 25 17)" fill="#FEFEFE"/>',
+                    '<rect x="21" y="1" width="3" height="1" fill="#010101"/>',
+                    '<rect x="14" y="28" width="11" height="1" fill="#010101"/>',
+                    '<rect x="14" y="17" width="11" height="11" fill="#FEFEFE"/>',
                     '<rect x="16" y="20" width="1" height="1" fill="#010101"/>',
                     '<rect x="22" y="20" width="1" height="1" fill="#010101"/>',
-                    '<rect x="15" y="21" width="1" height="1" fill="#010101"/>',
+                    '<rect x="15" y="21" width="1" height="1" fill="#010101"/>'
+                ),
+                string.concat(
                     '<rect x="17" y="21" width="1" height="1" fill="#010101"/>',
                     '<rect x="21" y="21" width="1" height="1" fill="#010101"/>',
                     '<rect x="23" y="21" width="1" height="1" fill="#010101"/>',
                     '<rect x="18" y="24" width="3" height="1" fill="#010101"/>',
                     '<rect x="19" y="25" width="1" height="1" fill="#010101"/>',
-                    "</svg>"
+                    "</svg>",
+                    "</g>"
                 )
             );
     }
