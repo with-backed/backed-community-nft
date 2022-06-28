@@ -36,6 +36,8 @@ export function setupDiscordVoiceChannelListener() {
 
     if (!message.content.startsWith("0x")) return;
 
+    const communityMember = await findOrCreateCommunityMember(message.content);
+
     const constructedUsername = generateIdentifierFromUserObject(
       message.member.user
     );
@@ -43,12 +45,12 @@ export function setupDiscordVoiceChannelListener() {
     try {
       await prisma.handle.upsert({
         create: {
-          communityMemberEthAddress: message.content,
+          communityMemberEthAddress: communityMember.ethAddress,
           identifier: constructedUsername,
           platform: Platform.DISCORD,
         },
         update: {
-          communityMemberEthAddress: message.content,
+          communityMemberEthAddress: communityMember.ethAddress,
         },
         where: {
           handleIdentifier: {
