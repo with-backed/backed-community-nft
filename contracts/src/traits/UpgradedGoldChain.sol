@@ -9,7 +9,7 @@ contract UpgradedGoldChain is IBackedBunnyAccessory {
     }
 
     function qualifyingXPScore() external pure override returns (uint256) {
-        return 1;
+        return 4;
     }
 
     function renderTrait() external pure override returns (string memory) {
