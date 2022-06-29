@@ -58,8 +58,8 @@ contract BackedCommunityTokenV1Test is Test {
         adminBasedAccessoryId = address(new GoldKey());
         xpBasedAccessoryId = address(new PinkLei());
 
-        communityToken.addSpecialAccessory(adminBasedAccessoryId);
-        communityToken.addSpecialAccessory(xpBasedAccessoryId);
+        communityToken.addAccessory(adminBasedAccessoryId);
+        communityToken.addAccessory(xpBasedAccessoryId);
 
         vm.stopPrank();
     }
@@ -93,7 +93,7 @@ contract BackedCommunityTokenV1Test is Test {
 
     function testAddAccessoryFailsIfNotAdmin() public {
         vm.expectRevert("Ownable: caller is not the owner");
-        communityToken.addSpecialAccessory(address(0));
+        communityToken.addAccessory(address(0));
     }
 
     function testIncrementCategoryScores() public {
