@@ -25,8 +25,6 @@ contract Deploy is Test {
     BackedCommunityTokenDescriptorV1 descriptor;
     TransparentUpgradeableProxy proxy;
 
-    DefaultTrait defaultTrait;
-
     // TODO(adamgobes): change this to something else, maybe multisig? need to figure out strategy
     address deployer = 0xE89CB2053A04Daf86ABaa1f4bC6D50744e57d39E;
     address proxyContractAdmin = 0x6b2770A75A928989C1D7356366d4665a6487e1b4;
@@ -54,23 +52,6 @@ contract Deploy is Test {
         );
         (success, ) = address(proxy).call(
             abi.encodeWithSignature("addCategory(string)", "Community")
-        );
-
-        // add default accessory
-        defaultTrait = new DefaultTrait();
-        IBackedCommunityTokenV1.Accessory
-            memory defaultAccessory = IBackedCommunityTokenV1.Accessory({
-                name: "Default Trait",
-                xpBased: false,
-                artContract: address(defaultTrait),
-                qualifyingXPScore: 0,
-                xpCategory: 0
-            });
-        (success, ) = address(proxy).call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                defaultAccessory
-            )
         );
 
         vm.stopBroadcast();
