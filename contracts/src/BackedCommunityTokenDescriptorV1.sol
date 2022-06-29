@@ -1,19 +1,18 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.12;
 
-import {IBackedCommunityTokenV1} from "./interfaces/IBackedCommunityTokenV1.sol";
+import {BackedCommunityTokenV1} from "./BackedCommunityTokenV1.sol";
 import {IBackedCommunityTokenDescriptorV1} from "./interfaces/IBackedCommunityTokenDescriptorV1.sol";
 import {IBackedBunnyAccessory} from "./traits/IBackedBunnyAccessory.sol";
 import "./utils/Strings.sol";
 import "../lib/base64/base64.sol";
 
 contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
-    IBackedCommunityTokenV1 backedCommunityNFT;
+    BackedCommunityTokenV1 backedCommunityNFT;
 
     function tokenURI(
         uint256 tokenId,
         address owner,
-        uint256[] memory scores,
         IBackedBunnyAccessory accessory,
         string memory bunnyPFPSVG
     ) external view override returns (string memory) {
@@ -31,32 +30,17 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                             "{",
                             '"trait_type": "Activity XP",',
                             '"value":',
-                            Strings.toString(
-                                backedCommunityNFT.addressToCategoryScore(
-                                    owner,
-                                    "ACTIVITY"
-                                )
-                            ),
+                            Strings.toString(getActivityScore(owner)),
                             "}",
                             ", {",
                             '"trait_type": "Contributor XP",',
                             '"value":',
-                            Strings.toString(
-                                backedCommunityNFT.addressToCategoryScore(
-                                    owner,
-                                    "CONTRIBUTOR"
-                                )
-                            ),
+                            Strings.toString(getContributorScore(owner)),
                             "}",
                             ", {",
                             '"trait_type": "Community XP",',
                             '"value":',
-                            Strings.toString(
-                                backedCommunityNFT.addressToCategoryScore(
-                                    owner,
-                                    "COMMUNITY"
-                                )
-                            ),
+                            Strings.toString(getCommunityScore(owner)),
                             "}",
                             ", {",
                             '"trait_type": "Accessory",',
@@ -69,14 +53,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                             ', "image": "'
                             "data:image/svg+xml;base64,",
                             Base64.encode(
-                                bytes(
-                                    svgImage(
-                                        owner,
-                                        scores,
-                                        accessory,
-                                        bunnyPFPSVG
-                                    )
-                                )
+                                bytes(svgImage(owner, accessory, bunnyPFPSVG))
                             ),
                             '"}'
                         )
@@ -86,12 +63,27 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
     }
 
     function setBackedCommunityNFTAddress(address addr) external override {
-        backedCommunityNFT = IBackedCommunityTokenV1(addr);
+        backedCommunityNFT = BackedCommunityTokenV1(addr);
+    }
+
+    function getActivityScore(address owner) internal view returns (uint256) {
+        return backedCommunityNFT.addressToCategoryScore(owner, "ACTIVITY");
+    }
+
+    function getContributorScore(address owner)
+        internal
+        view
+        returns (uint256)
+    {
+        return backedCommunityNFT.addressToCategoryScore(owner, "CONTRIBUTOR");
+    }
+
+    function getCommunityScore(address owner) internal view returns (uint256) {
+        return backedCommunityNFT.addressToCategoryScore(owner, "COMMUNITY");
     }
 
     function svgImage(
         address owner,
-        uint256[] memory scores,
         IBackedBunnyAccessory accessory,
         string memory bunnyPFPSVG
     ) internal view returns (string memory) {
@@ -115,7 +107,13 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                 styles(),
                 stars(glowColor),
                 tamogatchi(),
-                stats(owner, scores, accessoryName),
+                stats(
+                    owner,
+                    getActivityScore(owner),
+                    getContributorScore(owner),
+                    getCommunityScore(owner),
+                    accessoryName
+                ),
                 bytes(bunnyPFPSVG).length == 0
                     ? defaultBunnyPFP()
                     : bunnyPFPSVG,
@@ -295,7 +293,9 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
 
     function stats(
         address owner,
-        uint256[] memory scores,
+        uint256 activityScore,
+        uint256 contributorScore,
+        uint256 communityScore,
         string memory accessoryName
     ) internal pure returns (string memory) {
         return
@@ -303,11 +303,11 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                 '<g transform="translate(36 51)">',
                 '<text><tspan x="-2" y="2" class="st1">ACTIVITY</tspan><tspan x="-2" y="7" class="st1">CONTRIBUTOR</tspan><tspan x="-2" y="12" class="st1">COMMUNITY</tspan></text>',
                 /* Activity */
-                starRow(scores[activityCategoryId], 0, "activity"),
+                starRow(activityScore, 0, "activity"),
                 /* Contributor */
-                starRow(scores[contributorCategoryId], 5, "contributor"),
+                starRow(contributorScore, 5, "contributor"),
                 /* Community */
-                starRow(scores[communityCategoryId], 10, "community"),
+                starRow(communityScore, 10, "community"),
                 "</g>",
                 '<text class="st3"><tspan x="35" y="69">',
                 accessoryName,

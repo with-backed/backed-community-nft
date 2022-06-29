@@ -7,7 +7,6 @@ interface IBackedCommunityTokenDescriptorV1 {
     function tokenURI(
         uint256 tokenId,
         address owner,
-        uint256[] memory scores,
         IBackedBunnyAccessory accessory,
         string memory bunnyPFPSVG
     ) external view returns (string memory);
