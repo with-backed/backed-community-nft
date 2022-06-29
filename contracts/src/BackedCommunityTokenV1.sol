@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.12;
 
-import {IBackedBunnyTraitRenderer} from "./traits/IBackedBunnyTraitRenderer.sol";
+import {IBackedBunnyAccessory} from "./traits/IBackedBunnyAccessory.sol";
 import {IBackedCommunityTokenV1} from "./interfaces/IBackedCommunityTokenV1.sol";
 import {IBackedCommunityTokenDescriptorV1} from "./interfaces/IBackedCommunityTokenDescriptorV1.sol";
 import {BackedCommunityStorageV1} from "./BackedCommunityStorageV1.sol";
 import {IERC721} from "../lib/openzeppelin-contracts/contracts/token/ERC721/IERC721.sol";
+import "../lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol";
 import {ERC721SoulboundUpgradeable} from "./ERC721SoulboundUpgradeable.sol";
 import {ICrossDomainMessenger} from "../lib/optimism/packages/contracts/contracts/libraries/bridge/ICrossDomainMessenger.sol";
 
@@ -22,40 +23,28 @@ contract BackedCommunityTokenV1 is
 
     // ==== state changing external functions ====
 
-    function addCategory(string memory displayName)
+    function addSpecialAccessory(address accessory)
         external
         override
         onlyOwner
     {
-        categoryIdToDisplayName[totalCategoryCount++] = displayName;
+        EnumerableSet.add(accessoriesSet, accessory);
     }
 
-    function addSpecialAccessory(
-        IBackedCommunityTokenV1.Accessory memory accessory
-    ) external override onlyOwner {
-        accessoryIdToAccessory[
-            totalSpecialyAccessoryCount++
-        ] = IBackedCommunityTokenV1.Accessory({
-            name: accessory.name,
-            xpBased: accessory.xpBased,
-            artContract: accessory.artContract,
-            qualifyingXPScore: accessory.qualifyingXPScore,
-            xpCategory: accessory.xpCategory
-        });
+    function deleteSpecialAccessory(address accessory)
+        external
+        override
+        onlyOwner
+    {
+        EnumerableSet.remove(accessoriesSet, accessory);
     }
 
     function overrideSpecialAccessory(
-        uint256 accessoryId,
-        IBackedCommunityTokenV1.Accessory memory accessory
-    ) external override onlyOwner {
-        accessoryIdToAccessory[accessoryId] = IBackedCommunityTokenV1
-            .Accessory({
-                name: accessory.name,
-                xpBased: accessory.xpBased,
-                artContract: accessory.artContract,
-                qualifyingXPScore: accessory.qualifyingXPScore,
-                xpCategory: accessory.xpCategory
-            });
+        address oldAccessory,
+        address newAccessory
+    ) {
+        deleteSpecialAccessory(oldAccessory);
+        addSpecialAccessory(newAccessory);
     }
 
     function unlockAccessoryOrIncrementCategory(
@@ -73,7 +62,7 @@ contract BackedCommunityTokenV1 is
     function setEnabledAccessory(uint256 accessoryId) external override {
         uint256 oldAccessoryId = addressToAccessoryEnabled[msg.sender];
         require(
-            isAccessoryUnlocked(msg.sender, accessoryId),
+            _isAccessoryUnlocked(msg.sender, accessoryId),
             "BackedCommunityTokenV1: user not eligible for accessory"
         );
         addressToAccessoryEnabled[msg.sender] = accessoryId;
@@ -125,15 +114,21 @@ contract BackedCommunityTokenV1 is
 
     // ==== external view ====
 
-    function getUnlockedAccessoriesForAddress(address addr)
+    function getUnlockedAccessoriesForAddress(address user)
         external
         view
         override
-        returns (int256[] memory)
+        returns (address[] memory)
     {
-        int256[] memory unlocked = new int256[](totalSpecialyAccessoryCount);
-        for (uint256 i = 0; i < totalSpecialyAccessoryCount; i++) {
-            unlocked[i] = isAccessoryUnlocked(addr, i) ? int256(i) : -1;
+        uint256 totalAccessories = EnumerableSet.length(accessoriesSet);
+        int256[] memory unlocked = new int256[](totalAccessories);
+        for (uint256 i = 0; i < totalAccessories; i++) {
+            unlocked[i] = _isAccessoryUnlocked(
+                user,
+                EnumerableSet.at(accessoriesSet, i)
+            )
+                ? int256(i)
+                : -1;
         }
         return unlocked;
     }
@@ -154,10 +149,7 @@ contract BackedCommunityTokenV1 is
                 tokenId,
                 owner,
                 scores,
-                IBackedBunnyTraitRenderer(
-                    accessoryIdToAccessory[addressToAccessoryEnabled[owner]]
-                        .artContract
-                ),
+                IBackedBunnyTraitRenderer(addressToAccessoryEnabled[owner]),
                 addressToPFPSVGLink[owner]
             );
     }
@@ -166,21 +158,19 @@ contract BackedCommunityTokenV1 is
     function _unlockAccessory(CategoryOrAccessoryChange memory change)
         internal
     {
-        IBackedCommunityTokenV1.Accessory
-            memory accessory = accessoryIdToAccessory[change.changeableId];
         require(
-            !accessory.xpBased,
-            "BackedCommunityTokenV1: Accessory must be admin based"
-        );
-        require(
-            accessory.artContract != address(0),
+            change.accessoryId != address(0),
             "BackedCommunityTokenV1: Accessory does not exist"
         );
+        require(
+            _isAccessoryAdminBased(change.accessoryId),
+            "BackedCommunityTokenV1: Accessory must be admin based"
+        );
 
-        addressToAccessoryUnlocked[change.addr][change.changeableId] = true;
+        addressToAccessoryUnlocked[change.user][change.accessoryId] = true;
         emit AccessoryUnlocked(
             change.addr,
-            change.changeableId,
+            change.accessoryId,
             change.ipfsLink
         );
     }
@@ -188,30 +178,33 @@ contract BackedCommunityTokenV1 is
     function _incrementCategoryScore(CategoryOrAccessoryChange memory change)
         internal
     {
-        uint256 newScore = ++addressToCategoryScore[change.addr][
-            change.changeableId
+        uint256 newScore = ++addressToCategoryScore[change.user][
+            change.categoryId
         ];
         emit CategoryScoreChanged(
-            change.addr,
-            change.changeableId,
+            change.user,
+            change.categoryId,
             change.ipfsLink,
             newScore
         );
     }
 
-    function isAccessoryUnlocked(address addr, uint256 accessoryId)
+    function _isAccessoryUnlocked(address user, address accessory)
         internal
         view
         returns (bool)
     {
-        IBackedCommunityTokenV1.Accessory
-            memory accessory = accessoryIdToAccessory[accessoryId];
-        if (accessory.xpBased) {
-            return
-                addressToCategoryScore[addr][accessory.xpCategory] >=
-                accessory.qualifyingXPScore;
-        } else {
+        if (isAccessoryAdminBased(accessory)) {
             return addressToAccessoryUnlocked[addr][accessoryId];
+        } else {
+            return
+                addressToCategoryScore[user][category] >=
+                IBackedBunnyAccessory(accessory).qualifyingXPScore();
         }
+    }
+
+    function _isAccessoryAdminBased(address accessory) internal view {
+        IBackedBunnyAccessory accessory = IBackedBunnyAccessory(accessory);
+        return address.xpCategory() == "";
     }
 }

@@ -3,6 +3,7 @@ pragma solidity 0.8.12;
 
 import {IBackedCommunityTokenDescriptorV1} from "./interfaces/IBackedCommunityTokenDescriptorV1.sol";
 import {IBackedCommunityTokenV1} from "./interfaces/IBackedCommunityTokenV1.sol";
+import "../lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol";
 
 contract BackedCommunityStorageV1 {
     // @notice keep track of the total number of community NFTs minted
@@ -16,17 +17,16 @@ contract BackedCommunityStorageV1 {
 
     // @notice category related storage
     uint256 public totalCategoryCount;
-    mapping(uint256 => string) public categoryIdToDisplayName;
-    mapping(address => mapping(uint256 => uint256))
+    mapping(address => mapping(string => uint256))
         public addressToCategoryScore;
 
     // @notice accessory related storage
-    uint256 public totalSpecialyAccessoryCount = 1;
-    mapping(uint256 => IBackedCommunityTokenV1.Accessory)
-        public accessoryIdToAccessory;
-    mapping(address => mapping(uint256 => bool))
+
+    EnumerableSet.AddressSet accessoriesSet;
+
+    mapping(address => mapping(address => bool))
         public addressToAccessoryUnlocked;
-    mapping(address => uint256) public addressToAccessoryEnabled;
+    mapping(address => address) public addressToAccessoryEnabled;
 
     // @notice storage to link potential BackedBunny PFP series
     address public bunnyPFPContractAddress;

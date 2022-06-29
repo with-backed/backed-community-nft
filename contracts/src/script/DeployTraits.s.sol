@@ -37,155 +37,20 @@ contract DeployTraits is Test {
         // XP based accessories
 
         pinkLei = new PinkLei();
-        IBackedCommunityTokenV1.Accessory
-            memory pinkLeiAccessory = IBackedCommunityTokenV1.Accessory({
-                name: "Pink Lei",
-                xpBased: true,
-                artContract: address(pinkLei),
-                qualifyingXPScore: 1,
-                xpCategory: 0
-            });
-        (bool success, ) = backedCommunityNFTAddress.call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                pinkLeiAccessory
-            )
-        );
-
         goldChain = new GoldChain();
-        IBackedCommunityTokenV1.Accessory
-            memory goldChainAccessory = IBackedCommunityTokenV1.Accessory({
-                name: "Gold Chain",
-                xpBased: true,
-                artContract: address(goldChain),
-                qualifyingXPScore: 1,
-                xpCategory: 1
-            });
-        (success, ) = backedCommunityNFTAddress.call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                goldChainAccessory
-            )
-        );
-
         purpleScarf = new PurpleScarf();
-        IBackedCommunityTokenV1.Accessory
-            memory purpleScarfAccessory = IBackedCommunityTokenV1.Accessory({
-                name: "Purple Scarf",
-                xpBased: true,
-                artContract: address(purpleScarf),
-                qualifyingXPScore: 1,
-                xpCategory: 2
-            });
-        (success, ) = backedCommunityNFTAddress.call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                purpleScarfAccessory
-            )
-        );
 
         // // upgraded XP based accessories
 
         upgradedLei = new UpgradedLei();
-        IBackedCommunityTokenV1.Accessory
-            memory upgradedPinkLeiAccessory = IBackedCommunityTokenV1
-                .Accessory({
-                    name: "Upgraded Pink Lei",
-                    xpBased: true,
-                    artContract: address(upgradedLei),
-                    qualifyingXPScore: 4,
-                    xpCategory: 0
-                });
-        (success, ) = backedCommunityNFTAddress.call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                upgradedPinkLeiAccessory
-            )
-        );
-
         upgradedGoldChain = new UpgradedGoldChain();
-        IBackedCommunityTokenV1.Accessory
-            memory upgradedGoldChainAccessory = IBackedCommunityTokenV1
-                .Accessory({
-                    name: "Upgraded Gold Chain",
-                    xpBased: true,
-                    artContract: address(upgradedGoldChain),
-                    qualifyingXPScore: 4,
-                    xpCategory: 1
-                });
-        (success, ) = backedCommunityNFTAddress.call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                upgradedGoldChainAccessory
-            )
-        );
-
         upgradedScarf = new UpgradedScarf();
-        IBackedCommunityTokenV1.Accessory
-            memory upgradedPurpleScarfAccessory = IBackedCommunityTokenV1
-                .Accessory({
-                    name: "Upgraded Purple Scarf",
-                    xpBased: true,
-                    artContract: address(upgradedScarf),
-                    qualifyingXPScore: 4,
-                    xpCategory: 2
-                });
-        (success, ) = backedCommunityNFTAddress.call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                upgradedPurpleScarfAccessory
-            )
-        );
 
         // admin based accessories
 
         goldKey = new GoldKey();
-        IBackedCommunityTokenV1.Accessory
-            memory goldKeyAccessory = IBackedCommunityTokenV1.Accessory({
-                name: "Gold Key",
-                xpBased: false,
-                artContract: address(goldKey),
-                qualifyingXPScore: 0,
-                xpCategory: 0
-            });
-        (success, ) = backedCommunityNFTAddress.call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                goldKeyAccessory
-            )
-        );
-
         lifePreserver = new LifePreserver();
-        IBackedCommunityTokenV1.Accessory
-            memory lifePreserverAccessory = IBackedCommunityTokenV1.Accessory({
-                name: "Life Preserver",
-                xpBased: false,
-                artContract: address(lifePreserver),
-                qualifyingXPScore: 0,
-                xpCategory: 0
-            });
-        (success, ) = backedCommunityNFTAddress.call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                lifePreserverAccessory
-            )
-        );
-
         snake = new Snake();
-        IBackedCommunityTokenV1.Accessory
-            memory snakeAccessory = IBackedCommunityTokenV1.Accessory({
-                name: "Snake",
-                xpBased: false,
-                artContract: address(snake),
-                qualifyingXPScore: 0,
-                xpCategory: 0
-            });
-        (success, ) = backedCommunityNFTAddress.call(
-            abi.encodeWithSelector(
-                backedCommunityToken.addSpecialAccessory.selector,
-                snakeAccessory
-            )
-        );
 
         vm.stopBroadcast();
     }

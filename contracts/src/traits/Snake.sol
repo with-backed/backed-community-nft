@@ -1,9 +1,17 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.12;
 
-import {IBackedBunnyTraitRenderer} from "./IBackedBunnyTraitRenderer.sol";
+import {IBackedBunnyAccessory} from "./IBackedBunnyAccessory.sol";
 
-contract Snake is IBackedBunnyTraitRenderer {
+contract Snake is IBackedBunnyAccessory {
+    function xpCategory() external pure override returns (string memory) {
+        return "";
+    }
+
+    function qualifyingXPScore() external pure override returns (uint256) {
+        return 0;
+    }
+
     function renderTrait() external pure override returns (string memory) {
         return
             string.concat(

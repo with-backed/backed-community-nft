@@ -42,17 +42,6 @@ contract Deploy is Test {
             abi.encodeWithSignature("initialize(address)", address(descriptor))
         );
 
-        // add categories
-        (bool success, ) = address(proxy).call(
-            abi.encodeWithSignature("addCategory(string)", "Activity")
-        );
-        (success, ) = address(proxy).call(
-            abi.encodeWithSignature("addCategory(string)", "Contributor")
-        );
-        (success, ) = address(proxy).call(
-            abi.encodeWithSignature("addCategory(string)", "Community")
-        );
-
         vm.stopBroadcast();
 
         // == verify BackedCommunityTokenV1 owner and TransparentUpgradeableProxy admin were set correctly ==
