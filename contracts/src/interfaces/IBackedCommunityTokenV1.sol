@@ -3,17 +3,18 @@ pragma solidity 0.8.12;
 
 interface IBackedCommunityTokenV1 {
     struct Accessory {
-        string name;
         bool xpBased;
         address artContract;
         uint256 qualifyingXPScore;
-        uint256 xpCategory;
+        string xpCategory;
+        bool deleted;
     }
 
     struct CategoryOrAccessoryChange {
         bool isCategoryChange;
-        address addr;
-        uint256 changeableId;
+        address user;
+        string categoryId;
+        address accessoryId;
         string ipfsLink;
     }
 
@@ -36,14 +37,9 @@ interface IBackedCommunityTokenV1 {
         uint256 indexed newAccessory
     );
 
-    function addCategory(string memory displayName) external;
+    function addSpecialAccessory(address accessory) external;
 
-    function addSpecialAccessory(Accessory memory accessory) external;
-
-    function overrideSpecialAccessory(
-        uint256 accessoryId,
-        Accessory memory accessory
-    ) external;
+    function deleteSpecialAccessory(address accessory) external;
 
     function unlockAccessoryOrIncrementCategory(
         CategoryOrAccessoryChange[] memory changes
