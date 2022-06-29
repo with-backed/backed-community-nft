@@ -6,7 +6,6 @@ import {TransparentUpgradeableProxy} from "../../lib/openzeppelin-contracts/cont
 import {BackedCommunityTokenV1} from "../BackedCommunityTokenV1.sol";
 import {IBackedCommunityTokenV1} from "../interfaces/IBackedCommunityTokenV1.sol";
 import {BackedCommunityTokenDescriptorV1} from "../BackedCommunityTokenDescriptorV1.sol";
-import {DefaultTrait} from "../traits/DefaultTrait.sol";
 import {GoldChain} from "../traits/GoldChain.sol";
 import {GoldKey} from "../traits/GoldKey.sol";
 import {LifePreserver} from "../traits/LifePreserver.sol";
