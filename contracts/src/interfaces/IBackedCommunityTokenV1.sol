@@ -12,32 +12,37 @@ interface IBackedCommunityTokenV1 {
 
     event CategoryScoreChanged(
         address indexed addr,
-        uint256 indexed categoryId,
+        string indexed categoryId,
         string indexed ipfsLink,
         uint256 newScore
     );
 
     event AccessoryUnlocked(
         address indexed addr,
-        uint256 indexed accessoryId,
+        address indexed accessory,
         string indexed ipfsLink
     );
 
     event AccessorySwapped(
         address indexed addr,
-        uint256 indexed oldAccessory,
-        uint256 indexed newAccessory
+        address indexed oldAccessory,
+        address indexed newAccessory
     );
 
-    function addSpecialAccessory(address accessory) external;
+    function addAccessory(address accessory) external;
 
-    function deleteSpecialAccessory(address accessory) external;
+    function removeAccessory(address accessory) external;
+
+    function overrideSpecialAccessory(
+        address oldAccessory,
+        address newAccessory
+    ) external;
 
     function unlockAccessoryOrIncrementCategory(
         CategoryOrAccessoryChange[] memory changes
     ) external;
 
-    function setEnabledAccessory(uint256 accessoryId) external;
+    function setEnabledAccessory(address accessory) external;
 
     function clearBunnyPFPLink() external;
 
@@ -50,7 +55,7 @@ interface IBackedCommunityTokenV1 {
     function getUnlockedAccessoriesForAddress(address addr)
         external
         view
-        returns (int256[] memory);
+        returns (address[] memory);
 
     function setBunnyPFPSVGFromL1(bytes calldata message) external;
 }
