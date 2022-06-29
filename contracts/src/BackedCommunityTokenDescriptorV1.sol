@@ -47,7 +47,9 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                             ", {",
                             '"trait_type": "Accessory",',
                             '"value":"',
-                            specialTraitRenderer.traitName(),
+                            address(specialTraitRenderer) == address(0)
+                                ? ""
+                                : specialTraitRenderer.traitName(),
                             '"}',
                             "]",
                             ', "image": "'
@@ -75,11 +77,19 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
         IBackedBunnyTraitRenderer specialTraitRenderer,
         string memory bunnyPFPSVG
     ) internal view returns (string memory) {
-        string memory traitSVG = specialTraitRenderer.renderTrait();
+        bool noTraitEnabled = address(specialTraitRenderer) == address(0);
 
-        string memory traitName = specialTraitRenderer.traitName();
+        string memory traitSVG = noTraitEnabled
+            ? ""
+            : specialTraitRenderer.renderTrait();
 
-        string memory glowColor = specialTraitRenderer.glowColor();
+        string memory traitName = noTraitEnabled
+            ? "Backed Community Member"
+            : specialTraitRenderer.traitName();
+
+        string memory glowColor = noTraitEnabled
+            ? "#aaaaaa"
+            : specialTraitRenderer.glowColor();
 
         return
             string.concat(

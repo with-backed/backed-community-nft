@@ -44,6 +44,20 @@ contract BackedCommunityTokenV1 is
         });
     }
 
+    function overrideSpecialAccessory(
+        uint256 accessoryId,
+        IBackedCommunityTokenV1.Accessory memory accessory
+    ) external override onlyOwner {
+        accessoryIdToAccessory[accessoryId] = IBackedCommunityTokenV1
+            .Accessory({
+                name: accessory.name,
+                xpBased: accessory.xpBased,
+                artContract: accessory.artContract,
+                qualifyingXPScore: accessory.qualifyingXPScore,
+                xpCategory: accessory.xpCategory
+            });
+    }
+
     function unlockAccessoryOrIncrementCategory(
         CategoryOrAccessoryChange[] memory changes
     ) external override onlyOwner {
@@ -197,9 +211,7 @@ contract BackedCommunityTokenV1 is
                 addressToCategoryScore[addr][accessory.xpCategory] >=
                 accessory.qualifyingXPScore;
         } else {
-            return
-                addressToAccessoryUnlocked[addr][accessoryId] ||
-                accessoryId == 0;
+            return addressToAccessoryUnlocked[addr][accessoryId];
         }
     }
 }

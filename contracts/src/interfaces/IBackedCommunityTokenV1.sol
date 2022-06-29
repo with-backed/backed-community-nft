@@ -40,6 +40,11 @@ interface IBackedCommunityTokenV1 {
 
     function addSpecialAccessory(Accessory memory accessory) external;
 
+    function overrideSpecialAccessory(
+        uint256 accessoryId,
+        Accessory memory accessory
+    ) external;
+
     function unlockAccessoryOrIncrementCategory(
         CategoryOrAccessoryChange[] memory changes
     ) external;
