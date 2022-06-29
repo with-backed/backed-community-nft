@@ -149,7 +149,7 @@ contract BackedCommunityTokenV1 is
                 tokenId,
                 owner,
                 scores,
-                IBackedBunnyTraitRenderer(addressToAccessoryEnabled[owner]),
+                IBackedBunnyAccessory(addressToAccessoryEnabled[owner]),
                 addressToPFPSVGLink[owner]
             );
     }
