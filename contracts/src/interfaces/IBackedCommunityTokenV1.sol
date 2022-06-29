@@ -2,14 +2,6 @@
 pragma solidity 0.8.12;
 
 interface IBackedCommunityTokenV1 {
-    struct Accessory {
-        bool xpBased;
-        address artContract;
-        uint256 qualifyingXPScore;
-        string xpCategory;
-        bool deleted;
-    }
-
     struct CategoryOrAccessoryChange {
         bool isCategoryChange;
         address user;
