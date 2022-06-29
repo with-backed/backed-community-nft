@@ -1,21 +1,20 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.12;
 
+import {IBackedCommunityTokenV1} from "./interfaces/IBackedCommunityTokenV1.sol";
 import {IBackedCommunityTokenDescriptorV1} from "./interfaces/IBackedCommunityTokenDescriptorV1.sol";
-import {IBackedBunnyTraitRenderer} from "./traits/IBackedBunnyTraitRenderer.sol";
+import {IBackedBunnyAccessory} from "./traits/IBackedBunnyAccessory.sol";
 import "./utils/Strings.sol";
 import "../lib/base64/base64.sol";
 
 contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
-    uint256 constant activityCategoryId = 0;
-    uint256 constant contributorCategoryId = 1;
-    uint256 constant communityCategoryId = 2;
+    IBackedCommunityTokenV1 backedCommunityNFT;
 
     function tokenURI(
         uint256 tokenId,
         address owner,
         uint256[] memory scores,
-        IBackedBunnyTraitRenderer specialTraitRenderer,
+        IBackedBunnyAccessory accessory,
         string memory bunnyPFPSVG
     ) external view override returns (string memory) {
         return
@@ -32,24 +31,39 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                             "{",
                             '"trait_type": "Activity XP",',
                             '"value":',
-                            Strings.toString(scores[activityCategoryId]),
+                            Strings.toString(
+                                backedCommunityNFT.addressToCategoryScore(
+                                    owner,
+                                    "ACTIVITY"
+                                )
+                            ),
                             "}",
                             ", {",
                             '"trait_type": "Contributor XP",',
                             '"value":',
-                            Strings.toString(scores[contributorCategoryId]),
+                            Strings.toString(
+                                backedCommunityNFT.addressToCategoryScore(
+                                    owner,
+                                    "CONTRIBUTOR"
+                                )
+                            ),
                             "}",
                             ", {",
                             '"trait_type": "Community XP",',
                             '"value":',
-                            Strings.toString(scores[communityCategoryId]),
+                            Strings.toString(
+                                backedCommunityNFT.addressToCategoryScore(
+                                    owner,
+                                    "COMMUNITY"
+                                )
+                            ),
                             "}",
                             ", {",
                             '"trait_type": "Accessory",',
                             '"value":"',
-                            address(specialTraitRenderer) == address(0)
+                            address(accessory) == address(0)
                                 ? ""
-                                : specialTraitRenderer.traitName(),
+                                : accessory.traitName(),
                             '"}',
                             "]",
                             ', "image": "'
@@ -59,7 +73,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                                     svgImage(
                                         owner,
                                         scores,
-                                        specialTraitRenderer,
+                                        accessory,
                                         bunnyPFPSVG
                                     )
                                 )
@@ -71,25 +85,29 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
             );
     }
 
+    function setBackedCommunityNFTAddress(address addr) external override {
+        backedCommunityNFT = IBackedCommunityTokenV1(addr);
+    }
+
     function svgImage(
         address owner,
         uint256[] memory scores,
-        IBackedBunnyTraitRenderer specialTraitRenderer,
+        IBackedBunnyAccessory accessory,
         string memory bunnyPFPSVG
     ) internal view returns (string memory) {
-        bool noTraitEnabled = address(specialTraitRenderer) == address(0);
+        bool noAccessoryEnabled = address(accessory) == address(0);
 
-        string memory traitSVG = noTraitEnabled
+        string memory accessorySVG = noAccessoryEnabled
             ? ""
-            : specialTraitRenderer.renderTrait();
+            : accessory.renderTrait();
 
-        string memory traitName = noTraitEnabled
+        string memory accessoryName = noAccessoryEnabled
             ? "Backed Community Member"
-            : specialTraitRenderer.traitName();
+            : accessory.traitName();
 
-        string memory glowColor = noTraitEnabled
+        string memory glowColor = noAccessoryEnabled
             ? "#aaaaaa"
-            : specialTraitRenderer.glowColor();
+            : accessory.glowColor();
 
         return
             string.concat(
@@ -97,11 +115,11 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                 styles(),
                 stars(glowColor),
                 tamogatchi(),
-                stats(owner, scores, traitName),
+                stats(owner, scores, accessoryName),
                 bytes(bunnyPFPSVG).length == 0
                     ? defaultBunnyPFP()
                     : bunnyPFPSVG,
-                traitSVG,
+                accessorySVG,
                 "</svg>"
             );
     }
@@ -278,7 +296,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
     function stats(
         address owner,
         uint256[] memory scores,
-        string memory traitName
+        string memory accessoryName
     ) internal pure returns (string memory) {
         return
             string.concat(
@@ -292,7 +310,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                 starRow(scores[communityCategoryId], 10, "community"),
                 "</g>",
                 '<text class="st3"><tspan x="35" y="69">',
-                traitName,
+                accessoryName,
                 '</tspan><tspan x="35" y="72">',
                 substring(Strings.toHexString(owner), 0, 6),
                 "...",

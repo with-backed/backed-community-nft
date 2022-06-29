@@ -6,7 +6,6 @@ import "../../lib/forge-std/src/Test.sol";
 import {IBackedCommunityTokenV1} from "../interfaces/IBackedCommunityTokenV1.sol";
 import {BackedCommunityTokenV1} from "../BackedCommunityTokenV1.sol";
 import {BackedCommunityTokenDescriptorV1} from "../BackedCommunityTokenDescriptorV1.sol";
-import {DefaultTrait} from "../traits/DefaultTrait.sol";
 
 contract BackedCommunityTokenV1Test is Test {
     event CategoryScoreChanged(
