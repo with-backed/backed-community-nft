@@ -21,7 +21,7 @@ contract BackedCommunityStorageV1 {
         public addressToCategoryScore;
 
     // @notice accessory related storage
-    uint256 public totalSpecialyAccessoryCount;
+    uint256 public totalSpecialyAccessoryCount = 1;
     mapping(uint256 => IBackedCommunityTokenV1.Accessory)
         public accessoryIdToAccessory;
     mapping(address => mapping(uint256 => bool))
