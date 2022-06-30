@@ -34,7 +34,7 @@ const address = Wallet.createRandom().address;
 
 const proposalOneTraits = {
   communityMemberEthAddress: address,
-  categoryOrAccessoryId: 0,
+  category: "ACTIVITY",
   changeType: ChangeType.CATEGORY_SCORE,
   reason: "important reason",
   status: Status.APPROVED,
@@ -45,7 +45,7 @@ const proposalOneTraits = {
 
 const proposalTwoTraits = {
   communityMemberEthAddress: address,
-  categoryOrAccessoryId: 1,
+  category: "CONTRIBUTOR",
   changeType: ChangeType.ACCESSORY_UNLOCK,
   reason: "important reason accessory",
   status: Status.APPROVED,

@@ -1,5 +1,10 @@
 import express from "express";
-import { ChangeType, CommunityMember, Status } from "@prisma/client";
+import {
+  ChangeType,
+  CommunityMember,
+  OnChainChangeProposal,
+  Status,
+} from "@prisma/client";
 import prisma from "../db";
 import { authUser } from "../auth";
 import { createCommunityMember } from "../communityMembers/crud";
@@ -9,7 +14,8 @@ const ProposalsCrudRouter = express.Router();
 export type CreateProposalBody = {
   ethAddress: string;
   changeType: ChangeType;
-  categoryOrAccessoryId: number;
+  category?: string;
+  accessoryId?: number;
   reason: string;
 };
 
@@ -18,10 +24,10 @@ type DecisionProposalBody = {
 };
 
 ProposalsCrudRouter.post("/create", async (req, res) => {
-  const { ethAddress, changeType, categoryOrAccessoryId, reason } =
+  const { ethAddress, changeType, category, accessoryId, reason } =
     req.body as CreateProposalBody;
 
-  if (!ethAddress || !reason || !changeType) {
+  if (!ethAddress || !reason || !changeType || (!category && !accessoryId)) {
     return res.status(400);
   }
 
@@ -39,7 +45,8 @@ ProposalsCrudRouter.post("/create", async (req, res) => {
       status: Status.PENDING,
       communityMemberEthAddress: ethAddress,
       changeType,
-      categoryOrAccessoryId,
+      category: !!category ? category : "",
+      accessoryId: !!accessoryId ? accessoryId : 0,
       reason,
       txHash: "",
       gnosisSafeNonce: 0,
@@ -47,7 +54,13 @@ ProposalsCrudRouter.post("/create", async (req, res) => {
     },
   });
 
-  return res.json({
+  if (!validateChangeProposal(proposal)) {
+    res.status(400).json({
+      message: "error creating change proposal",
+    });
+  }
+
+  return res.status(200).json({
     proposalId: proposal.id,
   });
 });
@@ -119,5 +132,12 @@ ProposalsCrudRouter.get("/", async (_req, res) => {
     proposals: await prisma.onChainChangeProposal.findMany(),
   });
 });
+
+export function validateChangeProposal(change: OnChainChangeProposal): boolean {
+  if (!change.accessoryId && !change.category) {
+    return false;
+  }
+  return true;
+}
 
 export default ProposalsCrudRouter;

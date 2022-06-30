@@ -16,7 +16,7 @@ export async function postJSONToIPFS(changeProposals: OnChainChangeProposal[]) {
       .map(async (change) => ({
         id: await hashIPFSId(change),
         ethAddress: change.communityMemberEthAddress,
-        categoryId: change.categoryOrAccessoryId,
+        category: change.category,
         reason: change.reason,
         date: dayjs(new Date().getTime()).format("MMMM DD YYYY"),
       }))
@@ -28,7 +28,7 @@ export async function postJSONToIPFS(changeProposals: OnChainChangeProposal[]) {
       .map(async (change) => ({
         id: await hashIPFSId(change),
         ethAddress: change.communityMemberEthAddress,
-        accessoryId: change.categoryOrAccessoryId,
+        accessoryId: change.accessoryId,
         reason: change.reason,
         date: dayjs(new Date().getTime()).format("MMMM DD YYYY"),
       }))
@@ -46,7 +46,7 @@ export async function hashIPFSId(
 ): Promise<string> {
   if (changeProposal.changeType === ChangeType.CATEGORY_SCORE) {
     const currentScore = await getCurrentCategoryScoreForUser(
-      changeProposal.categoryOrAccessoryId,
+      changeProposal.category,
       changeProposal.communityMemberEthAddress
     );
     return ethers.utils.keccak256(
@@ -54,7 +54,7 @@ export async function hashIPFSId(
         ["address", "string", "uint256", "uint256"],
         [
           changeProposal.communityMemberEthAddress,
-          changeProposal.categoryOrAccessoryId,
+          changeProposal.category,
           currentScore,
           currentScore + 1,
         ]
@@ -66,7 +66,7 @@ export async function hashIPFSId(
         ["address", "uint256", "bool"],
         [
           changeProposal.communityMemberEthAddress,
-          changeProposal.categoryOrAccessoryId,
+          changeProposal.accessoryId,
           true,
         ]
       )

@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import BackedCommunityNFTABI from "../../contracts/out/BackedCommunityTokenV1.sol/BackedCommunityTokenV1.json";
 
 export async function getCurrentCategoryScoreForUser(
-  category: number,
+  category: string,
   address: string
 ) {
   const backedCommunityTokenContract = new ethers.Contract(

@@ -1,6 +1,6 @@
-export const activityCategoryId = 0;
-export const contributorCategoryId = 1;
-export const communityCategoryId = 2;
+export const activityCategoryId = "ACTIVITY";
+export const contributorCategoryId = "CONTRIBUTOR";
+export const communityCategoryId = "COMMUNITY";
 
 export const githubMergeReason = "Github PR merged";
 export const communityCallReason = "Community call joined";

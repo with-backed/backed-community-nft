@@ -53,14 +53,15 @@ export async function proposeTx(
   const changesParams = changeProposals.map((proposal) => [
     proposal.changeType === ChangeType.CATEGORY_SCORE ? true : false,
     proposal.communityMemberEthAddress,
-    proposal.categoryOrAccessoryId,
+    proposal.category,
+    proposal.accessoryId,
     proposal.ipfsURL,
   ]);
 
   const transaction: SafeTransactionDataPartial = {
     to,
     data: iface.encodeFunctionData(
-      "unlockAccessoryOrIncrementCategory(tuple(bool isCategoryChange, address addr, uint256 changeableId, string ipfsLink)[])",
+      "unlockAccessoryOrIncrementCategory(tuple(bool isCategoryChange, address addr, string categoryId, uint256 accessoryId, string ipfsLink)[])",
       [changesParams]
     ),
     value: "0",
