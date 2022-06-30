@@ -182,7 +182,7 @@ contract BackedCommunityTokenV1 is
             change.accessoryId,
             change.ipfsLink,
             unlock,
-            string(abi.encode(change.user, change.accessoryId, unlock))
+            keccak256(abi.encode(change.user, change.accessoryId, unlock))
         );
     }
 
@@ -206,7 +206,7 @@ contract BackedCommunityTokenV1 is
             change.ipfsLink,
             newScore,
             oldScore,
-            string(
+            keccak256(
                 abi.encode(change.user, change.categoryId, newScore, oldScore)
             )
         );

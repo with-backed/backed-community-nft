@@ -17,7 +17,7 @@ contract BackedCommunityTokenV1Test is Test {
         string indexed ipfsLink,
         uint256 newScore,
         uint256 oldScore,
-        string ipfsEntryHash
+        bytes32 ipfsEntryHash
     );
 
     event AccessoryLockChanged(
@@ -25,7 +25,7 @@ contract BackedCommunityTokenV1Test is Test {
         uint256 indexed accessoryId,
         string indexed ipfsLink,
         bool unlocked,
-        string ipfsEntryHash
+        bytes32 ipfsEntryHash
     );
 
     event AccessorySwapped(
@@ -157,10 +157,38 @@ contract BackedCommunityTokenV1Test is Test {
         changes[3] = changeFour;
 
         vm.expectEmit(true, true, true, false);
-        emit CategoryScoreChanged(userOne, categoryOneId, "", 1, 0, "");
-        emit CategoryScoreChanged(userOne, categoryOneId, "", 2, 1, "");
-        emit CategoryScoreChanged(userTwo, categoryOneId, "", 1, 0, "");
-        emit CategoryScoreChanged(userOne, categoryTwoId, "", 1, 0, "");
+        emit CategoryScoreChanged(
+            userOne,
+            categoryOneId,
+            "",
+            1,
+            0,
+            bytes32("")
+        );
+        emit CategoryScoreChanged(
+            userOne,
+            categoryOneId,
+            "",
+            2,
+            1,
+            bytes32("")
+        );
+        emit CategoryScoreChanged(
+            userTwo,
+            categoryOneId,
+            "",
+            1,
+            0,
+            bytes32("")
+        );
+        emit CategoryScoreChanged(
+            userOne,
+            categoryTwoId,
+            "",
+            1,
+            0,
+            bytes32("")
+        );
         communityToken.unlockAccessoryOrIncrementCategory(changes);
 
         assertEq(
@@ -222,8 +250,20 @@ contract BackedCommunityTokenV1Test is Test {
         changes[1] = accessoryChangeTwo;
 
         vm.expectEmit(true, true, true, false);
-        emit AccessoryLockChanged(userOne, adminBasedAccessoryId, "", true, "");
-        emit AccessoryLockChanged(userTwo, adminBasedAccessoryId, "", true, "");
+        emit AccessoryLockChanged(
+            userOne,
+            adminBasedAccessoryId,
+            "",
+            true,
+            bytes32("")
+        );
+        emit AccessoryLockChanged(
+            userTwo,
+            adminBasedAccessoryId,
+            "",
+            true,
+            bytes32("")
+        );
         communityToken.unlockAccessoryOrIncrementCategory(changes);
 
         assertTrue(

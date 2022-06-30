@@ -22,7 +22,7 @@ interface IBackedCommunityTokenV1 {
         string indexed ipfsLink,
         uint256 newScore,
         uint256 oldScore,
-        string ipfsEntryHash
+        bytes32 ipfsEntryHash
     );
 
     event AccessoryLockChanged(
@@ -30,7 +30,7 @@ interface IBackedCommunityTokenV1 {
         uint256 indexed accessoryId,
         string indexed ipfsLink,
         bool unlocked,
-        string ipfsEntryHash
+        bytes32 ipfsEntryHash
     );
 
     event AccessorySwapped(
