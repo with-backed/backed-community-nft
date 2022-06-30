@@ -20,7 +20,7 @@ CronRouter.post("/process", async (_req, res) => {
       return prisma.onChainChangeProposal.update({
         where: { id: proposal.id },
         data: {
-          ipfsURL: pinataResponse.IpfsHash,
+          ipfsURL: `https://ipfs.io/ipfs/${pinataResponse.IpfsHash}`,
         },
       });
     })

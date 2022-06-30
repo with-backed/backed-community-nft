@@ -3,7 +3,6 @@ import EthersAdapter from "@gnosis.pm/safe-ethers-lib";
 import SafeServiceClient from "@gnosis.pm/safe-service-client";
 import Safe from "@gnosis.pm/safe-core-sdk";
 import { SafeTransactionDataPartial } from "@gnosis.pm/safe-core-sdk-types";
-import { getNetwork } from "@ethersproject/networks";
 import BackedCommunityNFTABI from "../../contracts/out/BackedCommunityTokenV1.sol/BackedCommunityTokenV1.json";
 import _ from "lodash";
 import { ChangeType, OnChainChangeProposal } from "@prisma/client";
