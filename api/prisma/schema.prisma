@@ -33,7 +33,8 @@ model OnChainChangeProposal {
 
   changeType             ChangeType
   isAutomaticallyCreated Boolean    @default(false)
-  categoryOrAccessoryId  Int
+  category               String     @default("") @db.VarChar(32)
+  accessoryId            Int        @default(0)
   reason                 String
   status                 Status
   gnosisSafeNonce        Int

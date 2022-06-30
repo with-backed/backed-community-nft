@@ -8,8 +8,8 @@ import { ChangeType, Status } from "@prisma/client";
 const address = Wallet.createRandom().address;
 const reasonOne = "reason one";
 const reasonTwo = "reason two";
-const categoryIdOne = 0;
-const categoryIdTwo = 1;
+const categoryIdOne = "ACTIVITY";
+const categoryIdTwo = "CONTRIBUTOR";
 
 describe("CRUD methods for proposals", () => {
   afterEach(async () => {
@@ -19,7 +19,7 @@ describe("CRUD methods for proposals", () => {
   describe("/create, /proposals/proposal/:id, /proposals/all", () => {
     it("creates proposals and can fetch successfully", async () => {
       let reqBody: CreateProposalBody = {
-        categoryOrAccessoryId: categoryIdOne,
+        category: categoryIdOne,
         changeType: ChangeType.CATEGORY_SCORE,
         ethAddress: address,
         reason: reasonOne,
@@ -38,11 +38,11 @@ describe("CRUD methods for proposals", () => {
 
       expect(body.proposal.status).toEqual(Status.PENDING);
       expect(body.proposal.reason).toEqual(reasonOne);
-      expect(body.proposal.categoryOrAccessoryId).toEqual(categoryIdOne);
+      expect(body.proposal.category).toEqual(categoryIdOne);
       expect(body.proposal.communityMemberEthAddress).toEqual(address);
 
       reqBody = {
-        categoryOrAccessoryId: categoryIdTwo,
+        category: categoryIdTwo,
         changeType: ChangeType.CATEGORY_SCORE,
         ethAddress: address,
         reason: reasonTwo,
@@ -66,7 +66,7 @@ describe("CRUD methods for proposals", () => {
     let proposalId: string;
     beforeEach(async () => {
       const reqBody: CreateProposalBody = {
-        categoryOrAccessoryId: categoryIdOne,
+        category: categoryIdOne,
         changeType: ChangeType.CATEGORY_SCORE,
         ethAddress: address,
         reason: reasonOne,
@@ -104,7 +104,7 @@ describe("CRUD methods for proposals", () => {
     let proposalId: string;
     beforeEach(async () => {
       const reqBody: CreateProposalBody = {
-        categoryOrAccessoryId: categoryIdOne,
+        category: categoryIdOne,
         changeType: ChangeType.CATEGORY_SCORE,
         ethAddress: address,
         reason: reasonOne,

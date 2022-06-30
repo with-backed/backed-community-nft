@@ -9,6 +9,7 @@ import {
   communityCategoryId,
 } from "../constants";
 import prisma from "../db";
+import { validateChangeProposal } from "../proposals/crud";
 
 dayjs.extend(duration);
 
@@ -107,9 +108,9 @@ export async function handleDiscordVoiceUpdate(username: string) {
     handle.communityMemberEthAddress
   );
   if (isPowerOfTwo(totalCalls)) {
-    await prisma.onChainChangeProposal.create({
+    const changeProposal = await prisma.onChainChangeProposal.create({
       data: {
-        categoryOrAccessoryId: communityCategoryId,
+        category: communityCategoryId,
         changeType: ChangeType.CATEGORY_SCORE,
         reason: communityCallReason,
         status: Status.APPROVED,
@@ -120,6 +121,9 @@ export async function handleDiscordVoiceUpdate(username: string) {
         ipfsURL: "",
       },
     });
+    if (!validateChangeProposal(changeProposal)) {
+      console.error("error validating change proposal");
+    }
   }
 }
 

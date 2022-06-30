@@ -3,6 +3,7 @@ import express from "express";
 import { checkFromGithub } from "../auth";
 import { contributorCategoryId, githubMergeReason } from "../constants";
 import prisma from "../db";
+import { validateChangeProposal } from "../proposals/crud";
 
 const GithubWebhookRouter = express.Router();
 
@@ -37,9 +38,9 @@ GithubWebhookRouter.post("/pull_request", checkFromGithub, async (req, res) => {
     },
   });
 
-  await prisma.onChainChangeProposal.create({
+  const changeProposal = await prisma.onChainChangeProposal.create({
     data: {
-      categoryOrAccessoryId: contributorCategoryId,
+      category: contributorCategoryId,
       changeType: ChangeType.CATEGORY_SCORE,
       reason: githubMergeReason,
       status: Status.APPROVED,
@@ -50,6 +51,13 @@ GithubWebhookRouter.post("/pull_request", checkFromGithub, async (req, res) => {
       ipfsURL: "",
     },
   });
+
+  if (!validateChangeProposal(changeProposal)) {
+    console.error("error validating change proposal");
+    return res.status(400).json({
+      message: "error handling github webhook",
+    });
+  }
 
   return res.status(200).json({
     message: "Webhook successfully received",
