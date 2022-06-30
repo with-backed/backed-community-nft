@@ -18,10 +18,12 @@ contract BackedCommunityTokenV1Test is Test {
         uint256 newScore
     );
 
-    event AccessoryUnlocked(
+    event AccessoryLockChanged(
         address indexed addr,
         address indexed accessory,
-        string indexed ipfsLink
+        string indexed ipfsLink,
+        bool unlocked,
+        string ipfsEntryHash
     );
 
     event AccessorySwapped(
@@ -81,15 +83,6 @@ contract BackedCommunityTokenV1Test is Test {
         vm.expectRevert("ERC721Soulbound: only contract owner can transfer");
         communityToken.safeTransferFrom(userOne, userTwo, 0);
     }
-
-    // // @notice accessories added in set up
-    // function testAccessoriesEnumerableSet() public {
-    //     assertEq(communityToken.accessoriesSet.length, 2);
-    //     assertTrue(
-    //         communityToken.accessoriesSet.contains(adminBasedAccessoryId)
-    //     );
-    //     assertTrue(communityToken.accessoriesSet.contains(xpBasedAccessoryId));
-    // }
 
     function testAddAccessoryFailsIfNotAdmin() public {
         vm.expectRevert("Ownable: caller is not the owner");
@@ -211,8 +204,8 @@ contract BackedCommunityTokenV1Test is Test {
         changes[1] = accessoryChangeTwo;
 
         vm.expectEmit(true, true, true, false);
-        emit AccessoryUnlocked(userOne, adminBasedAccessoryId, "");
-        emit AccessoryUnlocked(userTwo, adminBasedAccessoryId, "");
+        emit AccessoryLockChanged(userOne, adminBasedAccessoryId, "", true, "");
+        emit AccessoryLockChanged(userTwo, adminBasedAccessoryId, "", true, "");
         communityToken.unlockAccessoryOrIncrementCategory(changes);
 
         assertTrue(

@@ -44,9 +44,21 @@ contract BackedCommunityTokenV1 is
     ) external override onlyOwner {
         for (uint256 i = 0; i < changes.length; i++) {
             if (changes[i].isCategoryChange) {
-                _incrementCategoryScore(changes[i]);
+                _modifyCategoryScore(changes[i], true);
             } else {
-                _unlockAccessory(changes[i]);
+                _unlockOrLockAccessory(changes[i], true);
+            }
+        }
+    }
+
+    function relockAccessoryOrDecrementCategory(
+        CategoryOrAccessoryChange[] memory changes
+    ) external override onlyOwner {
+        for (uint256 i = 0; i < changes.length; i++) {
+            if (changes[i].isCategoryChange) {
+                _modifyCategoryScore(changes[i], false);
+            } else {
+                _unlockOrLockAccessory(changes[i], false);
             }
         }
     }
@@ -142,9 +154,10 @@ contract BackedCommunityTokenV1 is
     }
 
     // === internal & private ===
-    function _unlockAccessory(CategoryOrAccessoryChange memory change)
-        internal
-    {
+    function _unlockOrLockAccessory(
+        CategoryOrAccessoryChange memory change,
+        bool unlock
+    ) internal {
         require(
             change.accessoryId != address(0),
             "BackedCommunityTokenV1: Accessory does not exist"
@@ -154,25 +167,44 @@ contract BackedCommunityTokenV1 is
             "BackedCommunityTokenV1: Accessory must be admin based"
         );
 
-        addressToAccessoryUnlocked[change.user][change.accessoryId] = true;
-        emit AccessoryUnlocked(
+        if (unlock) {
+            addressToAccessoryUnlocked[change.user][change.accessoryId] = true;
+        } else {
+            addressToAccessoryUnlocked[change.user][change.accessoryId] = false;
+        }
+
+        emit AccessoryLockChanged(
             change.user,
             change.accessoryId,
-            change.ipfsLink
+            change.ipfsLink,
+            unlock,
+            string(abi.encode(change.user, change.accessoryId, unlock))
         );
     }
 
-    function _incrementCategoryScore(CategoryOrAccessoryChange memory change)
-        internal
-    {
-        uint256 newScore = ++addressToCategoryScore[change.user][
+    function _modifyCategoryScore(
+        CategoryOrAccessoryChange memory change,
+        bool increment
+    ) internal {
+        uint256 oldScore = addressToCategoryScore[change.user][
             change.categoryId
         ];
+        uint256 newScore;
+        if (increment) {
+            newScore = ++addressToCategoryScore[change.user][change.categoryId];
+        } else {
+            newScore = --addressToCategoryScore[change.user][change.categoryId];
+        }
+
         emit CategoryScoreChanged(
             change.user,
             change.categoryId,
             change.ipfsLink,
-            newScore
+            newScore,
+            oldScore,
+            string(
+                abi.encode(change.user, change.categoryId, newScore, oldScore)
+            )
         );
     }
 
