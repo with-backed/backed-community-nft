@@ -23,20 +23,20 @@ contract BackedCommunityTokenV1 is
 
     // ==== state changing external functions ====
 
-    function addAccessory(address accessory) external override onlyOwner {
-        _addAccessory(accessory);
+    function addAccessory(IBackedCommunityTokenV1.Accessory calldata accessory)
+        external
+        override
+        onlyOwner
+        returns (uint256 newAccessoryId)
+    {
+        unchecked {
+            newAccessoryId = ++totalAccessoryCount;
+        }
+        _addAccessory(newAccessoryId, accessory);
     }
 
-    function removeAccessory(address accessory) external override onlyOwner {
-        _removeAccessory(accessory);
-    }
-
-    function overrideSpecialAccessory(
-        address oldAccessory,
-        address newAccessory
-    ) external override onlyOwner {
-        _removeAccessory(oldAccessory);
-        _addAccessory(newAccessory);
+    function removeAccessory(uint256 accessoryId) external override onlyOwner {
+        _removeAccessory(accessoryId);
     }
 
     function unlockAccessoryOrIncrementCategory(
@@ -63,14 +63,14 @@ contract BackedCommunityTokenV1 is
         }
     }
 
-    function setEnabledAccessory(address accessory) external override {
-        address oldAccessory = addressToAccessoryEnabled[msg.sender];
+    function setEnabledAccessory(uint256 accessoryId) external override {
+        uint256 oldAccessory = addressToAccessoryEnabled[msg.sender];
         require(
-            _isAccessoryUnlocked(msg.sender, accessory),
+            _isAccessoryUnlocked(msg.sender, accessoryId),
             "BackedCommunityTokenV1: user not eligible for accessory"
         );
-        addressToAccessoryEnabled[msg.sender] = accessory;
-        emit AccessorySwapped(msg.sender, oldAccessory, accessory);
+        addressToAccessoryEnabled[msg.sender] = accessoryId;
+        emit AccessorySwapped(msg.sender, oldAccessory, accessoryId);
     }
 
     function setBunnyPFPSVGFromL1(bytes calldata message) external override {
@@ -122,17 +122,17 @@ contract BackedCommunityTokenV1 is
         external
         view
         override
-        returns (address[] memory)
+        returns (uint256[] memory)
     {
         uint256 totalAccessories = EnumerableSet.length(accessoriesSet);
-        address[] memory unlocked = new address[](totalAccessories);
+        uint256[] memory unlocked = new uint256[](totalAccessories);
         for (uint256 i = 0; i < totalAccessories; i++) {
             unlocked[i] = _isAccessoryUnlocked(
                 user,
                 EnumerableSet.at(accessoriesSet, i)
             )
                 ? EnumerableSet.at(accessoriesSet, i)
-                : address(0);
+                : 0;
         }
         return unlocked;
     }
@@ -148,7 +148,10 @@ contract BackedCommunityTokenV1 is
             descriptor.tokenURI(
                 tokenId,
                 owner,
-                IBackedBunnyAccessory(addressToAccessoryEnabled[owner]),
+                IBackedBunnyAccessory(
+                    accessoryIdToAccessory[addressToAccessoryEnabled[owner]]
+                        .artContract
+                ),
                 addressToPFPSVGLink[owner]
             );
     }
@@ -159,7 +162,8 @@ contract BackedCommunityTokenV1 is
         bool unlock
     ) internal {
         require(
-            change.accessoryId != address(0),
+            accessoryIdToAccessory[change.accessoryId].artContract !=
+                address(0),
             "BackedCommunityTokenV1: Accessory does not exist"
         );
         require(
@@ -208,37 +212,46 @@ contract BackedCommunityTokenV1 is
         );
     }
 
-    function _addAccessory(address accessory) internal {
-        EnumerableSet.add(accessoriesSet, accessory);
+    function _addAccessory(
+        uint256 newAccessoryId,
+        IBackedCommunityTokenV1.Accessory memory accessory
+    ) internal {
+        accessoryIdToAccessory[newAccessoryId] = IBackedCommunityTokenV1
+            .Accessory({
+                artContract: accessory.artContract,
+                xpCategory: accessory.xpCategory,
+                qualifyingXPScore: accessory.qualifyingXPScore
+            });
+        EnumerableSet.add(accessoriesSet, newAccessoryId);
     }
 
-    function _removeAccessory(address accessory) internal {
-        EnumerableSet.remove(accessoriesSet, accessory);
+    function _removeAccessory(uint256 accessoryId) internal {
+        EnumerableSet.remove(accessoriesSet, accessoryId);
     }
 
-    function _isAccessoryUnlocked(address user, address accessory)
+    function _isAccessoryUnlocked(address user, uint256 accessoryId)
         internal
         view
         returns (bool)
     {
-        if (_isAccessoryAdminBased(accessory)) {
-            return addressToAccessoryUnlocked[user][accessory];
+        IBackedCommunityTokenV1.Accessory
+            memory accessory = accessoryIdToAccessory[accessoryId];
+        if (_isAccessoryAdminBased(accessoryId)) {
+            return addressToAccessoryUnlocked[user][accessoryId];
         } else {
             return
-                addressToCategoryScore[user][
-                    IBackedBunnyAccessory(accessory).xpCategory()
-                ] >= IBackedBunnyAccessory(accessory).qualifyingXPScore();
+                addressToCategoryScore[user][accessory.xpCategory] >=
+                accessory.qualifyingXPScore;
         }
     }
 
-    function _isAccessoryAdminBased(address accessoryAddress)
+    function _isAccessoryAdminBased(uint256 accessoryId)
         internal
         view
         returns (bool)
     {
-        IBackedBunnyAccessory accessory = IBackedBunnyAccessory(
-            accessoryAddress
-        );
-        return bytes(accessory.xpCategory()).length == 0;
+        IBackedCommunityTokenV1.Accessory
+            memory accessory = accessoryIdToAccessory[accessoryId];
+        return bytes(accessory.xpCategory).length == 0;
     }
 }

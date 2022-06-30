@@ -37,20 +37,126 @@ contract DeployTraits is Test {
         // XP based accessories
 
         pinkLei = new PinkLei();
+        IBackedCommunityTokenV1.Accessory
+            memory accessory = IBackedCommunityTokenV1.Accessory({
+                artContract: address(pinkLei),
+                qualifyingXPScore: 1,
+                xpCategory: "ACTIVITY"
+            });
+        (bool success, ) = backedCommunityNFTAddress.call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addAccessory.selector,
+                accessory
+            )
+        );
+
         goldChain = new GoldChain();
+        accessory = IBackedCommunityTokenV1.Accessory({
+            artContract: address(goldChain),
+            qualifyingXPScore: 1,
+            xpCategory: "CONTRIBUTOR"
+        });
+        (success, ) = backedCommunityNFTAddress.call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addAccessory.selector,
+                accessory
+            )
+        );
+
         purpleScarf = new PurpleScarf();
+        accessory = IBackedCommunityTokenV1.Accessory({
+            artContract: address(purpleScarf),
+            qualifyingXPScore: 1,
+            xpCategory: "COMMUNITY"
+        });
+        (success, ) = backedCommunityNFTAddress.call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addAccessory.selector,
+                accessory
+            )
+        );
 
         // // upgraded XP based accessories
 
         upgradedLei = new UpgradedLei();
+        accessory = IBackedCommunityTokenV1.Accessory({
+            artContract: address(upgradedLei),
+            qualifyingXPScore: 4,
+            xpCategory: "ACTIVITY"
+        });
+        (success, ) = backedCommunityNFTAddress.call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addAccessory.selector,
+                accessory
+            )
+        );
+
         upgradedGoldChain = new UpgradedGoldChain();
+        accessory = IBackedCommunityTokenV1.Accessory({
+            artContract: address(upgradedGoldChain),
+            qualifyingXPScore: 4,
+            xpCategory: "CONTRIBUTOR"
+        });
+        (success, ) = backedCommunityNFTAddress.call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addAccessory.selector,
+                accessory
+            )
+        );
+
         upgradedScarf = new UpgradedScarf();
+        accessory = IBackedCommunityTokenV1.Accessory({
+            artContract: address(upgradedScarf),
+            qualifyingXPScore: 4,
+            xpCategory: "COMMUNITY"
+        });
+        (success, ) = backedCommunityNFTAddress.call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addAccessory.selector,
+                accessory
+            )
+        );
 
         // admin based accessories
 
         goldKey = new GoldKey();
+        accessory = IBackedCommunityTokenV1.Accessory({
+            artContract: address(goldKey),
+            qualifyingXPScore: 0,
+            xpCategory: ""
+        });
+        (success, ) = backedCommunityNFTAddress.call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addAccessory.selector,
+                accessory
+            )
+        );
+
         lifePreserver = new LifePreserver();
+        accessory = IBackedCommunityTokenV1.Accessory({
+            artContract: address(lifePreserver),
+            qualifyingXPScore: 0,
+            xpCategory: ""
+        });
+        (success, ) = backedCommunityNFTAddress.call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addAccessory.selector,
+                accessory
+            )
+        );
+
         snake = new Snake();
+        accessory = IBackedCommunityTokenV1.Accessory({
+            artContract: address(snake),
+            qualifyingXPScore: 0,
+            xpCategory: ""
+        });
+        (success, ) = backedCommunityNFTAddress.call(
+            abi.encodeWithSelector(
+                backedCommunityToken.addAccessory.selector,
+                accessory
+            )
+        );
 
         vm.stopBroadcast();
     }

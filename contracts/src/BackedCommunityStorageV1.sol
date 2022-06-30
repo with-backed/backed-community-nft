@@ -22,11 +22,14 @@ contract BackedCommunityStorageV1 {
 
     // @notice accessory related storage
 
-    EnumerableSet.AddressSet accessoriesSet;
+    EnumerableSet.UintSet accessoriesSet;
 
-    mapping(address => mapping(address => bool))
+    uint256 totalAccessoryCount;
+    mapping(uint256 => IBackedCommunityTokenV1.Accessory)
+        public accessoryIdToAccessory;
+    mapping(address => mapping(uint256 => bool))
         public addressToAccessoryUnlocked;
-    mapping(address => address) public addressToAccessoryEnabled;
+    mapping(address => uint256) public addressToAccessoryEnabled;
 
     // @notice storage to link potential BackedBunny PFP series
     address public bunnyPFPContractAddress;

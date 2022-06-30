@@ -4,14 +4,6 @@ pragma solidity 0.8.12;
 import {IBackedBunnyAccessory} from "./IBackedBunnyAccessory.sol";
 
 contract GoldChain is IBackedBunnyAccessory {
-    function xpCategory() external pure override returns (string memory) {
-        return "CONTRIBUTOR";
-    }
-
-    function qualifyingXPScore() external pure override returns (uint256) {
-        return 1;
-    }
-
     function renderTrait() external pure override returns (string memory) {
         return
             string.concat(

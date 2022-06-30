@@ -4,14 +4,6 @@ pragma solidity 0.8.12;
 import {IBackedBunnyAccessory} from "./IBackedBunnyAccessory.sol";
 
 contract UpgradedLei is IBackedBunnyAccessory {
-    function xpCategory() external pure override returns (string memory) {
-        return "ACTIVITY";
-    }
-
-    function qualifyingXPScore() external pure override returns (uint256) {
-        return 4;
-    }
-
     function renderTrait() external pure override returns (string memory) {
         return
             string.concat(
