@@ -2,11 +2,17 @@
 pragma solidity 0.8.12;
 
 interface IBackedCommunityTokenV1 {
+    struct Accessory {
+        address artContract;
+        string xpCategory;
+        uint256 qualifyingXPScore;
+    }
+
     struct CategoryOrAccessoryChange {
         bool isCategoryChange;
         address user;
         string categoryId;
-        address accessoryId;
+        uint256 accessoryId;
         string ipfsLink;
     }
 
@@ -21,7 +27,7 @@ interface IBackedCommunityTokenV1 {
 
     event AccessoryLockChanged(
         address indexed addr,
-        address indexed accessory,
+        uint256 indexed accessoryId,
         string indexed ipfsLink,
         bool unlocked,
         string ipfsEntryHash
@@ -29,18 +35,15 @@ interface IBackedCommunityTokenV1 {
 
     event AccessorySwapped(
         address indexed addr,
-        address indexed oldAccessory,
-        address indexed newAccessory
+        uint256 indexed oldAccessory,
+        uint256 indexed newAccessory
     );
 
-    function addAccessory(address accessory) external;
+    function addAccessory(IBackedCommunityTokenV1.Accessory calldata accessory)
+        external
+        returns (uint256);
 
-    function removeAccessory(address accessory) external;
-
-    function overrideSpecialAccessory(
-        address oldAccessory,
-        address newAccessory
-    ) external;
+    function removeAccessory(uint256 accessoryId) external;
 
     function unlockAccessoryOrIncrementCategory(
         CategoryOrAccessoryChange[] memory changes
@@ -50,7 +53,7 @@ interface IBackedCommunityTokenV1 {
         CategoryOrAccessoryChange[] memory changes
     ) external;
 
-    function setEnabledAccessory(address accessory) external;
+    function setEnabledAccessory(uint256 accessoryId) external;
 
     function clearBunnyPFPLink() external;
 
@@ -63,7 +66,7 @@ interface IBackedCommunityTokenV1 {
     function getUnlockedAccessoriesForAddress(address addr)
         external
         view
-        returns (address[] memory);
+        returns (uint256[] memory);
 
     function setBunnyPFPSVGFromL1(bytes calldata message) external;
 }

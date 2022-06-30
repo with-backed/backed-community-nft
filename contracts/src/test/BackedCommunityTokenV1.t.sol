@@ -15,12 +15,14 @@ contract BackedCommunityTokenV1Test is Test {
         address indexed addr,
         string indexed categoryId,
         string indexed ipfsLink,
-        uint256 newScore
+        uint256 newScore,
+        uint256 oldScore,
+        string ipfsEntryHash
     );
 
     event AccessoryLockChanged(
         address indexed addr,
-        address indexed accessory,
+        uint256 indexed accessoryId,
         string indexed ipfsLink,
         bool unlocked,
         string ipfsEntryHash
@@ -28,8 +30,8 @@ contract BackedCommunityTokenV1Test is Test {
 
     event AccessorySwapped(
         address indexed addr,
-        address indexed oldAccessory,
-        address indexed newAccessory
+        uint256 indexed oldAccessory,
+        uint256 indexed newAccessory
     );
 
     BackedCommunityTokenV1 communityToken;
@@ -43,8 +45,8 @@ contract BackedCommunityTokenV1Test is Test {
     address userOne = address(2);
     address userTwo = address(3);
 
-    address adminBasedAccessoryId;
-    address xpBasedAccessoryId;
+    uint256 adminBasedAccessoryId;
+    uint256 xpBasedAccessoryId;
 
     function setUp() public {
         vm.startPrank(admin);
@@ -57,11 +59,21 @@ contract BackedCommunityTokenV1Test is Test {
         vm.startPrank(admin);
         communityToken.initialize(address(descriptor));
 
-        adminBasedAccessoryId = address(new GoldKey());
-        xpBasedAccessoryId = address(new PinkLei());
+        adminBasedAccessoryId = communityToken.addAccessory(
+            IBackedCommunityTokenV1.Accessory({
+                artContract: address(new GoldKey()),
+                xpCategory: "",
+                qualifyingXPScore: 0
+            })
+        );
 
-        communityToken.addAccessory(adminBasedAccessoryId);
-        communityToken.addAccessory(xpBasedAccessoryId);
+        xpBasedAccessoryId = communityToken.addAccessory(
+            IBackedCommunityTokenV1.Accessory({
+                artContract: address(new PinkLei()),
+                xpCategory: "ACTIVITY",
+                qualifyingXPScore: 1
+            })
+        );
 
         vm.stopPrank();
     }
@@ -86,7 +98,13 @@ contract BackedCommunityTokenV1Test is Test {
 
     function testAddAccessoryFailsIfNotAdmin() public {
         vm.expectRevert("Ownable: caller is not the owner");
-        communityToken.addAccessory(address(0));
+        communityToken.addAccessory(
+            IBackedCommunityTokenV1.Accessory({
+                artContract: address(0),
+                xpCategory: "",
+                qualifyingXPScore: 0
+            })
+        );
     }
 
     function testIncrementCategoryScores() public {
@@ -97,7 +115,7 @@ contract BackedCommunityTokenV1Test is Test {
                 .CategoryOrAccessoryChange({
                     user: userOne,
                     categoryId: categoryOneId,
-                    accessoryId: address(0),
+                    accessoryId: 0,
                     ipfsLink: "",
                     isCategoryChange: true
                 });
@@ -106,7 +124,7 @@ contract BackedCommunityTokenV1Test is Test {
                 .CategoryOrAccessoryChange({
                     user: userOne,
                     categoryId: categoryOneId,
-                    accessoryId: address(0),
+                    accessoryId: 0,
                     ipfsLink: "",
                     isCategoryChange: true
                 });
@@ -115,7 +133,7 @@ contract BackedCommunityTokenV1Test is Test {
                 .CategoryOrAccessoryChange({
                     user: userTwo,
                     categoryId: categoryOneId,
-                    accessoryId: address(0),
+                    accessoryId: 0,
                     ipfsLink: "",
                     isCategoryChange: true
                 });
@@ -124,7 +142,7 @@ contract BackedCommunityTokenV1Test is Test {
                 .CategoryOrAccessoryChange({
                     user: userOne,
                     categoryId: categoryTwoId,
-                    accessoryId: address(0),
+                    accessoryId: 0,
                     ipfsLink: "",
                     isCategoryChange: true
                 });
@@ -139,10 +157,10 @@ contract BackedCommunityTokenV1Test is Test {
         changes[3] = changeFour;
 
         vm.expectEmit(true, true, true, false);
-        emit CategoryScoreChanged(userOne, categoryOneId, "", 1);
-        emit CategoryScoreChanged(userOne, categoryOneId, "", 2);
-        emit CategoryScoreChanged(userTwo, categoryOneId, "", 1);
-        emit CategoryScoreChanged(userOne, categoryTwoId, "", 1);
+        emit CategoryScoreChanged(userOne, categoryOneId, "", 1, 0, "");
+        emit CategoryScoreChanged(userOne, categoryOneId, "", 2, 1, "");
+        emit CategoryScoreChanged(userTwo, categoryOneId, "", 1, 0, "");
+        emit CategoryScoreChanged(userOne, categoryTwoId, "", 1, 0, "");
         communityToken.unlockAccessoryOrIncrementCategory(changes);
 
         assertEq(
@@ -344,7 +362,7 @@ contract BackedCommunityTokenV1Test is Test {
                 .CategoryOrAccessoryChange({
                     user: userOne,
                     categoryId: categoryOneId,
-                    accessoryId: address(0),
+                    accessoryId: 0,
                     ipfsLink: "",
                     isCategoryChange: true
                 });
@@ -353,7 +371,7 @@ contract BackedCommunityTokenV1Test is Test {
                 .CategoryOrAccessoryChange({
                     user: userOne,
                     categoryId: categoryOneId,
-                    accessoryId: address(0),
+                    accessoryId: 0,
                     ipfsLink: "",
                     isCategoryChange: true
                 });
@@ -362,7 +380,7 @@ contract BackedCommunityTokenV1Test is Test {
                 .CategoryOrAccessoryChange({
                     user: userTwo,
                     categoryId: categoryOneId,
-                    accessoryId: address(0),
+                    accessoryId: 0,
                     ipfsLink: "",
                     isCategoryChange: true
                 });
@@ -371,7 +389,7 @@ contract BackedCommunityTokenV1Test is Test {
                 .CategoryOrAccessoryChange({
                     user: userOne,
                     categoryId: categoryTwoId,
-                    accessoryId: address(0),
+                    accessoryId: 0,
                     ipfsLink: "",
                     isCategoryChange: true
                 });
@@ -392,7 +410,7 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken.tokenURI(0);
 
         vm.startPrank(userOne);
-        communityToken.setEnabledAccessory(address(xpBasedAccessoryId));
+        communityToken.setEnabledAccessory(xpBasedAccessoryId);
         vm.stopPrank();
 
         communityToken.tokenURI(0);
