@@ -99,9 +99,13 @@ describe("proposals cron", () => {
       });
       expect(processingProposals.length).toEqual(2);
       expect(processingProposals[0].gnosisSafeNonce).toEqual(nonce);
-      expect(processingProposals[0].ipfsURL).toEqual(ipfsHash);
+      expect(processingProposals[0].ipfsURL).toEqual(
+        "https://ipfs.io/ipfs/some-ipfs-hash"
+      );
       expect(processingProposals[1].gnosisSafeNonce).toEqual(nonce);
-      expect(processingProposals[1].ipfsURL).toEqual(ipfsHash);
+      expect(processingProposals[1].ipfsURL).toEqual(
+        "https://ipfs.io/ipfs/some-ipfs-hash"
+      );
     });
   });
 

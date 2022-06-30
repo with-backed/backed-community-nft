@@ -1,6 +1,8 @@
 import pinataSDK from "@pinata/sdk";
 import { ChangeType, OnChainChangeProposal } from "@prisma/client";
 import dayjs from "dayjs";
+import { ethers } from "ethers";
+import { getCurrentCategoryScoreForUser } from "./helpers";
 
 const pinata = pinataSDK(
   process.env.PINATA_API_KEY!,
@@ -8,27 +10,66 @@ const pinata = pinataSDK(
 );
 
 export async function postJSONToIPFS(changeProposals: OnChainChangeProposal[]) {
-  const categoryChanges = changeProposals
-    .filter((c) => c.changeType === ChangeType.CATEGORY_SCORE)
-    .map((change) => ({
-      ethAddress: change.communityMemberEthAddress,
-      categoryId: change.categoryOrAccessoryId,
-      reason: change.reason,
-      date: dayjs(new Date().getTime()).format("MMMM DD YYYY"),
-    }));
+  const categoryChanges = await Promise.all(
+    changeProposals
+      .filter((c) => c.changeType === ChangeType.CATEGORY_SCORE)
+      .map(async (change) => ({
+        id: await hashIPFSId(change),
+        ethAddress: change.communityMemberEthAddress,
+        categoryId: change.categoryOrAccessoryId,
+        reason: change.reason,
+        date: dayjs(new Date().getTime()).format("MMMM DD YYYY"),
+      }))
+  );
 
-  const accessoryChanges = changeProposals
-    .filter((c) => c.changeType === ChangeType.ACCESSORY_UNLOCK)
-    .map((change) => ({
-      ethAddress: change.communityMemberEthAddress,
-      accessoryId: change.categoryOrAccessoryId,
-      reason: change.reason,
-      date: dayjs(new Date().getTime()).format("MMMM DD YYYY"),
-    }));
+  const accessoryChanges = await Promise.all(
+    changeProposals
+      .filter((c) => c.changeType === ChangeType.ACCESSORY_UNLOCK)
+      .map(async (change) => ({
+        id: await hashIPFSId(change),
+        ethAddress: change.communityMemberEthAddress,
+        accessoryId: change.categoryOrAccessoryId,
+        reason: change.reason,
+        date: dayjs(new Date().getTime()).format("MMMM DD YYYY"),
+      }))
+  );
 
   const res = await pinata.pinJSONToIPFS({
     changes: [...categoryChanges, accessoryChanges],
   });
 
   return res;
+}
+
+export async function hashIPFSId(
+  changeProposal: OnChainChangeProposal
+): Promise<string> {
+  if (changeProposal.changeType === ChangeType.CATEGORY_SCORE) {
+    const currentScore = await getCurrentCategoryScoreForUser(
+      changeProposal.categoryOrAccessoryId,
+      changeProposal.communityMemberEthAddress
+    );
+    return ethers.utils.keccak256(
+      ethers.utils.defaultAbiCoder.encode(
+        ["address", "string", "uint256", "uint256"],
+        [
+          changeProposal.communityMemberEthAddress,
+          changeProposal.categoryOrAccessoryId,
+          currentScore,
+          currentScore + 1,
+        ]
+      )
+    );
+  } else {
+    return ethers.utils.keccak256(
+      ethers.utils.defaultAbiCoder.encode(
+        ["address", "uint256", "bool"],
+        [
+          changeProposal.communityMemberEthAddress,
+          changeProposal.categoryOrAccessoryId,
+          true,
+        ]
+      )
+    );
+  }
 }
