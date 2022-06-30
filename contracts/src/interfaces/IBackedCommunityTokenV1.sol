@@ -14,13 +14,17 @@ interface IBackedCommunityTokenV1 {
         address indexed addr,
         string indexed categoryId,
         string indexed ipfsLink,
-        uint256 newScore
+        uint256 newScore,
+        uint256 oldScore,
+        string ipfsEntryHash
     );
 
-    event AccessoryUnlocked(
+    event AccessoryLockChanged(
         address indexed addr,
         address indexed accessory,
-        string indexed ipfsLink
+        string indexed ipfsLink,
+        bool unlocked,
+        string ipfsEntryHash
     );
 
     event AccessorySwapped(
@@ -39,6 +43,10 @@ interface IBackedCommunityTokenV1 {
     ) external;
 
     function unlockAccessoryOrIncrementCategory(
+        CategoryOrAccessoryChange[] memory changes
+    ) external;
+
+    function relockAccessoryOrDecrementCategory(
         CategoryOrAccessoryChange[] memory changes
     ) external;
 
