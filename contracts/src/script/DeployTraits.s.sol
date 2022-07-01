@@ -25,8 +25,10 @@ contract DeployTraits is Test {
     UpgradedLei upgradedLei;
     UpgradedScarf upgradedScarf;
 
+    address multiSigAddress = 0x9289C561E312d485f41519c2d78D013cdad85C11;
+
     address backedCommunityNFTAddress =
-        0x4AbB923Ba68DCE7f256B541Fa6961e6CCfd7EFd1;
+        0x77874C98546Acf1B4b451a25B01a710dBE0FfF8B;
 
     BackedCommunityTokenV1 backedCommunityToken =
         BackedCommunityTokenV1(backedCommunityNFTAddress);
@@ -158,6 +160,21 @@ contract DeployTraits is Test {
             )
         );
 
+        address(backedCommunityNFTAddress).call(
+            abi.encodeWithSignature(
+                "transferOwnership(address)",
+                multiSigAddress
+            )
+        );
+
         vm.stopBroadcast();
+
+        (, bytes memory ownerBytes) = address(backedCommunityNFTAddress).call(
+            abi.encodeWithSignature("owner()")
+        );
+
+        address owner = abi.decode(ownerBytes, (address));
+
+        require(owner == multiSigAddress, "owner was not set correctly");
     }
 }

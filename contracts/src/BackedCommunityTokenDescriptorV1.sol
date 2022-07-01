@@ -63,6 +63,13 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
     }
 
     function setBackedCommunityNFTAddress(address addr) external override {
+        if (address(backedCommunityNFT) != address(0)) {
+            require(
+                msg.sender == BackedCommunityTokenV1(addr).owner(),
+                "BackedCommunityTokenDescriptorV1: Not BackedCommunityTokenV1 owner"
+            );
+        }
+
         backedCommunityNFT = BackedCommunityTokenV1(addr);
     }
 

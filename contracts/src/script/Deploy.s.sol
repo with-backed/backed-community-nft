@@ -42,6 +42,10 @@ contract Deploy is Test {
             abi.encodeWithSignature("initialize(address)", address(descriptor))
         );
 
+        descriptor.setBackedCommunityNFTAddress(address(proxy));
+
+        address(proxy).call(abi.encodeWithSignature("mint(address)", deployer));
+
         vm.stopBroadcast();
 
         // == verify BackedCommunityTokenV1 owner and TransparentUpgradeableProxy admin were set correctly ==
