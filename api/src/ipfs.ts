@@ -3,7 +3,6 @@ import { ChangeType, OnChainChangeProposal } from "@prisma/client";
 import dayjs from "dayjs";
 import { ethers } from "ethers";
 import { getCurrentCategoryScoreForUser } from "./helpers";
-import prisma from "./db";
 
 const pinata = pinataSDK(
   process.env.PINATA_API_KEY!,
@@ -11,33 +10,25 @@ const pinata = pinataSDK(
 );
 
 export async function postJSONToIPFS(changeProposals: OnChainChangeProposal[]) {
-  const categoryChanges = await Promise.all(
-    changeProposals
-      .filter((c) => c.changeType === ChangeType.CATEGORY_SCORE)
-      .map(async (change) => ({
-        id: await hashIPFSId(change),
-        ethAddress: change.communityMemberEthAddress,
-        category: change.category,
-        reason: change.reason,
-        date: dayjs(new Date().getTime()).format("MMMM DD YYYY"),
-      }))
-  );
-
-  const accessoryChanges = await Promise.all(
-    changeProposals
-      .filter((c) => c.changeType === ChangeType.ACCESSORY_UNLOCK)
-      .map(async (change) => ({
-        id: await hashIPFSId(change),
-        ethAddress: change.communityMemberEthAddress,
-        accessoryId: change.accessoryId,
-        reason: change.reason,
-        date: dayjs(new Date().getTime()).format("MMMM DD YYYY"),
-      }))
-  );
-
-  const res = await pinata.pinJSONToIPFS({
-    changes: [...categoryChanges, ...accessoryChanges],
+  const ipfsObj: { [key: string]: object } = {};
+  changeProposals.forEach(async (proposal) => {
+    ipfsObj[await hashIPFSId(proposal)] =
+      proposal.changeType === ChangeType.CATEGORY_SCORE
+        ? {
+            ethAddress: proposal.communityMemberEthAddress,
+            category: proposal.category,
+            reason: proposal.reason,
+            date: new Date().getTime(),
+          }
+        : {
+            ethAddress: proposal.communityMemberEthAddress,
+            accessoryId: proposal.accessoryId,
+            reason: proposal.reason,
+            date: new Date().getTime(),
+          };
   });
+
+  const res = await pinata.pinJSONToIPFS(ipfsObj);
 
   return res;
 }
