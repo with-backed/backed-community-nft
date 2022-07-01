@@ -74,9 +74,3 @@ export async function hashIPFSId(
     );
   }
 }
-
-prisma.onChainChangeProposal
-  .findFirst({})
-  .then((proposal) =>
-    hashIPFSId(proposal!).then((res) => console.log({ res }))
-  );
