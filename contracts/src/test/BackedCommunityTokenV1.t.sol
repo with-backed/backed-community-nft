@@ -17,7 +17,7 @@ contract BackedCommunityTokenV1Test is Test {
         string indexed ipfsLink,
         uint256 newScore,
         uint256 oldScore,
-        string ipfsEntryHash
+        bytes32 ipfsEntryHash
     );
 
     event AccessoryLockChanged(
@@ -25,7 +25,7 @@ contract BackedCommunityTokenV1Test is Test {
         uint256 indexed accessoryId,
         string indexed ipfsLink,
         bool unlocked,
-        string ipfsEntryHash
+        bytes32 ipfsEntryHash
     );
 
     event AccessorySwapped(
@@ -413,6 +413,6 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken.setEnabledAccessory(xpBasedAccessoryId);
         vm.stopPrank();
 
-        communityToken.tokenURI(0);
+        console.log(communityToken.tokenURI(0));
     }
 }

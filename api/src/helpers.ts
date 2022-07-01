@@ -16,10 +16,11 @@ export async function getCurrentCategoryScoreForUser(
     )
   );
 
-  let tx = await backedCommunityTokenContract.addressToCategoryScore(
-    address,
-    category
-  );
+  const currentScore: ethers.BigNumber =
+    await backedCommunityTokenContract.addressToCategoryScore(
+      address,
+      category
+    );
 
-  return tx;
+  return currentScore;
 }

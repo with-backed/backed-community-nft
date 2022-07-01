@@ -11,5 +11,11 @@ interface IBackedCommunityTokenDescriptorV1 {
         string memory bunnyPFPSVG
     ) external view returns (string memory);
 
+    function svgImage(
+        address owner,
+        IBackedBunnyAccessory accessory,
+        string memory bunnyPFPSVG
+    ) external view returns (string memory);
+
     function setBackedCommunityNFTAddress(address addr) external;
 }

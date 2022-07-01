@@ -53,7 +53,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
                             ', "image": "'
                             "data:image/svg+xml;base64,",
                             Base64.encode(
-                                bytes(svgImage(owner, accessory, bunnyPFPSVG))
+                                bytes(_svgImage(owner, accessory, bunnyPFPSVG))
                             ),
                             '"}'
                         )
@@ -90,6 +90,14 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
     }
 
     function svgImage(
+        address owner,
+        IBackedBunnyAccessory accessory,
+        string memory bunnyPFPSVG
+    ) external view returns (string memory) {
+        return _svgImage(owner, accessory, bunnyPFPSVG);
+    }
+
+    function _svgImage(
         address owner,
         IBackedBunnyAccessory accessory,
         string memory bunnyPFPSVG

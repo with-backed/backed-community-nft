@@ -3,6 +3,7 @@ import { ChangeType, OnChainChangeProposal } from "@prisma/client";
 import dayjs from "dayjs";
 import { ethers } from "ethers";
 import { getCurrentCategoryScoreForUser } from "./helpers";
+import prisma from "./db";
 
 const pinata = pinataSDK(
   process.env.PINATA_API_KEY!,
@@ -55,8 +56,8 @@ export async function hashIPFSId(
         [
           changeProposal.communityMemberEthAddress,
           changeProposal.category,
+          currentScore.add(1),
           currentScore,
-          currentScore + 1,
         ]
       )
     );
@@ -66,10 +67,16 @@ export async function hashIPFSId(
         ["address", "uint256", "bool"],
         [
           changeProposal.communityMemberEthAddress,
-          changeProposal.accessoryId,
+          ethers.BigNumber.from(changeProposal.accessoryId),
           true,
         ]
       )
     );
   }
 }
+
+prisma.onChainChangeProposal
+  .findFirst({})
+  .then((proposal) =>
+    hashIPFSId(proposal!).then((res) => console.log({ res }))
+  );
