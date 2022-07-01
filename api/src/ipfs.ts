@@ -35,7 +35,7 @@ export async function postJSONToIPFS(changeProposals: OnChainChangeProposal[]) {
   );
 
   const res = await pinata.pinJSONToIPFS({
-    changes: [...categoryChanges, accessoryChanges],
+    changes: [...categoryChanges, ...accessoryChanges],
   });
 
   return res;
