@@ -234,6 +234,9 @@ contract BackedCommunityTokenV1 is
         view
         returns (bool)
     {
+        if (accessoryId == 0) {
+            return true;
+        }
         IBackedCommunityTokenV1.Accessory
             memory accessory = accessoryIdToAccessory[accessoryId];
         if (_isAccessoryAdminBased(accessoryId)) {
