@@ -46,6 +46,8 @@ interface IBackedCommunityTokenV1 {
         uint256 qualifyingXPScore
     );
 
+    event AccessoryRemoved(uint256 indexed accessoryId);
+
     event BunnyPFPLinked(address indexed owner, uint256 indexed tokenId);
 
     function addAccessory(IBackedCommunityTokenV1.Accessory calldata accessory)

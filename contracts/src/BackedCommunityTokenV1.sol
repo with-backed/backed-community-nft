@@ -43,6 +43,7 @@ contract BackedCommunityTokenV1 is
 
     function removeAccessory(uint256 accessoryId) external override onlyOwner {
         _removeAccessory(accessoryId);
+        emit AccessoryRemoved(accessoryId);
     }
 
     function unlockAccessoryOrIncrementCategory(
