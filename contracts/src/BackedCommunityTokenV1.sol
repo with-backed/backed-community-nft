@@ -73,11 +73,11 @@ contract BackedCommunityTokenV1 is
         emit AccessorySwapped(msg.sender, oldAccessory, accessoryId);
     }
 
-    function setBunnyPFPSVGFromL1(bytes calldata message) external override {
-        (address owner, string memory svg) = abi.decode(
-            message,
-            (address, string)
-        );
+    function setBunnyPFPSVGFromL1(
+        address owner,
+        string calldata svg,
+        uint256 tokenId
+    ) external override {
         require(
             msg.sender == cdmAddr,
             "BackedCommunityTokenV1: caller must be cross domain messenger"
@@ -88,6 +88,8 @@ contract BackedCommunityTokenV1 is
             "BackedCommunityTokenV1: origin must be Backed PFP"
         );
         addressToPFPSVGLink[owner] = svg;
+
+        emit BunnyPFPLinked(owner, tokenId);
     }
 
     function mint(address mintTo) external {
@@ -202,8 +204,8 @@ contract BackedCommunityTokenV1 is
 
         emit CategoryScoreChanged(
             change.user,
-            change.categoryId,
             change.ipfsLink,
+            change.categoryId,
             newScore,
             oldScore,
             keccak256(

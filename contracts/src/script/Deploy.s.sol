@@ -28,6 +28,8 @@ contract Deploy is Test {
     address deployer = 0xE89CB2053A04Daf86ABaa1f4bC6D50744e57d39E;
     address proxyContractAdmin = 0x6b2770A75A928989C1D7356366d4665a6487e1b4;
     address multiSigAddress = 0x9289C561E312d485f41519c2d78D013cdad85C11;
+    address optimismCrossChainMessengerAddress =
+        0x4200000000000000000000000000000000000007;
 
     function run() public {
         // all calls that we want to go on chain go in between startBroadcast and stopBroadcast

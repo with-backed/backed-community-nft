@@ -18,8 +18,8 @@ interface IBackedCommunityTokenV1 {
 
     event CategoryScoreChanged(
         address indexed addr,
-        string indexed categoryId,
-        string indexed ipfsLink,
+        string ipfsLink,
+        string categoryId,
         uint256 newScore,
         uint256 oldScore,
         bytes32 ipfsEntryHash
@@ -28,7 +28,7 @@ interface IBackedCommunityTokenV1 {
     event AccessoryLockChanged(
         address indexed addr,
         uint256 indexed accessoryId,
-        string indexed ipfsLink,
+        string ipfsLink,
         bool unlocked,
         bytes32 ipfsEntryHash
     );
@@ -38,6 +38,8 @@ interface IBackedCommunityTokenV1 {
         uint256 indexed oldAccessory,
         uint256 indexed newAccessory
     );
+
+    event BunnyPFPLinked(address indexed owner, uint256 indexed tokenId);
 
     function addAccessory(IBackedCommunityTokenV1.Accessory calldata accessory)
         external
@@ -68,5 +70,9 @@ interface IBackedCommunityTokenV1 {
         view
         returns (uint256[] memory);
 
-    function setBunnyPFPSVGFromL1(bytes calldata message) external;
+    function setBunnyPFPSVGFromL1(
+        address owner,
+        string calldata svg,
+        uint256 tokenId
+    ) external;
 }

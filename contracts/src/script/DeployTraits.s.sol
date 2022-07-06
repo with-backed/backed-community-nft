@@ -28,7 +28,7 @@ contract DeployTraits is Test {
     address multiSigAddress = 0x9289C561E312d485f41519c2d78D013cdad85C11;
 
     address backedCommunityNFTAddress =
-        0xA0778e6374219319463962C50B2dF80f3805d4A3;
+        0xBf53f236dB0cdB6aC0E24a0e93DF0F643E5F055e;
 
     BackedCommunityTokenV1 backedCommunityToken =
         BackedCommunityTokenV1(backedCommunityNFTAddress);
