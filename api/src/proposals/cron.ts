@@ -7,7 +7,7 @@ import { postJSONToIPFS } from "../ipfs";
 const CronRouter = express.Router();
 
 CronRouter.post("/process", async (_req, res) => {
-  const approvedProposals = await prisma.onChainChangeProposal.findMany({
+  let approvedProposals = await prisma.onChainChangeProposal.findMany({
     where: { status: "APPROVED" },
   });
 
@@ -25,6 +25,10 @@ CronRouter.post("/process", async (_req, res) => {
       });
     })
   );
+
+  approvedProposals = await prisma.onChainChangeProposal.findMany({
+    where: { status: "APPROVED" },
+  });
 
   const nonce = await proposeTx(approvedProposals);
 
