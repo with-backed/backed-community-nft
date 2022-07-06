@@ -53,6 +53,7 @@ contract ERC721SoulboundUpgradeable is
             msg.sender == owner(),
             "ERC721Soulbound: only contract owner can transfer"
         );
+        require(balanceOf(to_) < 1, "ERC721Soulbound: cannot own more than 1");
         super._transfer(from_, to_, tokenId_);
     }
 }

@@ -33,6 +33,12 @@ contract BackedCommunityTokenV1 is
             newAccessoryId = ++totalAccessoryCount;
         }
         _addAccessory(newAccessoryId, accessory);
+        emit AccessoryAdded(
+            newAccessoryId,
+            accessory.artContract,
+            accessory.xpCategory,
+            accessory.qualifyingXPScore
+        );
     }
 
     function removeAccessory(uint256 accessoryId) external override onlyOwner {
