@@ -1,5 +1,11 @@
 /node_modules/
-.env.contracts.deploy
+.env.contracts.deploy.kovan
+.env.contracts.deploy.optimistic.kovan
+.env.contracts.deploy.optimism
+.env.contracts.deploy.mainnet
+.env.contracts.deploy.rinkeby
+.env.contracts.deploy.optimism
+.env.contracts.deploy.mainnet
 .env.test
 .env.development
 .env.production.local

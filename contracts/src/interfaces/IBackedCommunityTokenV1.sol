@@ -39,6 +39,13 @@ interface IBackedCommunityTokenV1 {
         uint256 indexed newAccessory
     );
 
+    event AccessoryAdded(
+        uint256 indexed accessoryId,
+        address indexed artContract,
+        string xpCategory,
+        uint256 qualifyingXPScore
+    );
+
     event BunnyPFPLinked(address indexed owner, uint256 indexed tokenId);
 
     function addAccessory(IBackedCommunityTokenV1.Accessory calldata accessory)

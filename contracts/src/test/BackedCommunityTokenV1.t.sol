@@ -23,7 +23,7 @@ contract BackedCommunityTokenV1Test is Test {
     event AccessoryLockChanged(
         address indexed addr,
         uint256 indexed accessoryId,
-        string indexed ipfsLink,
+        string ipfsLink,
         bool unlocked,
         bytes32 ipfsEntryHash
     );
