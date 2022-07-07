@@ -9,6 +9,7 @@ const CronRouter = express.Router();
 CronRouter.post("/process", async (_req, res) => {
   let approvedProposals = await prisma.onChainChangeProposal.findMany({
     where: { status: "APPROVED" },
+    take: 20,
   });
 
   if (approvedProposals.length === 0) return res.json({ success: true });
@@ -26,8 +27,9 @@ CronRouter.post("/process", async (_req, res) => {
     })
   );
 
+  // refresh proposals now that they have ipfsURL field populated
   approvedProposals = await prisma.onChainChangeProposal.findMany({
-    where: { status: "APPROVED" },
+    where: { id: { in: approvedProposals.map((p) => p.id) } },
   });
 
   const nonce = await proposeTx(approvedProposals);
