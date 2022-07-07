@@ -8,12 +8,7 @@ export async function getCurrentCategoryScoreForUser(
   const backedCommunityTokenContract = new ethers.Contract(
     process.env.BACKED_COMMUNITY_NFT_ADDRESS!,
     BackedCommunityNFTABI.abi,
-    new ethers.providers.AlchemyProvider(
-      "rinkeby",
-      process.env.ALCHEMY_URL!.substring(
-        process.env.ALCHEMY_URL!.lastIndexOf("/") + 1
-      )
-    )
+    getAlchemyProvider()
   );
 
   const currentScore: ethers.BigNumber =
@@ -23,4 +18,13 @@ export async function getCurrentCategoryScoreForUser(
     );
 
   return currentScore;
+}
+
+export function getAlchemyProvider() {
+  return new ethers.providers.AlchemyProvider(
+    parseInt(process.env.CHAIN_ID!),
+    process.env.ALCHEMY_URL!.substring(
+      process.env.ALCHEMY_URL!.lastIndexOf("/") + 1
+    )
+  );
 }

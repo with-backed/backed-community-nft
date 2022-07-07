@@ -118,7 +118,7 @@ contract BackedCommunityTokenDescriptorV1 is IBackedCommunityTokenDescriptorV1 {
 
         return
             string.concat(
-                '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 69 87" xml:space="preserve" shape-rendering="crispEdges">',
+                '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 69 87" width="552" height="696" xml:space="preserve" shape-rendering="crispEdges">',
                 styles(),
                 stars(glowColor),
                 tamogatchi(),

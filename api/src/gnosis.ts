@@ -7,6 +7,7 @@ import BackedCommunityNFTABI from "../../contracts/out/BackedCommunityTokenV1.so
 import _ from "lodash";
 import { ChangeType, OnChainChangeProposal } from "@prisma/client";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
+import { getAlchemyProvider } from "./helpers";
 
 const { utils } = ethers;
 
@@ -15,15 +16,7 @@ const GNOSIS_SENDER: string = process.env.GNOSIS_SAFE_OWNER_ADDRESS!;
 async function initGnosisSdk(safeAddress: string) {
   const ethAdapter = new EthersAdapter({
     ethers,
-    signer: new Wallet(
-      process.env.GNOSIS_SAFE_OWNER_PK!,
-      new ethers.providers.AlchemyProvider(
-        "rinkeby",
-        process.env.ALCHEMY_URL!.substring(
-          process.env.ALCHEMY_URL!.lastIndexOf("/") + 1
-        )
-      )
-    ),
+    signer: new Wallet(process.env.GNOSIS_SAFE_OWNER_PK!, getAlchemyProvider()),
   });
   const txServiceUrl = process.env.GNOSIS_TX_SERVICE_URL!;
   const safeService = new SafeServiceClient({

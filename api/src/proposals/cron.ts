@@ -52,6 +52,7 @@ CronRouter.post("/process", async (_req, res) => {
 CronRouter.post("/finalize", async (_req, res) => {
   const processingProposals = await prisma.onChainChangeProposal.findMany({
     where: { status: "PROCESSING" },
+    take: 20,
   });
 
   if (processingProposals.length === 0) return res.json({ success: true });
