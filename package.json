@@ -8,12 +8,15 @@
     "start:api:prod": "npx ts-node api/src/index.ts",
     "test:api": "jest __tests__/api --runInBand",
     "reset:db:api": "docker-compose down && docker volume rm $(docker volume ls -q)",
+    "prisma:studio:local": "dotenv -e .env.local -- npx prisma studio --schema api/prisma/schema.prisma",
     "prisma:studio:dev": "dotenv -e .env.development -- npx prisma studio --schema api/prisma/schema.prisma",
     "prisma:migrate:dev": "dotenv -e .env.development -- npx prisma migrate dev --schema api/prisma/schema.prisma",
     "prisma:studio:prod": "dotenv -e .env.production.local -- npx prisma studio --schema api/prisma/schema.prisma",
     "prisma:migrate:prod": "dotenv -e .env.production.local -- npx prisma migrate deploy --schema api/prisma/schema.prisma",
     "prisma:generate": "npx prisma generate --schema api/prisma/schema.prisma",
-    "svg:reload": "node svg-reload/index.js"
+    "svg:reload": "node svg-reload/index.js",
+    "run:script:local": "dotenv -e .env.local -- ts-node",
+    "run:script:dev": "dotenv -e .env.development -- ts-node"
   },
   "dependencies": {
     "@alch/alchemy-web3": "^1.4.2",
