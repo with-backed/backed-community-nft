@@ -39,6 +39,8 @@ export async function proposeCategoryTx(
   proposals: CategoryOnChainChangeProposal[],
   ipfsLink: string
 ): Promise<number> {
+  if (proposals.length === 0) return 0;
+
   const safeAddress = process.env.GNOSIS_SAFE_ADDRESS!;
   // TODO(adamgobes): ideally we don't have to spin up a new instance of the SDK on every call
   const { safeSdk, safeService } = await initGnosisSdk(safeAddress);
@@ -87,11 +89,12 @@ export async function proposeCategoryTx(
   return nextNonce;
 }
 
-// TODO(adamgobes): update this method to match new contracts, can ignore in PR review for now
 export async function proposeAccessoryTx(
   proposals: AccessoryOnChainChangeProposal[],
   ipfsLink: string
 ): Promise<number> {
+  if (proposals.length === 0) return 0;
+
   const safeAddress = process.env.GNOSIS_SAFE_ADDRESS!;
   // TODO(adamgobes): ideally we don't have to spin up a new instance of the SDK on every call
   const { safeSdk, safeService } = await initGnosisSdk(safeAddress);
