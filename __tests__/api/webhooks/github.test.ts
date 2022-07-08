@@ -12,7 +12,8 @@ describe("Github webhooks", () => {
   afterEach(async () => {
     await prisma.offChainAchievement.deleteMany({});
     await prisma.handle.deleteMany({});
-    await prisma.onChainChangeProposal.deleteMany({});
+    await prisma.categoryOnChainChangeProposal.deleteMany({});
+    await prisma.changeProposalMetadata.deleteMany({});
     await prisma.communityMember.deleteMany({});
   });
   describe("when user has associated their handle with their eth address", () => {
@@ -46,12 +47,17 @@ describe("Github webhooks", () => {
 
       expect(await getTotalGithubPrsMerged(address)).toEqual(1);
 
-      const { body } = await supertest(app).get("/proposals").expect(200);
-      expect(body.proposals.length).toEqual(1);
-      expect(body.proposals[0].communityMemberEthAddress).toEqual(address);
-      expect(body.proposals[0].reason).toEqual("Github PR merged");
-      expect(body.proposals[0].status).toEqual("APPROVED");
-      expect(body.proposals[0].isAutomaticallyCreated).toBeTruthy;
+      const proposals = await prisma.categoryOnChainChangeProposal.findMany({});
+      expect(proposals.length).toEqual(1);
+      expect(proposals[0].communityMemberEthAddress).toEqual(address);
+
+      const metadata = await prisma.changeProposalMetadata.findUnique({
+        where: { id: proposals[0].changeProposalMetadataId },
+      });
+
+      expect(metadata!.reason).toEqual("Github PR merged");
+      expect(metadata!.status).toEqual("APPROVED");
+      expect(metadata!.isAutomaticallyCreated).toBeTruthy;
     });
 
     it("does nothing if webhook is received but PR is not closed (e.g. it was opened)", async () => {

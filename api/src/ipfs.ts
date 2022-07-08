@@ -1,6 +1,8 @@
 import pinataSDK from "@pinata/sdk";
-import { ChangeType, OnChainChangeProposal } from "@prisma/client";
-import dayjs from "dayjs";
+import {
+  AccessoryOnChainChangeProposal,
+  CategoryOnChainChangeProposal,
+} from "@prisma/client";
 import { ethers } from "ethers";
 import { getCurrentCategoryScoreForUser } from "./helpers";
 import prisma from "./db";
@@ -10,25 +12,37 @@ const pinata = pinataSDK(
   process.env.PINATA_SECRET_KEY!
 );
 
-export async function postJSONToIPFS(changeProposals: OnChainChangeProposal[]) {
+export async function postJSONToIPFS(
+  categoryProposals: CategoryOnChainChangeProposal[],
+  accessoryProposals: AccessoryOnChainChangeProposal[]
+) {
   const ipfsObj: { [key: string]: object } = {};
 
-  for (const proposal of changeProposals) {
-    const id = await hashIPFSId(proposal);
-    ipfsObj[id] =
-      proposal.changeType === ChangeType.CATEGORY_SCORE
-        ? {
-            ethAddress: proposal.communityMemberEthAddress,
-            category: proposal.category,
-            reason: proposal.reason,
-            date: new Date().getTime(),
-          }
-        : {
-            ethAddress: proposal.communityMemberEthAddress,
-            accessoryId: proposal.accessoryId,
-            reason: proposal.reason,
-            date: new Date().getTime(),
-          };
+  for (const categoryProposal of categoryProposals) {
+    const metadata = await prisma.changeProposalMetadata.findUnique({
+      where: { id: categoryProposal.changeProposalMetadataId },
+    });
+
+    const id = await hashIPFSIdForCategory(categoryProposal);
+    ipfsObj[id] = {
+      ethAddress: categoryProposal.communityMemberEthAddress,
+      category: categoryProposal.category,
+      reason: metadata!.reason,
+      date: new Date().getTime(),
+    };
+  }
+
+  for (const accessoryProposal of accessoryProposals) {
+    const metadata = await prisma.changeProposalMetadata.findUnique({
+      where: { id: accessoryProposal.changeProposalMetadataId },
+    });
+    const id = await hashIPFSIdForAccessory(accessoryProposal);
+    ipfsObj[id] = {
+      ethAddress: accessoryProposal.communityMemberEthAddress,
+      accessoryId: accessoryProposal.accessoryId,
+      reason: metadata!.reason,
+      date: new Date().getTime(),
+    };
   }
 
   const res = await pinata.pinJSONToIPFS(ipfsObj);
@@ -36,39 +50,37 @@ export async function postJSONToIPFS(changeProposals: OnChainChangeProposal[]) {
   return res;
 }
 
-export async function hashIPFSId(
-  changeProposal: OnChainChangeProposal
-): Promise<string> {
-  if (changeProposal.changeType === ChangeType.CATEGORY_SCORE) {
-    const currentScore = await getCurrentCategoryScoreForUser(
-      changeProposal.category,
-      changeProposal.communityMemberEthAddress
-    );
-    return ethers.utils.keccak256(
-      ethers.utils.defaultAbiCoder.encode(
-        ["address", "string", "uint256", "uint256"],
-        [
-          changeProposal.communityMemberEthAddress,
-          changeProposal.category,
-          currentScore.add(1),
-          currentScore,
-        ]
-      )
-    );
-  } else {
-    return ethers.utils.keccak256(
-      ethers.utils.defaultAbiCoder.encode(
-        ["address", "uint256", "bool"],
-        [
-          changeProposal.communityMemberEthAddress,
-          ethers.BigNumber.from(changeProposal.accessoryId),
-          true,
-        ]
-      )
-    );
-  }
+export async function hashIPFSIdForCategory(
+  proposal: CategoryOnChainChangeProposal
+) {
+  const currentScore = await getCurrentCategoryScoreForUser(
+    proposal.category,
+    proposal.communityMemberEthAddress
+  );
+  return ethers.utils.keccak256(
+    ethers.utils.defaultAbiCoder.encode(
+      ["address", "string", "uint256", "uint256"],
+      [
+        proposal.communityMemberEthAddress,
+        proposal.category,
+        currentScore.add(1),
+        currentScore,
+      ]
+    )
+  );
 }
 
-prisma.onChainChangeProposal
-  .findFirst({})
-  .then((proposal) => postJSONToIPFS([proposal!]));
+export async function hashIPFSIdForAccessory(
+  proposal: AccessoryOnChainChangeProposal
+) {
+  return ethers.utils.keccak256(
+    ethers.utils.defaultAbiCoder.encode(
+      ["address", "uint256", "bool"],
+      [
+        proposal.communityMemberEthAddress,
+        ethers.BigNumber.from(proposal.accessoryId),
+        proposal.unlock,
+      ]
+    )
+  );
+}

@@ -1,77 +1,117 @@
 import { Status } from "@prisma/client";
 import express from "express";
 import prisma from "../db";
-import { getTransactionStatusFromGnosisNonce, proposeTx } from "../gnosis";
+import {
+  getTransactionStatusFromGnosisNonce,
+  proposeCategoryTx,
+  proposeAccessoryTx,
+} from "../gnosis";
 import { postJSONToIPFS } from "../ipfs";
 
 const CronRouter = express.Router();
 
 CronRouter.post("/process", async (_req, res) => {
-  let approvedProposals = await prisma.onChainChangeProposal.findMany({
+  let approvedProposalsMetadata = await prisma.changeProposalMetadata.findMany({
     where: { status: "APPROVED" },
     take: 20,
   });
 
-  if (approvedProposals.length === 0) return res.json({ success: true });
+  if (approvedProposalsMetadata.length === 0)
+    return res.json({ success: true });
 
-  const pinataResponse = await postJSONToIPFS(approvedProposals);
+  const approvedCategoryProposals =
+    await prisma.categoryOnChainChangeProposal.findMany({
+      where: {
+        changeProposalMetadataId: {
+          in: approvedProposalsMetadata.map((m) => m.id),
+        },
+      },
+    });
 
+  const approvedAccessoryProposals =
+    await prisma.accessoryOnChainChangeProposal.findMany({
+      where: {
+        changeProposalMetadataId: {
+          in: approvedProposalsMetadata.map((m) => m.id),
+        },
+      },
+    });
+
+  const pinataResponse = await postJSONToIPFS(
+    approvedCategoryProposals,
+    approvedAccessoryProposals
+  );
+
+  const ipfsURL = `https://ipfs.io/ipfs/${pinataResponse.IpfsHash}`;
   await Promise.all(
-    approvedProposals.map((proposal) => {
-      return prisma.onChainChangeProposal.update({
-        where: { id: proposal.id },
+    approvedProposalsMetadata.map((metadata) => {
+      return prisma.changeProposalMetadata.update({
+        where: { id: metadata.id },
         data: {
-          ipfsURL: `https://ipfs.io/ipfs/${pinataResponse.IpfsHash}`,
+          ipfsURL,
         },
       });
     })
   );
 
-  // refresh proposals now that they have ipfsURL field populated
-  approvedProposals = await prisma.onChainChangeProposal.findMany({
-    where: { id: { in: approvedProposals.map((p) => p.id) } },
-  });
+  const categoryNonce = await proposeCategoryTx(
+    approvedCategoryProposals,
+    ipfsURL
+  );
+  const accessoryNonce = await proposeAccessoryTx(
+    approvedAccessoryProposals,
+    ipfsURL
+  );
 
-  const nonce = await proposeTx(approvedProposals);
-
-  await Promise.all(
-    approvedProposals.map((proposal) => {
-      return prisma.onChainChangeProposal.update({
-        where: { id: proposal.id },
+  await Promise.all([
+    ...approvedCategoryProposals.map((proposal) => {
+      return prisma.changeProposalMetadata.update({
+        where: { id: proposal.changeProposalMetadataId },
         data: {
-          gnosisSafeNonce: nonce,
+          gnosisSafeNonce: categoryNonce,
           status: Status.PROCESSING,
         },
       });
-    })
-  );
+    }),
+    ...approvedAccessoryProposals.map((proposal) => {
+      return prisma.changeProposalMetadata.update({
+        where: { id: proposal.changeProposalMetadataId },
+        data: {
+          gnosisSafeNonce: accessoryNonce,
+          status: Status.PROCESSING,
+        },
+      });
+    }),
+  ]);
 
   return res.json({ success: true });
 });
 
 CronRouter.post("/finalize", async (_req, res) => {
-  const processingProposals = await prisma.onChainChangeProposal.findMany({
-    where: { status: "PROCESSING" },
-    take: 20,
-  });
+  const processingProposalsMetadata =
+    await prisma.changeProposalMetadata.findMany({
+      where: { status: "PROCESSING" },
+      take: 20,
+    });
 
-  if (processingProposals.length === 0) return res.json({ success: true });
+  if (processingProposalsMetadata.length === 0)
+    return res.json({ success: true });
 
-  processingProposals.forEach(async (proposal) => {
+  processingProposalsMetadata.forEach(async (metadata) => {
     const [txHash, confirmed] = await getTransactionStatusFromGnosisNonce(
-      proposal.gnosisSafeNonce
+      metadata.gnosisSafeNonce
     );
     if (confirmed) {
-      await prisma.onChainChangeProposal.update({
-        where: { id: proposal.id },
+      await prisma.changeProposalMetadata.update({
+        where: { id: metadata.id },
         data: {
           status: Status.FINALIZED,
           txHash,
         },
       });
     } else {
-      await prisma.onChainChangeProposal.update({
-        where: { id: proposal.id },
+      await prisma.changeProposalMetadata.update({
+        where: { id: metadata.id },
         data: {
           status: Status.APPROVED,
         },

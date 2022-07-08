@@ -26,12 +26,14 @@ describe("Discord voice API listener", () => {
   });
   afterEach(async () => {
     await prisma.offChainAchievement.deleteMany({});
-    await prisma.onChainChangeProposal.deleteMany({});
+    await prisma.categoryOnChainChangeProposal.deleteMany({});
+    await prisma.changeProposalMetadata.deleteMany({});
   });
   afterAll(async () => {
     await prisma.offChainAchievement.deleteMany({});
     await prisma.handle.deleteMany({});
-    await prisma.onChainChangeProposal.deleteMany({});
+    await prisma.categoryOnChainChangeProposal.deleteMany({});
+    await prisma.changeProposalMetadata.deleteMany({});
     await prisma.communityMember.deleteMany({});
   });
 

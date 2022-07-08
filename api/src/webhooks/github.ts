@@ -1,9 +1,8 @@
-import { Achievement, ChangeType, Platform, Status } from "@prisma/client";
+import { Achievement, Platform, Status } from "@prisma/client";
 import express from "express";
 import { checkFromGithub } from "../auth";
 import { contributorCategoryId, githubMergeReason } from "../constants";
 import prisma from "../db";
-import { validateChangeProposal } from "../proposals/crud";
 
 const GithubWebhookRouter = express.Router();
 
@@ -38,26 +37,25 @@ GithubWebhookRouter.post("/pull_request", checkFromGithub, async (req, res) => {
     },
   });
 
-  const changeProposal = await prisma.onChainChangeProposal.create({
+  const metadata = await prisma.changeProposalMetadata.create({
     data: {
-      category: contributorCategoryId,
-      changeType: ChangeType.CATEGORY_SCORE,
       reason: githubMergeReason,
       status: Status.APPROVED,
       isAutomaticallyCreated: true,
-      communityMemberEthAddress: handle.communityMemberEthAddress,
       txHash: "",
       gnosisSafeNonce: 0,
       ipfsURL: "",
     },
   });
 
-  if (!validateChangeProposal(changeProposal)) {
-    console.error("error validating change proposal");
-    return res.status(400).json({
-      message: "error handling github webhook",
-    });
-  }
+  const changeProposal = await prisma.categoryOnChainChangeProposal.create({
+    data: {
+      category: contributorCategoryId,
+      communityMemberEthAddress: handle.communityMemberEthAddress,
+      changeProposalMetadataId: metadata.id,
+      value: 1,
+    },
+  });
 
   return res.status(200).json({
     message: "Webhook successfully received",

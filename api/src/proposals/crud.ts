@@ -1,8 +1,9 @@
 import express from "express";
 import {
-  ChangeType,
+  AccessoryOnChainChangeProposal,
+  CategoryOnChainChangeProposal,
+  ChangeProposalMetadata,
   CommunityMember,
-  OnChainChangeProposal,
   Status,
 } from "@prisma/client";
 import prisma from "../db";
@@ -11,23 +12,18 @@ import { createCommunityMember } from "../communityMembers/crud";
 
 const ProposalsCrudRouter = express.Router();
 
-export type CreateProposalBody = {
+export type CreateCategoryProposalBody = {
   ethAddress: string;
-  changeType: ChangeType;
-  category?: string;
-  accessoryId?: number;
+  category: string;
   reason: string;
+  value: number;
 };
 
-type DecisionProposalBody = {
-  id: string;
-};
+ProposalsCrudRouter.post("/create/category", async (req, res) => {
+  const { ethAddress, category, reason, value } =
+    req.body as CreateCategoryProposalBody;
 
-ProposalsCrudRouter.post("/create", async (req, res) => {
-  const { ethAddress, changeType, category, accessoryId, reason } =
-    req.body as CreateProposalBody;
-
-  if (!ethAddress || !reason || !changeType || (!category && !accessoryId)) {
+  if (!ethAddress || !reason || !category) {
     return res.status(400);
   }
 
@@ -40,104 +36,131 @@ ProposalsCrudRouter.post("/create", async (req, res) => {
   if (!communityMember)
     communityMember = await createCommunityMember(ethAddress);
 
-  const proposal = await prisma.onChainChangeProposal.create({
+  const proposalMetadata = await createInitialMetadata(reason);
+
+  const proposal = await prisma.categoryOnChainChangeProposal.create({
     data: {
-      status: Status.PENDING,
+      category,
+      value,
       communityMemberEthAddress: ethAddress,
-      changeType,
-      category: !!category ? category : "",
-      accessoryId: !!accessoryId ? accessoryId : 0,
-      reason,
-      txHash: "",
-      gnosisSafeNonce: 0,
-      ipfsURL: "",
+      changeProposalMetadataId: proposalMetadata.id,
     },
   });
-
-  if (!validateChangeProposal(proposal)) {
-    res.status(400).json({
-      message: "error creating change proposal",
-    });
-  }
 
   return res.status(200).json({
     proposalId: proposal.id,
   });
 });
 
-//TODO(adamgobes): add auth middleware for this endpoint
-ProposalsCrudRouter.post("/:id/approve", authUser, async (req, res) => {
-  const { id } = req.params as DecisionProposalBody;
+export type CreateAccessoryProposalBody = {
+  ethAddress: string;
+  accessoryId: number;
+  reason: string;
+  unlock: boolean;
+};
 
-  const proposal = await prisma.onChainChangeProposal.findUnique({
-    where: { id },
-  });
+ProposalsCrudRouter.post("/create/accessory", async (req, res) => {
+  const { ethAddress, accessoryId, reason, unlock } =
+    req.body as CreateAccessoryProposalBody;
 
-  if (proposal?.status !== Status.PENDING) {
-    return res.status(400).json({
-      message: "Proposal is not in PENDING state",
-    });
+  if (!ethAddress || !reason || !accessoryId) {
+    return res.status(400);
   }
 
-  await prisma.onChainChangeProposal.update({
-    where: { id },
+  let communityMember: CommunityMember | null;
+
+  communityMember = await prisma.communityMember.findUnique({
+    where: { ethAddress },
+  });
+
+  if (!communityMember)
+    communityMember = await createCommunityMember(ethAddress);
+
+  const proposalMetadata = await createInitialMetadata(reason);
+
+  const proposal = await prisma.accessoryOnChainChangeProposal.create({
     data: {
-      status: Status.APPROVED,
+      accessoryId,
+      unlock,
+      communityMemberEthAddress: ethAddress,
+      changeProposalMetadataId: proposalMetadata.id,
     },
   });
 
-  return res.json({
-    success: true,
+  return res.status(200).json({
+    proposalId: proposal.id,
   });
 });
 
-//TODO(adamgobes): add auth middleware for this endpoint
-ProposalsCrudRouter.post("/:id/reject", authUser, async (req, res) => {
-  const { id } = req.params as DecisionProposalBody;
+ProposalsCrudRouter.post(
+  "/decision/:metadata_id/:status",
+  authUser,
+  async (req, res) => {
+    const { metadata_id, status } = req.params as {
+      metadata_id: string;
+      status: "approve" | "reject";
+    };
 
-  const proposal = await prisma.onChainChangeProposal.findUnique({
-    where: { id },
-  });
+    const proposalMetadata = await prisma.changeProposalMetadata.findUnique({
+      where: { id: metadata_id },
+    });
 
-  if (proposal?.status !== Status.PENDING) {
-    return res.status(400).json({
-      message: "Proposal is not in PENDING state",
+    if (!proposalMetadata) {
+      return res.status(400);
+    }
+
+    if (proposalMetadata.status !== Status.PENDING) {
+      return res.status(400).json({
+        message: "Proposal is not in PENDING state",
+      });
+    }
+
+    await prisma.changeProposalMetadata.update({
+      where: { id: metadata_id },
+      data: {
+        status: status === "approve" ? Status.APPROVED : Status.REJECTED,
+      },
+    });
+
+    return res.json({
+      success: true,
     });
   }
+);
 
-  await prisma.onChainChangeProposal.update({
-    where: { id },
-    data: {
-      status: Status.REJECTED,
-    },
-  });
-
-  return res.json({
-    success: true,
-  });
-});
-
-ProposalsCrudRouter.get("/:id", async (req, res) => {
-  const { id } = req.params as DecisionProposalBody;
-
-  return res.json({
-    proposal: await prisma.onChainChangeProposal.findUnique({
-      where: { id },
+async function findProposalFromMetadata(
+  metadata: ChangeProposalMetadata
+): Promise<
+  | CategoryOnChainChangeProposal
+  | AccessoryOnChainChangeProposal
+  | null
+  | undefined
+> {
+  const maybeProposals = [
+    await prisma.categoryOnChainChangeProposal.findUnique({
+      where: { changeProposalMetadataId: metadata.id },
     }),
-  });
-});
+    await prisma.accessoryOnChainChangeProposal.findUnique({
+      where: { changeProposalMetadataId: metadata.id },
+    }),
+  ];
 
-ProposalsCrudRouter.get("/", async (_req, res) => {
-  return res.json({
-    proposals: await prisma.onChainChangeProposal.findMany(),
-  });
-});
+  return maybeProposals.find((p) => p !== null);
+}
 
-export function validateChangeProposal(change: OnChainChangeProposal): boolean {
-  if (!change.accessoryId && !change.category) {
-    return false;
-  }
-  return true;
+async function createInitialMetadata(
+  reason: string
+): Promise<ChangeProposalMetadata> {
+  const proposalMetadata = await prisma.changeProposalMetadata.create({
+    data: {
+      reason,
+      status: Status.PENDING,
+      gnosisSafeNonce: 0,
+      txHash: "",
+      ipfsURL: "",
+    },
+  });
+  return proposalMetadata;
 }
 
 export default ProposalsCrudRouter;

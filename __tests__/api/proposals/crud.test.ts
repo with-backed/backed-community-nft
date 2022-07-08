@@ -1,58 +1,84 @@
 import supertest from "supertest";
 import app from "../../../api/src/app";
-import { CreateProposalBody } from "../../../api/src/proposals/crud";
+import {
+  CreateCategoryProposalBody,
+  CreateAccessoryProposalBody,
+} from "../../../api/src/proposals/crud";
 import prisma from "../../../api/src/db";
 import { Wallet } from "ethers";
-import { ChangeType, Status } from "@prisma/client";
+import { Status } from "@prisma/client";
 
 const address = Wallet.createRandom().address;
 const reasonOne = "reason one";
 const reasonTwo = "reason two";
 const categoryIdOne = "ACTIVITY";
 const categoryIdTwo = "CONTRIBUTOR";
+const accessoryId = 1;
 
 describe("CRUD methods for proposals", () => {
   afterEach(async () => {
-    await prisma.onChainChangeProposal.deleteMany({});
+    await prisma.accessoryOnChainChangeProposal.deleteMany({});
+    await prisma.categoryOnChainChangeProposal.deleteMany({});
+    await prisma.changeProposalMetadata.deleteMany({});
     await prisma.communityMember.deleteMany({});
   });
-  describe("/create, /proposals/proposal/:id, /proposals/all", () => {
-    it("creates proposals and can fetch successfully", async () => {
-      let reqBody: CreateProposalBody = {
+  describe("/create", () => {
+    it("creates proposals", async () => {
+      let reqBody: CreateCategoryProposalBody | CreateAccessoryProposalBody = {
         category: categoryIdOne,
-        changeType: ChangeType.CATEGORY_SCORE,
         ethAddress: address,
         reason: reasonOne,
+        value: 1,
       };
       let { body } = await supertest(app)
-        .post("/proposals/create")
+        .post("/proposals/create/category")
         .send(reqBody)
         .expect(200);
 
-      let proposalIdOne = body.proposalId;
+      const proposalIdOne = body.proposalId;
       expect(proposalIdOne).toBeDefined;
 
-      ({ body } = await supertest(app)
-        .get(`/proposals/${proposalIdOne}`)
-        .expect(200));
+      const categoryProposal =
+        await prisma.categoryOnChainChangeProposal.findUnique({
+          where: { id: proposalIdOne },
+        });
 
-      expect(body.proposal.status).toEqual(Status.PENDING);
-      expect(body.proposal.reason).toEqual(reasonOne);
-      expect(body.proposal.category).toEqual(categoryIdOne);
-      expect(body.proposal.communityMemberEthAddress).toEqual(address);
+      let proposalMetadata = await prisma.changeProposalMetadata.findUnique({
+        where: { id: categoryProposal?.changeProposalMetadataId },
+      });
+
+      expect(proposalMetadata!.status).toEqual(Status.PENDING);
+      expect(proposalMetadata!.reason).toEqual(reasonOne);
+      expect(categoryProposal!.category).toEqual(categoryIdOne);
+      expect(categoryProposal!.communityMemberEthAddress).toEqual(address);
 
       reqBody = {
-        category: categoryIdTwo,
-        changeType: ChangeType.CATEGORY_SCORE,
         ethAddress: address,
         reason: reasonTwo,
+        accessoryId: 1,
+        unlock: true,
       };
 
-      await supertest(app).post("/proposals/create").send(reqBody).expect(200);
+      ({ body } = await supertest(app)
+        .post("/proposals/create/accessory")
+        .send(reqBody)
+        .expect(200));
 
-      ({ body } = await supertest(app).get(`/proposals`).expect(200));
+      const proposalIdTwo = body.proposalId;
+      expect(proposalIdTwo).toBeDefined;
 
-      expect(body.proposals.length).toEqual(2);
+      const accessoryProposal =
+        await prisma.accessoryOnChainChangeProposal.findUnique({
+          where: { id: proposalIdTwo },
+        });
+
+      proposalMetadata = await prisma.changeProposalMetadata.findUnique({
+        where: { id: accessoryProposal?.changeProposalMetadataId },
+      });
+      expect(proposalMetadata!.status).toEqual(Status.PENDING);
+      expect(proposalMetadata!.reason).toEqual(reasonTwo);
+      expect(accessoryProposal!.accessoryId).toEqual(accessoryId);
+      expect(accessoryProposal!.communityMemberEthAddress).toEqual(address);
 
       // ensure CommunityMember entry got created
       const communityMember = await prisma.communityMember.findUnique({
@@ -65,33 +91,40 @@ describe("CRUD methods for proposals", () => {
   describe("/proposals/:id/approve", () => {
     let proposalId: string;
     beforeEach(async () => {
-      const reqBody: CreateProposalBody = {
+      const reqBody: CreateCategoryProposalBody = {
         category: categoryIdOne,
-        changeType: ChangeType.CATEGORY_SCORE,
         ethAddress: address,
         reason: reasonOne,
+        value: 1,
       };
       let { body } = await supertest(app)
-        .post("/proposals/create")
+        .post("/proposals/create/category")
         .send(reqBody)
         .expect(200);
       proposalId = body.proposalId;
     });
     it("successfully moves proposal into APPROVED state", async () => {
+      const proposal = await prisma.categoryOnChainChangeProposal.findUnique({
+        where: { id: proposalId },
+      });
+
+      let proposalMetadata = await prisma.changeProposalMetadata.findUnique({
+        where: { id: proposal!.changeProposalMetadataId },
+      });
       await supertest(app)
-        .post(`/proposals/${proposalId}/approve`)
+        .post(`/proposals/decision/${proposalMetadata!.id}/approve`)
         .set({ authorization: `username:password` })
         .expect(200);
 
-      const { body } = await supertest(app)
-        .get(`/proposals/${proposalId}`)
-        .expect(200);
-      expect(body.proposal.status).toEqual(Status.APPROVED);
+      proposalMetadata = await prisma.changeProposalMetadata.findUnique({
+        where: { id: proposal!.changeProposalMetadataId },
+      });
+      expect(proposalMetadata!.status).toEqual(Status.APPROVED);
     });
 
     it("returns a 401 if user is not authenticated", (done) => {
       supertest(app)
-        .post(`/proposals/${proposalId}/approve`)
+        .post(`/proposals/decision/${proposalId}/approve`)
         .set({ authorization: `username:wrongPassword` })
         .end((err, res) => {
           if (res.status === 401) return done();
@@ -103,33 +136,40 @@ describe("CRUD methods for proposals", () => {
   describe("/proposals/:id/reject", () => {
     let proposalId: string;
     beforeEach(async () => {
-      const reqBody: CreateProposalBody = {
+      const reqBody: CreateCategoryProposalBody = {
         category: categoryIdOne,
-        changeType: ChangeType.CATEGORY_SCORE,
         ethAddress: address,
         reason: reasonOne,
+        value: 1,
       };
       let { body } = await supertest(app)
-        .post("/proposals/create")
+        .post("/proposals/create/category")
         .send(reqBody)
         .expect(200);
       proposalId = body.proposalId;
     });
     it("successfully moves proposal into REJECTED state", async () => {
+      const proposal = await prisma.categoryOnChainChangeProposal.findUnique({
+        where: { id: proposalId },
+      });
+
+      let proposalMetadata = await prisma.changeProposalMetadata.findUnique({
+        where: { id: proposal!.changeProposalMetadataId },
+      });
       await supertest(app)
-        .post(`/proposals/${proposalId}/reject`)
+        .post(`/proposals/decision/${proposalMetadata!.id}/reject`)
         .set({ authorization: `username:password` })
         .expect(200);
 
-      const { body } = await supertest(app)
-        .get(`/proposals/${proposalId}`)
-        .expect(200);
-      expect(body.proposal.status).toEqual(Status.REJECTED);
+      proposalMetadata = await prisma.changeProposalMetadata.findUnique({
+        where: { id: proposal!.changeProposalMetadataId },
+      });
+      expect(proposalMetadata!.status).toEqual(Status.REJECTED);
     });
 
     it("returns a 401 if user is not authenticated", (done) => {
       supertest(app)
-        .post(`/proposals/${proposalId}/reject`)
+        .post(`/proposals/decision/${proposalId}/reject`)
         .set({ authorization: `username:wrongPassword` })
         .end((err, res) => {
           if (res.status === 401) return done();
