@@ -1,16 +1,22 @@
-import { ChangeType, Status } from "@prisma/client";
+import { Status } from "@prisma/client";
 import { Wallet } from "ethers";
 import supertest from "supertest";
 import app from "../../../api/src/app";
 import prisma from "../../../api/src/db";
 import {
   getTransactionStatusFromGnosisNonce,
-  proposeTx,
+  proposeAccessoryTx,
+  proposeCategoryTx,
 } from "../../../api/src/gnosis";
 import { postJSONToIPFS } from "../../../api/src/ipfs";
+import {
+  CreateAccessoryProposalBody,
+  CreateCategoryProposalBody,
+} from "../../../api/src/proposals/crud";
 
 jest.mock("../../../api/src/gnosis", () => ({
-  proposeTx: jest.fn(),
+  proposeCategoryTx: jest.fn(),
+  proposeAccessoryTx: jest.fn(),
   getTransactionStatusFromGnosisNonce: jest.fn(),
 }));
 
@@ -18,7 +24,14 @@ jest.mock("../../../api/src/ipfs", () => ({
   postJSONToIPFS: jest.fn(),
 }));
 
-const mockedProposeTxCall = proposeTx as jest.MockedFunction<typeof proposeTx>;
+const mockedProposeCategoryTxCall = proposeCategoryTx as jest.MockedFunction<
+  typeof proposeCategoryTx
+>;
+
+const mockedProposeAccessoryTxCall = proposeAccessoryTx as jest.MockedFunction<
+  typeof proposeAccessoryTx
+>;
+
 const mockedIPFSCall = postJSONToIPFS as jest.MockedFunction<
   typeof postJSONToIPFS
 >;
@@ -32,55 +45,77 @@ const ipfsHash = "some-ipfs-hash";
 
 const address = Wallet.createRandom().address;
 
-const proposalOneTraits = {
-  communityMemberEthAddress: address,
+const proposalOneReqBody: CreateCategoryProposalBody = {
+  ethAddress: address,
   category: "ACTIVITY",
-  changeType: ChangeType.CATEGORY_SCORE,
   reason: "important reason",
-  status: Status.APPROVED,
-  gnosisSafeNonce: 0,
-  ipfsURL: "",
-  txHash: "",
+  value: 1,
 };
 
-const proposalTwoTraits = {
-  communityMemberEthAddress: address,
-  category: "CONTRIBUTOR",
-  changeType: ChangeType.ACCESSORY_UNLOCK,
+const proposalTwoReqBody: CreateAccessoryProposalBody = {
+  ethAddress: address,
+  accessoryId: 1,
   reason: "important reason accessory",
-  status: Status.APPROVED,
-  gnosisSafeNonce: 0,
-  ipfsURL: "",
-  txHash: "",
+  unlock: true,
 };
 
 describe("proposals cron", () => {
+  let proposalOneId;
+  let proposalTwoId;
+
   beforeAll(async () => {
     await prisma.communityMember.create({
       data: { ethAddress: address },
     });
 
-    await prisma.onChainChangeProposal.create({
-      data: {
-        ...proposalOneTraits,
-      },
+    let { body } = await supertest(app)
+      .post("/proposals/create/category")
+      .send(proposalOneReqBody)
+      .expect(200);
+    proposalOneId = body.proposalId;
+
+    ({ body } = await supertest(app)
+      .post("/proposals/create/accessory")
+      .send(proposalTwoReqBody)
+      .expect(200));
+    proposalTwoId = body.proposalId;
+
+    const proposalOne = await prisma.categoryOnChainChangeProposal.findUnique({
+      where: { id: proposalOneId },
     });
-    await prisma.onChainChangeProposal.create({
-      data: {
-        ...proposalTwoTraits,
-      },
+    const proposalTwo = await prisma.accessoryOnChainChangeProposal.findUnique({
+      where: { id: proposalTwoId },
     });
+    const metadataOne = await prisma.changeProposalMetadata.findUnique({
+      where: { id: proposalOne?.changeProposalMetadataId },
+    });
+    const metadataTwo = await prisma.changeProposalMetadata.findUnique({
+      where: { id: proposalTwo?.changeProposalMetadataId },
+    });
+
+    await supertest(app)
+      .post(`/proposals/decision/${metadataOne!.id}/approve`)
+      .set({ authorization: `username:password` })
+      .expect(200);
+
+    await supertest(app)
+      .post(`/proposals/decision/${metadataTwo!.id}/approve`)
+      .set({ authorization: `username:password` })
+      .expect(200);
   });
 
   afterAll(async () => {
-    await prisma.onChainChangeProposal.deleteMany({});
+    await prisma.categoryOnChainChangeProposal.deleteMany({});
+    await prisma.accessoryOnChainChangeProposal.deleteMany({});
+    await prisma.changeProposalMetadata.deleteMany({});
     await prisma.communityMember.deleteMany({});
   });
 
   describe("/cron/process", () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      mockedProposeTxCall.mockResolvedValue(nonce);
+      mockedProposeCategoryTxCall.mockResolvedValue(nonce);
+      mockedProposeAccessoryTxCall.mockResolvedValue(nonce + 1);
       mockedIPFSCall.mockResolvedValue({
         IpfsHash: ipfsHash,
         PinSize: 0,
@@ -91,10 +126,12 @@ describe("proposals cron", () => {
     it("successfully processes all proposals and puts them in processing", async () => {
       await supertest(app).post("/proposals/cron/process").expect(200);
 
-      const processingProposals = await prisma.onChainChangeProposal.findMany({
+      const processingProposals = await prisma.changeProposalMetadata.findMany({
         where: {
-          communityMemberEthAddress: address,
           status: Status.PROCESSING,
+        },
+        orderBy: {
+          gnosisSafeNonce: "asc",
         },
       });
       expect(processingProposals.length).toEqual(2);
@@ -102,7 +139,7 @@ describe("proposals cron", () => {
       expect(processingProposals[0].ipfsURL).toEqual(
         "https://ipfs.io/ipfs/some-ipfs-hash"
       );
-      expect(processingProposals[1].gnosisSafeNonce).toEqual(nonce);
+      expect(processingProposals[1].gnosisSafeNonce).toEqual(nonce + 1);
       expect(processingProposals[1].ipfsURL).toEqual(
         "https://ipfs.io/ipfs/some-ipfs-hash"
       );
@@ -122,9 +159,8 @@ describe("proposals cron", () => {
 
       await supertest(app).post("/proposals/cron/finalize").expect(200);
 
-      const finalizedProposals = await prisma.onChainChangeProposal.findMany({
+      const finalizedProposals = await prisma.changeProposalMetadata.findMany({
         where: {
-          communityMemberEthAddress: address,
           status: Status.FINALIZED,
         },
       });

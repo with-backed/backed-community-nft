@@ -1,15 +1,10 @@
-import { Achievement, ChangeType, Platform, Status } from "@prisma/client";
+import { Achievement, Platform, Status } from "@prisma/client";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import Discord from "discord.js";
 import { findOrCreateCommunityMember } from "../communityMembers/crud";
-import {
-  communityCallReason,
-  communityCallStreakReason,
-  communityCategoryId,
-} from "../constants";
+import { communityCallReason, communityCategoryId } from "../constants";
 import prisma from "../db";
-import { validateChangeProposal } from "../proposals/crud";
 
 dayjs.extend(duration);
 
@@ -108,22 +103,25 @@ export async function handleDiscordVoiceUpdate(username: string) {
     handle.communityMemberEthAddress
   );
   if (isPowerOfTwo(totalCalls)) {
-    const changeProposal = await prisma.onChainChangeProposal.create({
+    const metadata = await prisma.changeProposalMetadata.create({
       data: {
-        category: communityCategoryId,
-        changeType: ChangeType.CATEGORY_SCORE,
         reason: communityCallReason,
         status: Status.APPROVED,
         isAutomaticallyCreated: true,
-        communityMemberEthAddress: handle.communityMemberEthAddress,
         txHash: "",
         gnosisSafeNonce: 0,
         ipfsURL: "",
       },
     });
-    if (!validateChangeProposal(changeProposal)) {
-      console.error("error validating change proposal");
-    }
+
+    await prisma.categoryOnChainChangeProposal.create({
+      data: {
+        category: communityCategoryId,
+        communityMemberEthAddress: handle.communityMemberEthAddress,
+        changeProposalMetadataId: metadata.id,
+        value: 1,
+      },
+    });
   }
 }
 

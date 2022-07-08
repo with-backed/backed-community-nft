@@ -20,32 +20,50 @@ enum Status {
   FAULTY
 }
 
-enum ChangeType {
-  CATEGORY_SCORE
-  ACCESSORY_UNLOCK
+model ChangeProposalMetadata {
+  id                     String  @id @default(uuid())
+  reason                 String
+  status                 Status
+  gnosisSafeNonce        Int
+  txHash                 String  @db.VarChar(66)
+  ipfsURL                String  @db.VarChar(100)
+  isAutomaticallyCreated Boolean @default(false)
+
+  CategoryOnChainChangeProposal  CategoryOnChainChangeProposal?
+  AccessoryOnChainChangeProposal AccessoryOnChainChangeProposal?
 }
 
-model OnChainChangeProposal {
+model CategoryOnChainChangeProposal {
   id String @id @default(uuid())
 
   CommunityMember           CommunityMember @relation(fields: [communityMemberEthAddress], references: [ethAddress])
   communityMemberEthAddress String
 
-  changeType             ChangeType
-  isAutomaticallyCreated Boolean    @default(false)
-  category               String     @default("") @db.VarChar(32)
-  accessoryId            Int        @default(0)
-  reason                 String
-  status                 Status
-  gnosisSafeNonce        Int
-  txHash                 String     @db.VarChar(66)
-  ipfsURL                String     @db.VarChar(100)
+  category String @db.VarChar(32)
+  value    Int
+
+  metadata                 ChangeProposalMetadata @relation(fields: [changeProposalMetadataId], references: [id])
+  changeProposalMetadataId String                 @unique
+}
+
+model AccessoryOnChainChangeProposal {
+  id String @id @default(uuid())
+
+  CommunityMember           CommunityMember @relation(fields: [communityMemberEthAddress], references: [ethAddress])
+  communityMemberEthAddress String
+
+  accessoryId Int
+  unlock      Boolean
+
+  metadata                 ChangeProposalMetadata @relation(fields: [changeProposalMetadataId], references: [id])
+  changeProposalMetadataId String                 @unique
 }
 
 model CommunityMember {
-  id                   String                  @id @default(uuid())
-  ethAddress           String                  @unique
-  proposals            OnChainChangeProposal[]
+  id                   String                           @id @default(uuid())
+  ethAddress           String                           @unique
+  categoryProposals    CategoryOnChainChangeProposal[]
+  accessoryProposals   AccessoryOnChainChangeProposal[]
   handles              Handle[]
   offChainAchievements OffChainAchievement[]
 }
