@@ -8,12 +8,17 @@ interface IBackedCommunityTokenV1 {
         uint256 qualifyingXPScore;
     }
 
-    struct CategoryOrAccessoryChange {
-        bool isCategoryChange;
+    struct CategoryChange {
         address user;
         string categoryId;
-        uint256 accessoryId;
         int256 value;
+        string ipfsLink;
+    }
+
+    struct AccessoryChange {
+        address user;
+        bool unlock;
+        uint256 accessoryId;
         string ipfsLink;
     }
 
@@ -57,9 +62,9 @@ interface IBackedCommunityTokenV1 {
 
     function removeAccessory(uint256 accessoryId) external;
 
-    function changeAccessoryLockOrCategoryScore(
-        CategoryOrAccessoryChange[] memory changes
-    ) external;
+    function changeCategoryScores(CategoryChange[] calldata changes) external;
+
+    function changeAccessoryLocks(AccessoryChange[] calldata changes) external;
 
     function setEnabledAccessory(uint256 accessoryId) external;
 

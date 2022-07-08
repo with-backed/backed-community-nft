@@ -54,15 +54,74 @@ contract BackedCommunityTokenV1 is
         emit AccessoryRemoved(accessoryId);
     }
 
-    function changeAccessoryLockOrCategoryScore(
-        CategoryOrAccessoryChange[] memory changes
-    ) external override onlyOwner {
+    function changeCategoryScores(CategoryChange[] calldata changes)
+        external
+        override
+        onlyOwner
+    {
         for (uint256 i = 0; i < changes.length; i++) {
-            if (changes[i].isCategoryChange) {
-                _modifyCategoryScore(changes[i]);
-            } else {
-                _unlockOrLockAccessory(changes[i]);
-            }
+            CategoryChange memory change = changes[i];
+            uint256 oldScore = addressToCategoryScore[change.user][
+                change.categoryId
+            ];
+            int256 newScore = int256(
+                addressToCategoryScore[change.user][change.categoryId]
+            ) + change.value;
+            require(
+                newScore >= 0,
+                "BackedCommunityTokenV1: XP cannot go below 0"
+            );
+            addressToCategoryScore[change.user][change.categoryId] = uint256(
+                newScore
+            );
+
+            emit CategoryScoreChanged(
+                change.user,
+                change.ipfsLink,
+                change.categoryId,
+                uint256(newScore),
+                oldScore,
+                keccak256(
+                    abi.encode(
+                        change.user,
+                        change.categoryId,
+                        newScore,
+                        oldScore
+                    )
+                )
+            );
+        }
+    }
+
+    function changeAccessoryLocks(AccessoryChange[] calldata changes)
+        external
+        override
+        onlyOwner
+    {
+        for (uint256 i = 0; i < changes.length; i++) {
+            AccessoryChange memory change = changes[i];
+            require(
+                accessoryIdToAccessory[change.accessoryId].artContract !=
+                    address(0),
+                "BackedCommunityTokenV1: Accessory does not exist"
+            );
+            require(
+                _isAccessoryAdminBased(change.accessoryId),
+                "BackedCommunityTokenV1: Accessory must be admin based"
+            );
+            bool unlock = change.unlock;
+
+            addressToAccessoryUnlocked[change.user][
+                change.accessoryId
+            ] = unlock;
+
+            emit AccessoryLockChanged(
+                change.user,
+                change.accessoryId,
+                change.ipfsLink,
+                unlock,
+                keccak256(abi.encode(change.user, change.accessoryId, unlock))
+            );
         }
     }
 
@@ -162,58 +221,6 @@ contract BackedCommunityTokenV1 is
     }
 
     // === internal & private ===
-    function _unlockOrLockAccessory(CategoryOrAccessoryChange memory change)
-        internal
-    {
-        require(
-            accessoryIdToAccessory[change.accessoryId].artContract !=
-                address(0),
-            "BackedCommunityTokenV1: Accessory does not exist"
-        );
-        require(
-            _isAccessoryAdminBased(change.accessoryId),
-            "BackedCommunityTokenV1: Accessory must be admin based"
-        );
-        bool unlock = change.value > 0;
-
-        addressToAccessoryUnlocked[change.user][change.accessoryId] = unlock
-            ? true
-            : false;
-
-        emit AccessoryLockChanged(
-            change.user,
-            change.accessoryId,
-            change.ipfsLink,
-            unlock,
-            keccak256(abi.encode(change.user, change.accessoryId, unlock))
-        );
-    }
-
-    function _modifyCategoryScore(CategoryOrAccessoryChange memory change)
-        internal
-    {
-        uint256 oldScore = addressToCategoryScore[change.user][
-            change.categoryId
-        ];
-        int256 newScore = int256(
-            addressToCategoryScore[change.user][change.categoryId]
-        ) + change.value;
-        require(newScore >= 0, "BackedCommunityTokenV1: XP cannot go below 0");
-        addressToCategoryScore[change.user][change.categoryId] = uint256(
-            newScore
-        );
-
-        emit CategoryScoreChanged(
-            change.user,
-            change.ipfsLink,
-            change.categoryId,
-            uint256(newScore),
-            oldScore,
-            keccak256(
-                abi.encode(change.user, change.categoryId, newScore, oldScore)
-            )
-        );
-    }
 
     function _isAccessoryUnlocked(address user, uint256 accessoryId)
         internal
