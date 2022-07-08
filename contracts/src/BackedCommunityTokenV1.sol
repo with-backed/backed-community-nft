@@ -32,7 +32,15 @@ contract BackedCommunityTokenV1 is
         unchecked {
             newAccessoryId = ++totalAccessoryCount;
         }
-        _addAccessory(newAccessoryId, accessory);
+
+        accessoryIdToAccessory[newAccessoryId] = IBackedCommunityTokenV1
+            .Accessory({
+                artContract: accessory.artContract,
+                xpCategory: accessory.xpCategory,
+                qualifyingXPScore: accessory.qualifyingXPScore
+            });
+        EnumerableSet.add(accessoriesSet, newAccessoryId);
+
         emit AccessoryAdded(
             newAccessoryId,
             accessory.artContract,
@@ -42,30 +50,18 @@ contract BackedCommunityTokenV1 is
     }
 
     function removeAccessory(uint256 accessoryId) external override onlyOwner {
-        _removeAccessory(accessoryId);
+        EnumerableSet.remove(accessoriesSet, accessoryId);
         emit AccessoryRemoved(accessoryId);
     }
 
-    function unlockAccessoryOrIncrementCategory(
+    function changeAccessoryLockOrCategoryScore(
         CategoryOrAccessoryChange[] memory changes
     ) external override onlyOwner {
         for (uint256 i = 0; i < changes.length; i++) {
             if (changes[i].isCategoryChange) {
-                _modifyCategoryScore(changes[i], true);
+                _modifyCategoryScore(changes[i]);
             } else {
-                _unlockOrLockAccessory(changes[i], true);
-            }
-        }
-    }
-
-    function relockAccessoryOrDecrementCategory(
-        CategoryOrAccessoryChange[] memory changes
-    ) external override onlyOwner {
-        for (uint256 i = 0; i < changes.length; i++) {
-            if (changes[i].isCategoryChange) {
-                _modifyCategoryScore(changes[i], false);
-            } else {
-                _unlockOrLockAccessory(changes[i], false);
+                _unlockOrLockAccessory(changes[i]);
             }
         }
     }
@@ -166,10 +162,9 @@ contract BackedCommunityTokenV1 is
     }
 
     // === internal & private ===
-    function _unlockOrLockAccessory(
-        CategoryOrAccessoryChange memory change,
-        bool unlock
-    ) internal {
+    function _unlockOrLockAccessory(CategoryOrAccessoryChange memory change)
+        internal
+    {
         require(
             accessoryIdToAccessory[change.accessoryId].artContract !=
                 address(0),
@@ -179,12 +174,11 @@ contract BackedCommunityTokenV1 is
             _isAccessoryAdminBased(change.accessoryId),
             "BackedCommunityTokenV1: Accessory must be admin based"
         );
+        bool unlock = change.value > 0;
 
-        if (unlock) {
-            addressToAccessoryUnlocked[change.user][change.accessoryId] = true;
-        } else {
-            addressToAccessoryUnlocked[change.user][change.accessoryId] = false;
-        }
+        addressToAccessoryUnlocked[change.user][change.accessoryId] = unlock
+            ? true
+            : false;
 
         emit AccessoryLockChanged(
             change.user,
@@ -195,47 +189,30 @@ contract BackedCommunityTokenV1 is
         );
     }
 
-    function _modifyCategoryScore(
-        CategoryOrAccessoryChange memory change,
-        bool increment
-    ) internal {
+    function _modifyCategoryScore(CategoryOrAccessoryChange memory change)
+        internal
+    {
         uint256 oldScore = addressToCategoryScore[change.user][
             change.categoryId
         ];
-        uint256 newScore;
-        if (increment) {
-            newScore = ++addressToCategoryScore[change.user][change.categoryId];
-        } else {
-            newScore = --addressToCategoryScore[change.user][change.categoryId];
-        }
+        int256 newScore = int256(
+            addressToCategoryScore[change.user][change.categoryId]
+        ) + change.value;
+        require(newScore >= 0, "BackedCommunityTokenV1: XP cannot go below 0");
+        addressToCategoryScore[change.user][change.categoryId] = uint256(
+            newScore
+        );
 
         emit CategoryScoreChanged(
             change.user,
             change.ipfsLink,
             change.categoryId,
-            newScore,
+            uint256(newScore),
             oldScore,
             keccak256(
                 abi.encode(change.user, change.categoryId, newScore, oldScore)
             )
         );
-    }
-
-    function _addAccessory(
-        uint256 newAccessoryId,
-        IBackedCommunityTokenV1.Accessory memory accessory
-    ) internal {
-        accessoryIdToAccessory[newAccessoryId] = IBackedCommunityTokenV1
-            .Accessory({
-                artContract: accessory.artContract,
-                xpCategory: accessory.xpCategory,
-                qualifyingXPScore: accessory.qualifyingXPScore
-            });
-        EnumerableSet.add(accessoriesSet, newAccessoryId);
-    }
-
-    function _removeAccessory(uint256 accessoryId) internal {
-        EnumerableSet.remove(accessoriesSet, accessoryId);
     }
 
     function _isAccessoryUnlocked(address user, uint256 accessoryId)

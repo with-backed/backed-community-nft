@@ -13,6 +13,7 @@ interface IBackedCommunityTokenV1 {
         address user;
         string categoryId;
         uint256 accessoryId;
+        int256 value;
         string ipfsLink;
     }
 
@@ -56,11 +57,7 @@ interface IBackedCommunityTokenV1 {
 
     function removeAccessory(uint256 accessoryId) external;
 
-    function unlockAccessoryOrIncrementCategory(
-        CategoryOrAccessoryChange[] memory changes
-    ) external;
-
-    function relockAccessoryOrDecrementCategory(
+    function changeAccessoryLockOrCategoryScore(
         CategoryOrAccessoryChange[] memory changes
     ) external;
 
