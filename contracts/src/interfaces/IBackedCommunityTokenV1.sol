@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.12;
 
 interface IBackedCommunityTokenV1 {
@@ -8,10 +8,16 @@ interface IBackedCommunityTokenV1 {
         uint256 qualifyingXPScore;
     }
 
-    struct CategoryOrAccessoryChange {
-        bool isCategoryChange;
+    struct CategoryChange {
         address user;
         string categoryId;
+        int256 value;
+        string ipfsLink;
+    }
+
+    struct AccessoryChange {
+        address user;
+        bool unlock;
         uint256 accessoryId;
         string ipfsLink;
     }
@@ -56,13 +62,9 @@ interface IBackedCommunityTokenV1 {
 
     function removeAccessory(uint256 accessoryId) external;
 
-    function unlockAccessoryOrIncrementCategory(
-        CategoryOrAccessoryChange[] memory changes
-    ) external;
+    function changeCategoryScores(CategoryChange[] calldata changes) external;
 
-    function relockAccessoryOrDecrementCategory(
-        CategoryOrAccessoryChange[] memory changes
-    ) external;
+    function changeAccessoryLocks(AccessoryChange[] calldata changes) external;
 
     function setEnabledAccessory(uint256 accessoryId) external;
 

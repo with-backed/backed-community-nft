@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.12;
 
 import "../../lib/forge-std/src/Test.sol";
@@ -110,47 +110,37 @@ contract BackedCommunityTokenV1Test is Test {
     function testIncrementCategoryScores() public {
         vm.startPrank(admin);
 
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeOne = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userOne,
-                    categoryId: categoryOneId,
-                    accessoryId: 0,
-                    ipfsLink: "",
-                    isCategoryChange: true
-                });
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeTwo = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userOne,
-                    categoryId: categoryOneId,
-                    accessoryId: 0,
-                    ipfsLink: "",
-                    isCategoryChange: true
-                });
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeThree = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userTwo,
-                    categoryId: categoryOneId,
-                    accessoryId: 0,
-                    ipfsLink: "",
-                    isCategoryChange: true
-                });
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeFour = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userOne,
-                    categoryId: categoryTwoId,
-                    accessoryId: 0,
-                    ipfsLink: "",
-                    isCategoryChange: true
-                });
+        IBackedCommunityTokenV1.CategoryChange
+            memory changeOne = IBackedCommunityTokenV1.CategoryChange({
+                user: userOne,
+                categoryId: categoryOneId,
+                ipfsLink: "",
+                value: 1
+            });
+        IBackedCommunityTokenV1.CategoryChange
+            memory changeTwo = IBackedCommunityTokenV1.CategoryChange({
+                user: userOne,
+                categoryId: categoryOneId,
+                ipfsLink: "",
+                value: 1
+            });
+        IBackedCommunityTokenV1.CategoryChange
+            memory changeThree = IBackedCommunityTokenV1.CategoryChange({
+                user: userTwo,
+                categoryId: categoryOneId,
+                ipfsLink: "",
+                value: 1
+            });
+        IBackedCommunityTokenV1.CategoryChange
+            memory changeFour = IBackedCommunityTokenV1.CategoryChange({
+                user: userOne,
+                categoryId: categoryTwoId,
+                ipfsLink: "",
+                value: 1
+            });
 
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange[]
-            memory changes = new IBackedCommunityTokenV1.CategoryOrAccessoryChange[](
-                4
-            );
+        IBackedCommunityTokenV1.CategoryChange[]
+            memory changes = new IBackedCommunityTokenV1.CategoryChange[](4);
         changes[0] = changeOne;
         changes[1] = changeTwo;
         changes[2] = changeThree;
@@ -161,7 +151,7 @@ contract BackedCommunityTokenV1Test is Test {
         emit CategoryScoreChanged(userOne, categoryOneId, "", 2, 1, "");
         emit CategoryScoreChanged(userTwo, categoryOneId, "", 1, 0, "");
         emit CategoryScoreChanged(userOne, categoryTwoId, "", 1, 0, "");
-        communityToken.unlockAccessoryOrIncrementCategory(changes);
+        communityToken.changeCategoryScores(changes);
 
         assertEq(
             communityToken.addressToCategoryScore(userOne, categoryOneId),
@@ -184,47 +174,41 @@ contract BackedCommunityTokenV1Test is Test {
     }
 
     function testIncrementCategoryScoresFailsIfNotAdmin() public {
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange[]
-            memory changes = new IBackedCommunityTokenV1.CategoryOrAccessoryChange[](
-                0
-            );
+        IBackedCommunityTokenV1.CategoryChange[]
+            memory changes = new IBackedCommunityTokenV1.CategoryChange[](0);
         vm.expectRevert("Ownable: caller is not the owner");
-        communityToken.unlockAccessoryOrIncrementCategory(changes);
+        communityToken.changeCategoryScores(changes);
     }
 
     function testUnlockAccessoriesAdminBased() public {
         vm.startPrank(admin);
 
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
+        IBackedCommunityTokenV1.AccessoryChange
             memory accessoryChangeOne = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
+                .AccessoryChange({
                     user: userOne,
                     accessoryId: adminBasedAccessoryId,
-                    categoryId: "",
                     ipfsLink: "",
-                    isCategoryChange: false
+                    unlock: true
                 });
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
+        IBackedCommunityTokenV1.AccessoryChange
             memory accessoryChangeTwo = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
+                .AccessoryChange({
                     user: userTwo,
                     accessoryId: adminBasedAccessoryId,
-                    categoryId: "",
                     ipfsLink: "",
-                    isCategoryChange: false
+                    unlock: true
                 });
 
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange[]
-            memory changes = new IBackedCommunityTokenV1.CategoryOrAccessoryChange[](
-                2
-            );
+        IBackedCommunityTokenV1.AccessoryChange[]
+            memory changes = new IBackedCommunityTokenV1.AccessoryChange[](2);
         changes[0] = accessoryChangeOne;
         changes[1] = accessoryChangeTwo;
 
         vm.expectEmit(true, true, true, false);
         emit AccessoryLockChanged(userOne, adminBasedAccessoryId, "", true, "");
         emit AccessoryLockChanged(userTwo, adminBasedAccessoryId, "", true, "");
-        communityToken.unlockAccessoryOrIncrementCategory(changes);
+        communityToken.changeAccessoryLocks(changes);
 
         assertTrue(
             communityToken.addressToAccessoryUnlocked(
@@ -245,18 +229,16 @@ contract BackedCommunityTokenV1Test is Test {
     function testUnlockAccessoriesFailsWhenXPBased() public {
         vm.startPrank(admin);
 
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeOne = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userOne,
-                    accessoryId: xpBasedAccessoryId,
-                    categoryId: "",
-                    ipfsLink: "",
-                    isCategoryChange: false
-                });
+        IBackedCommunityTokenV1.AccessoryChange
+            memory changeOne = IBackedCommunityTokenV1.AccessoryChange({
+                user: userOne,
+                accessoryId: xpBasedAccessoryId,
+                ipfsLink: "",
+                unlock: true
+            });
 
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange[]
-            memory accessoryChanges = new IBackedCommunityTokenV1.CategoryOrAccessoryChange[](
+        IBackedCommunityTokenV1.AccessoryChange[]
+            memory accessoryChanges = new IBackedCommunityTokenV1.AccessoryChange[](
                 1
             );
         accessoryChanges[0] = changeOne;
@@ -264,17 +246,15 @@ contract BackedCommunityTokenV1Test is Test {
         vm.expectRevert(
             "BackedCommunityTokenV1: Accessory must be admin based"
         );
-        communityToken.unlockAccessoryOrIncrementCategory(accessoryChanges);
+        communityToken.changeAccessoryLocks(accessoryChanges);
         vm.stopPrank();
     }
 
     function testUnlockAccessoriesFailsIfNotAdmin() public {
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange[]
-            memory changes = new IBackedCommunityTokenV1.CategoryOrAccessoryChange[](
-                0
-            );
+        IBackedCommunityTokenV1.AccessoryChange[]
+            memory changes = new IBackedCommunityTokenV1.AccessoryChange[](0);
         vm.expectRevert("Ownable: caller is not the owner");
-        communityToken.unlockAccessoryOrIncrementCategory(changes);
+        communityToken.changeAccessoryLocks(changes);
     }
 
     function testSetEnabledAccessoryAdminBased() public {
@@ -286,21 +266,17 @@ contract BackedCommunityTokenV1Test is Test {
         vm.stopPrank();
 
         vm.startPrank(admin);
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeOne = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userOne,
-                    accessoryId: adminBasedAccessoryId,
-                    categoryId: "",
-                    ipfsLink: "",
-                    isCategoryChange: false
-                });
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange[]
-            memory changes = new IBackedCommunityTokenV1.CategoryOrAccessoryChange[](
-                1
-            );
+        IBackedCommunityTokenV1.AccessoryChange
+            memory changeOne = IBackedCommunityTokenV1.AccessoryChange({
+                user: userOne,
+                accessoryId: adminBasedAccessoryId,
+                ipfsLink: "",
+                unlock: true
+            });
+        IBackedCommunityTokenV1.AccessoryChange[]
+            memory changes = new IBackedCommunityTokenV1.AccessoryChange[](1);
         changes[0] = changeOne;
-        communityToken.unlockAccessoryOrIncrementCategory(changes);
+        communityToken.changeAccessoryLocks(changes);
         vm.stopPrank();
 
         vm.startPrank(userOne);
@@ -316,23 +292,21 @@ contract BackedCommunityTokenV1Test is Test {
     function testSetEnabledAccessoryXPBased() public {
         vm.startPrank(admin);
 
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory categoryChangeOne = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userOne,
-                    categoryId: categoryOneId,
-                    accessoryId: xpBasedAccessoryId,
-                    ipfsLink: "",
-                    isCategoryChange: true
-                });
+        IBackedCommunityTokenV1.CategoryChange
+            memory categoryChangeOne = IBackedCommunityTokenV1.CategoryChange({
+                user: userOne,
+                categoryId: categoryOneId,
+                ipfsLink: "",
+                value: 1
+            });
 
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange[]
-            memory categoryChanges = new IBackedCommunityTokenV1.CategoryOrAccessoryChange[](
+        IBackedCommunityTokenV1.CategoryChange[]
+            memory categoryChanges = new IBackedCommunityTokenV1.CategoryChange[](
                 1
             );
         categoryChanges[0] = categoryChangeOne;
 
-        communityToken.unlockAccessoryOrIncrementCategory(categoryChanges);
+        communityToken.changeCategoryScores(categoryChanges);
         vm.stopPrank();
 
         vm.startPrank(userOne);
@@ -357,53 +331,43 @@ contract BackedCommunityTokenV1Test is Test {
         communityToken.mint(userOne);
 
         vm.startPrank(admin);
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeOne = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userOne,
-                    categoryId: categoryOneId,
-                    accessoryId: 0,
-                    ipfsLink: "",
-                    isCategoryChange: true
-                });
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeTwo = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userOne,
-                    categoryId: categoryOneId,
-                    accessoryId: 0,
-                    ipfsLink: "",
-                    isCategoryChange: true
-                });
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeThree = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userTwo,
-                    categoryId: categoryOneId,
-                    accessoryId: 0,
-                    ipfsLink: "",
-                    isCategoryChange: true
-                });
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange
-            memory changeFour = IBackedCommunityTokenV1
-                .CategoryOrAccessoryChange({
-                    user: userOne,
-                    categoryId: categoryTwoId,
-                    accessoryId: 0,
-                    ipfsLink: "",
-                    isCategoryChange: true
-                });
+        IBackedCommunityTokenV1.CategoryChange
+            memory changeOne = IBackedCommunityTokenV1.CategoryChange({
+                user: userOne,
+                categoryId: categoryOneId,
+                ipfsLink: "",
+                value: 1
+            });
+        IBackedCommunityTokenV1.CategoryChange
+            memory changeTwo = IBackedCommunityTokenV1.CategoryChange({
+                user: userOne,
+                categoryId: categoryOneId,
+                ipfsLink: "",
+                value: 1
+            });
+        IBackedCommunityTokenV1.CategoryChange
+            memory changeThree = IBackedCommunityTokenV1.CategoryChange({
+                user: userTwo,
+                categoryId: categoryOneId,
+                ipfsLink: "",
+                value: 1
+            });
+        IBackedCommunityTokenV1.CategoryChange
+            memory changeFour = IBackedCommunityTokenV1.CategoryChange({
+                user: userOne,
+                categoryId: categoryTwoId,
+                ipfsLink: "",
+                value: 1
+            });
 
-        IBackedCommunityTokenV1.CategoryOrAccessoryChange[]
-            memory changes = new IBackedCommunityTokenV1.CategoryOrAccessoryChange[](
-                4
-            );
+        IBackedCommunityTokenV1.CategoryChange[]
+            memory changes = new IBackedCommunityTokenV1.CategoryChange[](4);
         changes[0] = changeOne;
         changes[1] = changeTwo;
         changes[2] = changeThree;
         changes[3] = changeFour;
 
-        communityToken.unlockAccessoryOrIncrementCategory(changes);
+        communityToken.changeCategoryScores(changes);
 
         vm.stopPrank();
 
