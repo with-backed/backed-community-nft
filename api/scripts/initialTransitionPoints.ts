@@ -20,8 +20,8 @@ async function run() {
     const keys = Object.keys(json[address]);
     const partialProposalsForAddress = xpChangeProposalSubsetsFromTokens(
       keys.length,
-      CODE_TOKEN_KEY in keys,
-      DESIGN_TOKEN_KEY in keys
+      keys.includes(CODE_TOKEN_KEY),
+      keys.includes(DESIGN_TOKEN_KEY)
     );
     await Promise.all(
       partialProposalsForAddress.map((partialProposal) =>
