@@ -12,7 +12,6 @@ export function setupDiscordVoiceChannelListener() {
   const client = new Discord.Client();
   client.login(process.env.DISCORD_BOT_TOKEN!);
   client.on("voiceStateUpdate", async (oldState, newState) => {
-    console.log("voice state update ran");
     // null or undefined oldState.channelID means user is joining a voice channel
     if (oldState.channelID !== null && typeof oldState.channelID != "undefined")
       return;
@@ -78,8 +77,6 @@ export async function handleDiscordVoiceUpdate(username: string) {
     },
   });
 
-  console.log({ handle });
-
   if (!handle) return;
 
   const mostRecentCallJoined = await prisma.offChainAchievement.findFirst({
@@ -93,8 +90,6 @@ export async function handleDiscordVoiceUpdate(username: string) {
   ) {
     return;
   }
-
-  console.log("creating offchain achievement");
 
   await prisma.offChainAchievement.create({
     data: {
