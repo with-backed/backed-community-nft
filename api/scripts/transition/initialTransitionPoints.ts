@@ -103,20 +103,4 @@ const baseMetadata = () => ({
   ipfsURL: "",
 });
 
-function writeArray() {
-  const obj: { [key: string]: string[] } = { addresses: [] };
-  const json = JSON.parse(
-    fs
-      .readFileSync(path.join(__dirname, "initialTransitionData.json"))
-      .toString()
-  );
-
-  for (const address in json) {
-    obj["addresses"] = [...obj["addresses"], address];
-  }
-
-  fs.writeFileSync(path.join(__dirname, "addresses.json"), JSON.stringify(obj));
-}
-
 run().then((res) => console.log(res));
-// writeArray();
