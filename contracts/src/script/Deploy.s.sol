@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.12;
 
 import "../../lib/forge-std/src/Test.sol";
@@ -24,10 +24,8 @@ contract Deploy is Test {
     BackedCommunityTokenDescriptorV1 descriptor;
     TransparentUpgradeableProxy proxy;
 
-    // TODO(adamgobes): change this to something else, maybe multisig? need to figure out strategy
     address deployer = 0xE89CB2053A04Daf86ABaa1f4bC6D50744e57d39E;
     address proxyContractAdmin = 0x6b2770A75A928989C1D7356366d4665a6487e1b4;
-    address multiSigAddress = 0x9289C561E312d485f41519c2d78D013cdad85C11;
     address optimismCrossChainMessengerAddress =
         0x4200000000000000000000000000000000000007;
 

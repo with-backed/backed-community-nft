@@ -17,7 +17,8 @@
     "prisma:generate": "npx prisma generate --schema api/prisma/schema.prisma",
     "svg:reload": "node svg-reload/index.js",
     "run:script:local": "dotenv -e .env.local -- ts-node",
-    "run:script:dev": "dotenv -e .env.development -- ts-node"
+    "run:script:dev": "dotenv -e .env.development -- ts-node",
+    "run:script:prod": "dotenv -e .env.production.local -- ts-node"
   },
   "dependencies": {
     "@alch/alchemy-web3": "^1.4.2",

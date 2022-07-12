@@ -25,10 +25,10 @@ contract DeployTraits is Test {
     UpgradedLei upgradedLei;
     UpgradedScarf upgradedScarf;
 
-    address multiSigAddress = 0x9289C561E312d485f41519c2d78D013cdad85C11;
+    address multiSigAddress = 0xa327C62acaE63Fa70945FDFcd252b89435400AE3;
 
     address backedCommunityNFTAddress =
-        0xaAad583B6C30E7418a44AD109dCe20DbBE7fE11d;
+        0x63a9addF2327A0F4B71BcF9BFa757E333e1B7177;
 
     BackedCommunityTokenV1 backedCommunityToken =
         BackedCommunityTokenV1(backedCommunityNFTAddress);
