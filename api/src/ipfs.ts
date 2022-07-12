@@ -63,7 +63,7 @@ export async function hashIPFSIdForCategory(
       [
         proposal.communityMemberEthAddress,
         proposal.category,
-        currentScore.add(1),
+        currentScore.add(proposal.value),
         currentScore,
       ]
     )
