@@ -71,11 +71,14 @@ model CommunityMember {
 enum Platform {
   DISCORD
   GITHUB
+  PROTOCOL
 }
 
 enum Achievement {
   PULL_REQUEST
   COMMUNITY_CALL
+  FIRST_LEND
+  FIRST_REPAYMENT
 }
 
 model Handle {
