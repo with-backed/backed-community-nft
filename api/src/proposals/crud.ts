@@ -148,8 +148,9 @@ async function findProposalFromMetadata(
   return maybeProposals.find((p) => p !== null);
 }
 
-async function createInitialMetadata(
-  reason: string
+export async function createInitialMetadata(
+  reason: string,
+  status: Status = Status.PENDING
 ): Promise<ChangeProposalMetadata> {
   const proposalMetadata = await prisma.changeProposalMetadata.create({
     data: {
