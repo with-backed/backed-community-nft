@@ -155,7 +155,7 @@ export async function createInitialMetadata(
   const proposalMetadata = await prisma.changeProposalMetadata.create({
     data: {
       reason,
-      status: Status.PENDING,
+      status,
       gnosisSafeNonce: 0,
       txHash: "",
       ipfsURL: "",

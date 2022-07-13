@@ -1,4 +1,4 @@
-import { Achievement, Platform } from "@prisma/client";
+import { Achievement, Platform, Status } from "@prisma/client";
 import { Wallet } from "ethers";
 import supertest from "supertest";
 import app from "../../../api/src/app";
@@ -82,6 +82,7 @@ describe("CRUD methods for achievements", () => {
       });
 
       expect(metadata?.reason).toEqual(firstRepaymentReason);
+      expect(metadata?.status).toEqual(Status.APPROVED);
       expect(proposal).toBeDefined();
       expect(proposal?.category).toEqual("ACTIVITY");
       expect(proposal?.communityMemberEthAddress).toEqual(address);
