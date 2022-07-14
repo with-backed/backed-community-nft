@@ -2,6 +2,7 @@ import express from "express";
 import {
   Achievement,
   ChangeProposalMetadata,
+  OffChainAchievement,
   Platform,
   Status,
 } from "@prisma/client";
@@ -30,7 +31,7 @@ AchievementsCrudRouter.post(
 
     const communityMember = await findOrCreateCommunityMember(ethAddress);
 
-    let previousProposalMetadata: ChangeProposalMetadata | undefined;
+    let previousOffchainAchievement: OffChainAchievement | undefined;
     let achievement: Achievement;
     let reason: string;
 
@@ -42,13 +43,13 @@ AchievementsCrudRouter.post(
       achievement = Achievement.FIRST_REPAYMENT;
     }
 
-    previousProposalMetadata = (
-      await prisma.changeProposalMetadata.findMany({
-        where: { reason },
+    previousOffchainAchievement = (
+      await prisma.offChainAchievement.findMany({
+        where: { achievement, communityMemberEthAddress: ethAddress },
       })
     )[0];
 
-    if (!!previousProposalMetadata) {
+    if (!!previousOffchainAchievement) {
       return res.status(200).json({
         message: "User has already receieved XP",
       });
