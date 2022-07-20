@@ -1,4 +1,5 @@
 import { CommunityMember } from "@prisma/client";
+import { ethers } from "ethers";
 import express from "express";
 import prisma from "../db";
 
@@ -23,7 +24,7 @@ export async function findOrCreateCommunityMember(
   ethAddress: string
 ): Promise<CommunityMember> {
   const communityMember = await prisma.communityMember.findUnique({
-    where: { ethAddress },
+    where: { ethAddress: ethers.utils.getAddress(ethAddress) },
   });
   if (communityMember) {
     return communityMember;
