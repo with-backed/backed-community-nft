@@ -109,13 +109,6 @@ CronRouter.post("/finalize", async (_req, res) => {
           txHash,
         },
       });
-    } else {
-      await prisma.changeProposalMetadata.update({
-        where: { id: metadata.id },
-        data: {
-          status: Status.APPROVED,
-        },
-      });
     }
   });
 
