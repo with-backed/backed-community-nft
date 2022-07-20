@@ -148,10 +148,10 @@ export async function getTransactionStatusFromGnosisNonce(
 ): Promise<[string, boolean]> {
   const safeAddress = process.env.GNOSIS_SAFE_ADDRESS!;
   const { safeService } = await initGnosisSdk(safeAddress);
-  const allTransactions = (await safeService.getAllTransactions(safeAddress, {
-    executed: true,
-    queued: false,
-  })) as any;
+
+  const allTransactions = (await safeService.getMultisigTransactions(
+    safeAddress
+  )) as any;
 
   const txHash = allTransactions.results.find(
     (t: any) => t?.nonce === nonce
