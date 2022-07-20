@@ -166,5 +166,3 @@ export async function getTransactionStatusFromGnosisNonce(
     return ["", false];
   }
 }
-
-getTransactionStatusFromGnosisNonce(7).then((res) => console.log({ res }));
