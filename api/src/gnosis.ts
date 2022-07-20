@@ -146,18 +146,25 @@ export async function proposeAccessoryTx(
 export async function getTransactionStatusFromGnosisNonce(
   nonce: number
 ): Promise<[string, boolean]> {
-  const safeAddress = process.env.GNOSIS_SAFE_ADDRESS!;
-  const { safeService } = await initGnosisSdk(safeAddress);
+  try {
+    const safeAddress = process.env.GNOSIS_SAFE_ADDRESS!;
+    const { safeService } = await initGnosisSdk(safeAddress);
 
-  const allTransactions = (await safeService.getMultisigTransactions(
-    safeAddress
-  )) as any;
+    const allTransactions = (await safeService.getMultisigTransactions(
+      safeAddress
+    )) as any;
 
-  const txHash = allTransactions.results.find(
-    (t: any) => t?.nonce === nonce
-  ).transactionHash;
+    const txHash = allTransactions.results.find(
+      (t: any) => t?.nonce === nonce
+    ).transactionHash;
 
-  const web3 = createAlchemyWeb3(process.env.ALCHEMY_URL!);
+    const web3 = createAlchemyWeb3(process.env.ALCHEMY_URL!);
 
-  return [txHash, (await web3.eth.getTransactionReceipt(txHash)).status];
+    return [txHash, (await web3.eth.getTransactionReceipt(txHash)).status];
+  } catch (e) {
+    console.log(`Unable to get tx hash for nonce ${nonce}`);
+    return ["", false];
+  }
 }
+
+getTransactionStatusFromGnosisNonce(7).then((res) => console.log({ res }));
