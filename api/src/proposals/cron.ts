@@ -91,6 +91,7 @@ CronRouter.post("/finalize", async (_req, res) => {
   const processingProposalsMetadata =
     await prisma.changeProposalMetadata.findMany({
       where: { status: "PROCESSING" },
+      distinct: "gnosisSafeNonce",
       take: 20,
     });
 
@@ -102,8 +103,8 @@ CronRouter.post("/finalize", async (_req, res) => {
       metadata.gnosisSafeNonce
     );
     if (confirmed) {
-      await prisma.changeProposalMetadata.update({
-        where: { id: metadata.id },
+      await prisma.changeProposalMetadata.updateMany({
+        where: { gnosisSafeNonce: metadata.gnosisSafeNonce },
         data: {
           status: Status.FINALIZED,
           txHash,
