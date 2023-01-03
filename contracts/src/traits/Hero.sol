@@ -22,7 +22,7 @@ contract Hero is IBackedBunnyAccessory {
     }
 
     function traitName() external pure override returns (string memory) {
-        return "Hero Visor";
+        return "SuperHERO Mask";
     }
 
     function glowColor() external pure override returns (string memory) {
