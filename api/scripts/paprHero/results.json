@@ -1,0 +1,1912 @@
+[
+  {
+    "position": 1,
+    "address": "0x48c89d77ae34ae475e4523b25ab01e363dce5a78",
+    "balance": {
+      "totalNFTWorth": 161551.52168,
+      "totalPhUSDCBalance": 1836.888369,
+      "netPapr": -68386.736572,
+      "totalBalance": 95001.673477
+    }
+  },
+  {
+    "position": 2,
+    "address": "0xf0e3524d18fd63cd6681e61c1fbc24e528fa6220",
+    "balance": {
+      "totalNFTWorth": 15427.14897,
+      "totalPhUSDCBalance": 60122,
+      "netPapr": 0,
+      "totalBalance": 75549.14897
+    }
+  },
+  {
+    "position": 3,
+    "address": "0xf313c3c7e8e50de365e59ba78a849da4fac034a0",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 72836,
+      "netPapr": 0,
+      "totalBalance": 72836
+    }
+  },
+  {
+    "position": 4,
+    "address": "0x1dd5aa4ee9c33da2ed78d493ebc492fadd5193cc",
+    "balance": {
+      "totalNFTWorth": 11413.76731,
+      "totalPhUSDCBalance": 57786.476447,
+      "netPapr": -1305.610416,
+      "totalBalance": 67894.633341
+    }
+  },
+  {
+    "position": 5,
+    "address": "0xc7359fd33a6e345b77ad760a1815e353bf94f7a6",
+    "balance": {
+      "totalNFTWorth": 22382.26461,
+      "totalPhUSDCBalance": 46054.16362,
+      "netPapr": -962.544616,
+      "totalBalance": 67473.883614
+    }
+  },
+  {
+    "position": 6,
+    "address": "0x1abfacdf721f23e5c4577e5949dcd33e22efbcb5",
+    "balance": {
+      "totalNFTWorth": 39940.9835,
+      "totalPhUSDCBalance": 46412.261704,
+      "netPapr": -19547.889284,
+      "totalBalance": 66805.35592
+    }
+  },
+  {
+    "position": 7,
+    "address": "0xc714227eea8f751432686d5754e2892af2a2dbeb",
+    "balance": {
+      "totalNFTWorth": 39669.8971,
+      "totalPhUSDCBalance": 28688.604742,
+      "netPapr": -3516.013483,
+      "totalBalance": 64842.488359
+    }
+  },
+  {
+    "position": 8,
+    "address": "0x67ec90d8adc19933aff5140ea45d4cc111150c6a",
+    "balance": {
+      "totalNFTWorth": 46973.37996,
+      "totalPhUSDCBalance": 17570.932302,
+      "netPapr": -17.816964,
+      "totalBalance": 64526.495298
+    }
+  },
+  {
+    "position": 9,
+    "address": "0x48506626876bd0445a63884b73d92778a0480ecb",
+    "balance": {
+      "totalNFTWorth": 30126.21609,
+      "totalPhUSDCBalance": 34077,
+      "netPapr": 0,
+      "totalBalance": 64203.21609
+    }
+  },
+  {
+    "position": 10,
+    "address": "0x00085a46ad7f0d34f18b6bee9dd3dac52b1df351",
+    "balance": {
+      "totalNFTWorth": 46803.997739,
+      "totalPhUSDCBalance": 16726,
+      "netPapr": 0,
+      "totalBalance": 63529.997739
+    }
+  },
+  {
+    "position": 11,
+    "address": "0x68292357e9b0b35e08861ccdb53290bdb92999c5",
+    "balance": {
+      "totalNFTWorth": 14350.6999,
+      "totalPhUSDCBalance": 52839.050774,
+      "netPapr": -4013.418061,
+      "totalBalance": 63176.332613
+    }
+  },
+  {
+    "position": 12,
+    "address": "0x946e571f732113f2b37cc785478d146723476b76",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 62742,
+      "netPapr": 0,
+      "totalBalance": 62742
+    }
+  },
+  {
+    "position": 13,
+    "address": "0x634b7464be9a287f681fbc7dc4fdc3d3e2d7dc5a",
+    "balance": {
+      "totalNFTWorth": 43272.03489,
+      "totalPhUSDCBalance": 21109.443824,
+      "netPapr": -2355.608928,
+      "totalBalance": 62025.869786
+    }
+  },
+  {
+    "position": 14,
+    "address": "0x9d6f67b0dc37705c95b165c3974debe4091a4006",
+    "balance": {
+      "totalNFTWorth": 45814.84868,
+      "totalPhUSDCBalance": 37857.55104,
+      "netPapr": -22090.496956,
+      "totalBalance": 61581.902764
+    }
+  },
+  {
+    "position": 15,
+    "address": "0x5ff2c114be212ed5dcadf6148822da8ad662b6b6",
+    "balance": {
+      "totalNFTWorth": 44128.548769,
+      "totalPhUSDCBalance": 17284,
+      "netPapr": 0,
+      "totalBalance": 61412.548769
+    }
+  },
+  {
+    "position": 16,
+    "address": "0xca3cb002856d7bc148f9e9d68c596fd8a0899a6d",
+    "balance": {
+      "totalNFTWorth": 53067.18033,
+      "totalPhUSDCBalance": 15101,
+      "netPapr": -6875.038632,
+      "totalBalance": 61293.141698
+    }
+  },
+  {
+    "position": 17,
+    "address": "0xab8169c867cc6a36116ad9612c78a127a05ce27d",
+    "balance": {
+      "totalNFTWorth": 41196.417569,
+      "totalPhUSDCBalance": 19774,
+      "netPapr": 0,
+      "totalBalance": 60970.417569
+    }
+  },
+  {
+    "position": 18,
+    "address": "0x1a0ed9820550b1fee1bad7adabc5bb64d66c2465",
+    "balance": {
+      "totalNFTWorth": 41709.36562,
+      "totalPhUSDCBalance": 30795.885718,
+      "netPapr": -11713.2466,
+      "totalBalance": 60792.004738
+    }
+  },
+  {
+    "position": 19,
+    "address": "0xf12498aa77af060840fd076694c5f6d3b40781ae",
+    "balance": {
+      "totalNFTWorth": 35390.23043,
+      "totalPhUSDCBalance": 25259,
+      "netPapr": 0,
+      "totalBalance": 60649.23043
+    }
+  },
+  {
+    "position": 20,
+    "address": "0x3a2cc444a0ea0e3e942c23042c196cc5d1f796a0",
+    "balance": {
+      "totalNFTWorth": 41365.79979,
+      "totalPhUSDCBalance": 19030.653876,
+      "netPapr": -11.591248,
+      "totalBalance": 60384.862418
+    }
+  },
+  {
+    "position": 21,
+    "address": "0xae74399237e02458aa42283e7c3ef2929ad4896c",
+    "balance": {
+      "totalNFTWorth": 41360.9984,
+      "totalPhUSDCBalance": 18947,
+      "netPapr": 0,
+      "totalBalance": 60307.9984
+    }
+  },
+  {
+    "position": 22,
+    "address": "0xf628406a473033a9934692076b5fbb8ea55e3da6",
+    "balance": {
+      "totalNFTWorth": 31028.48155,
+      "totalPhUSDCBalance": 28834,
+      "netPapr": 0,
+      "totalBalance": 59862.48155
+    }
+  },
+  {
+    "position": 23,
+    "address": "0x018f680ff270c8338e16581da828f7c3f0870bc0",
+    "balance": {
+      "totalNFTWorth": 37076.53034,
+      "totalPhUSDCBalance": 22760,
+      "netPapr": 0,
+      "totalBalance": 59836.53034
+    }
+  },
+  {
+    "position": 24,
+    "address": "0x9467397d6e52c2b953d8cb81a02798bca877735a",
+    "balance": {
+      "totalNFTWorth": 46900.900529,
+      "totalPhUSDCBalance": 23285.270191,
+      "netPapr": -10439.0022,
+      "totalBalance": 59747.16852
+    }
+  },
+  {
+    "position": 25,
+    "address": "0x24bb8bba7f794b1917c487ba5ac4741a0b5b2f85",
+    "balance": {
+      "totalNFTWorth": 32376.01702,
+      "totalPhUSDCBalance": 31858,
+      "netPapr": -4619.626044,
+      "totalBalance": 59614.390976
+    }
+  },
+  {
+    "position": 26,
+    "address": "0xd0a7a5d041bbe3abb0bf91e93e9551cc1a5975b4",
+    "balance": {
+      "totalNFTWorth": 17635.99971,
+      "totalPhUSDCBalance": 41975,
+      "netPapr": 0,
+      "totalBalance": 59610.99971
+    }
+  },
+  {
+    "position": 27,
+    "address": "0xa7f96a2b91711f183b7889ea5f562ea04719758a",
+    "balance": {
+      "totalNFTWorth": 43052.099699,
+      "totalPhUSDCBalance": 20626.092847,
+      "netPapr": -4123.650916,
+      "totalBalance": 59554.54163
+    }
+  },
+  {
+    "position": 28,
+    "address": "0x21859e5081e27d95c7fc87706d260b49a9863784",
+    "balance": {
+      "totalNFTWorth": 28091.548959,
+      "totalPhUSDCBalance": 31446,
+      "netPapr": 0,
+      "totalBalance": 59537.548959
+    }
+  },
+  {
+    "position": 29,
+    "address": "0xebd2bd739a0e2b33b04bc54883c8f3c0a38ffd77",
+    "balance": {
+      "totalNFTWorth": 62112.915699,
+      "totalPhUSDCBalance": 1000,
+      "netPapr": -3604.151276,
+      "totalBalance": 59508.764423
+    }
+  },
+  {
+    "position": 30,
+    "address": "0x53ccdba402ae4228dfbaa56f7ed2e112a328ec77",
+    "balance": {
+      "totalNFTWorth": 29511.56386,
+      "totalPhUSDCBalance": 28863.516536,
+      "netPapr": 1109.597514,
+      "totalBalance": 59484.67791
+    }
+  },
+  {
+    "position": 31,
+    "address": "0x2cbed39061c640236ca0a37925e843efa060eb1b",
+    "balance": {
+      "totalNFTWorth": 43052.099699,
+      "totalPhUSDCBalance": 16394,
+      "netPapr": 0,
+      "totalBalance": 59446.099699
+    }
+  },
+  {
+    "position": 32,
+    "address": "0xbd023d9c75c6f56b11e2d7a14b86fdbcc9657a71",
+    "balance": {
+      "totalNFTWorth": 31028.48155,
+      "totalPhUSDCBalance": 28417,
+      "netPapr": 0,
+      "totalBalance": 59445.48155
+    }
+  },
+  {
+    "position": 33,
+    "address": "0xbaa4e9cce2927be7e35a9ebc2b4486fe36629b18",
+    "balance": {
+      "totalNFTWorth": 30684.91572,
+      "totalPhUSDCBalance": 34380.01601,
+      "netPapr": -5668.638242,
+      "totalBalance": 59396.293488
+    }
+  },
+  {
+    "position": 34,
+    "address": "0x09187ebd7d6018e2a871ca5c4868cddbd498738a",
+    "balance": {
+      "totalNFTWorth": 14524.88351,
+      "totalPhUSDCBalance": 44693.348198,
+      "netPapr": 119.352218,
+      "totalBalance": 59337.583926
+    }
+  },
+  {
+    "position": 35,
+    "address": "0x0d0bd6469be80d57893cf1b21434936dfaa35319",
+    "balance": {
+      "totalNFTWorth": 26666.732669,
+      "totalPhUSDCBalance": 26451.485537,
+      "netPapr": 5859.91435,
+      "totalBalance": 58978.132556
+    }
+  },
+  {
+    "position": 36,
+    "address": "0x1eb0c5e82fd71ee6e2015745620347e1fd094797",
+    "balance": {
+      "totalNFTWorth": 33796.031919,
+      "totalPhUSDCBalance": 36884.424828,
+      "netPapr": -11771.765325,
+      "totalBalance": 58908.691422
+    }
+  },
+  {
+    "position": 37,
+    "address": "0xb3f1859ce3ed1caa3234acbbf0a10dab7b4714b5",
+    "balance": {
+      "totalNFTWorth": 36004.88266,
+      "totalPhUSDCBalance": 22416,
+      "netPapr": 0,
+      "totalBalance": 58420.88266
+    }
+  },
+  {
+    "position": 38,
+    "address": "0xbc2e6c3c27035f0359378a289d37cf286dce75fd",
+    "balance": {
+      "totalNFTWorth": 37347.616739,
+      "totalPhUSDCBalance": 21014.584385,
+      "netPapr": -9.673734,
+      "totalBalance": 58352.52739
+    }
+  },
+  {
+    "position": 39,
+    "address": "0xbfd0629bbcd4009fed538bad63838d11ecef7e17",
+    "balance": {
+      "totalNFTWorth": 8646.21694,
+      "totalPhUSDCBalance": 49586,
+      "netPapr": 0,
+      "totalBalance": 58232.21694
+    }
+  },
+  {
+    "position": 40,
+    "address": "0x08e5610004378209b2c2eb07aa0291e8451c1802",
+    "balance": {
+      "totalNFTWorth": 31294.766559,
+      "totalPhUSDCBalance": 26932,
+      "netPapr": 0,
+      "totalBalance": 58226.766559
+    }
+  },
+  {
+    "position": 41,
+    "address": "0xdc354b0320d05fb86f32a3b88db6ae48eecef421",
+    "balance": {
+      "totalNFTWorth": 17292.43388,
+      "totalPhUSDCBalance": 40914,
+      "netPapr": 0,
+      "totalBalance": 58206.43388
+    }
+  },
+  {
+    "position": 42,
+    "address": "0x055733d53eb3ddfb8395e9c9856dee0ec26283a8",
+    "balance": {
+      "totalNFTWorth": 26840.916279,
+      "totalPhUSDCBalance": 31300,
+      "netPapr": 0,
+      "totalBalance": 58140.916279
+    }
+  },
+  {
+    "position": 43,
+    "address": "0x38a6f992ebd43ff49cd4a5194b366df4ff4f89ab",
+    "balance": {
+      "totalNFTWorth": 24247.54952,
+      "totalPhUSDCBalance": 45223.98569,
+      "netPapr": -11346.656288,
+      "totalBalance": 58124.878922
+    }
+  },
+  {
+    "position": 44,
+    "address": "0x42979d8796c6f41a52b076c03a87d8aef28648a5",
+    "balance": {
+      "totalNFTWorth": 29777.84887,
+      "totalPhUSDCBalance": 28344,
+      "netPapr": 0,
+      "totalBalance": 58121.84887
+    }
+  },
+  {
+    "position": 45,
+    "address": "0xd4dca397627a3e1e162d8410bd09f22a3ac5bec0",
+    "balance": {
+      "totalNFTWorth": 27010.2985,
+      "totalPhUSDCBalance": 35643.502862,
+      "netPapr": -4646.09112,
+      "totalBalance": 58007.710242
+    }
+  },
+  {
+    "position": 46,
+    "address": "0x5d4b2d7b475b4900a1d500c510f101d5169b2871",
+    "balance": {
+      "totalNFTWorth": 38424.065809,
+      "totalPhUSDCBalance": 19539,
+      "netPapr": 0,
+      "totalBalance": 57963.065809
+    }
+  },
+  {
+    "position": 47,
+    "address": "0x18a158612eeeb09b220633ab17573ff9a66fbbef",
+    "balance": {
+      "totalNFTWorth": 22382.26461,
+      "totalPhUSDCBalance": 35516,
+      "netPapr": 0,
+      "totalBalance": 57898.26461
+    }
+  },
+  {
+    "position": 48,
+    "address": "0x767a60f295aedd958932088f9cd6a4951d8739b6",
+    "balance": {
+      "totalNFTWorth": 37168.63174,
+      "totalPhUSDCBalance": 16784.016019,
+      "netPapr": 3898.046943,
+      "totalBalance": 57850.694702
+    }
+  },
+  {
+    "position": 49,
+    "address": "0x19da4d36184dd9022e87423d009ebf8fdebd1133",
+    "balance": {
+      "totalNFTWorth": 29952.03248,
+      "totalPhUSDCBalance": 27838,
+      "netPapr": 0,
+      "totalBalance": 57790.03248
+    }
+  },
+  {
+    "position": 50,
+    "address": "0x5e9055b416affaf86718db9b8887837c3459cd71",
+    "balance": {
+      "totalNFTWorth": 29952.03248,
+      "totalPhUSDCBalance": 27838,
+      "netPapr": 0,
+      "totalBalance": 57790.03248
+    }
+  },
+  {
+    "position": 51,
+    "address": "0xb2fa6bb83304757e30a2fcb46cdbb48a924defd6",
+    "balance": {
+      "totalNFTWorth": 25246.71777,
+      "totalPhUSDCBalance": 32506,
+      "netPapr": 0,
+      "totalBalance": 57752.71777
+    }
+  },
+  {
+    "position": 52,
+    "address": "0x104a5e36e5d257d5c403827d7d468c85bf1ae0c6",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 57645,
+      "netPapr": 0,
+      "totalBalance": 57645
+    }
+  },
+  {
+    "position": 53,
+    "address": "0x323794c012df58d68843d745c75ea536d870c7da",
+    "balance": {
+      "totalNFTWorth": 29947.23109,
+      "totalPhUSDCBalance": 27686,
+      "netPapr": 0,
+      "totalBalance": 57633.23109
+    }
+  },
+  {
+    "position": 54,
+    "address": "0x6d23c82cd64c79aa9c64c2260c333bfbdc5985ac",
+    "balance": {
+      "totalNFTWorth": 31468.950169,
+      "totalPhUSDCBalance": 26082,
+      "netPapr": 0,
+      "totalBalance": 57550.950169
+    }
+  },
+  {
+    "position": 55,
+    "address": "0x80186854d4c0f6ab83f9a21aaf460d869fcf973c",
+    "balance": {
+      "totalNFTWorth": 23171.10045,
+      "totalPhUSDCBalance": 34342,
+      "netPapr": -6.577351,
+      "totalBalance": 57506.523099
+    }
+  },
+  {
+    "position": 56,
+    "address": "0x101ad712da05da3758d779278176ae4c54dafadc",
+    "balance": {
+      "totalNFTWorth": 36174.26488,
+      "totalPhUSDCBalance": 23528.5718,
+      "netPapr": -2205.005477,
+      "totalBalance": 57497.831203
+    }
+  },
+  {
+    "position": 57,
+    "address": "0x0e4b8a0c697d5695fe63de2da003f1960a5e5956",
+    "balance": {
+      "totalNFTWorth": 28362.635359,
+      "totalPhUSDCBalance": 29098,
+      "netPapr": 0,
+      "totalBalance": 57460.635359
+    }
+  },
+  {
+    "position": 58,
+    "address": "0xfb84e67ddbb8498a16d304e84d3067c196fe80b2",
+    "balance": {
+      "totalNFTWorth": 30121.4147,
+      "totalPhUSDCBalance": 27336,
+      "netPapr": 0,
+      "totalBalance": 57457.4147
+    }
+  },
+  {
+    "position": 59,
+    "address": "0x8a3ad80c4654621c9b7f7d69e1e183a5018e6220",
+    "balance": {
+      "totalNFTWorth": 40115.16711,
+      "totalPhUSDCBalance": 17295.1,
+      "netPapr": 0,
+      "totalBalance": 57410.26711
+    }
+  },
+  {
+    "position": 60,
+    "address": "0x94c81950366e8c70cb75eafdcae54e517388f16e",
+    "balance": {
+      "totalNFTWorth": 27010.2985,
+      "totalPhUSDCBalance": 30149,
+      "netPapr": 0,
+      "totalBalance": 57159.2985
+    }
+  },
+  {
+    "position": 61,
+    "address": "0xac06abec94492352e11efa69814aa74acf3b9dd9",
+    "balance": {
+      "totalNFTWorth": 40289.35072,
+      "totalPhUSDCBalance": 20541.814028,
+      "netPapr": -3737.631299,
+      "totalBalance": 57093.533449
+    }
+  },
+  {
+    "position": 62,
+    "address": "0x976a9090bdd8aa715903ee6235ffb2bda87cfad3",
+    "balance": {
+      "totalNFTWorth": 25420.90138,
+      "totalPhUSDCBalance": 31656,
+      "netPapr": 0,
+      "totalBalance": 57076.90138
+    }
+  },
+  {
+    "position": 63,
+    "address": "0x5de08e26b07268a734046d3d6c562174962e8657",
+    "balance": {
+      "totalNFTWorth": 33237.33229,
+      "totalPhUSDCBalance": 23763,
+      "netPapr": -5.787919,
+      "totalBalance": 56994.544371
+    }
+  },
+  {
+    "position": 64,
+    "address": "0xed3b98927fdb15eb3b853d29f5be3372b2945e5e",
+    "balance": {
+      "totalNFTWorth": 24073.36591,
+      "totalPhUSDCBalance": 32913.753737,
+      "netPapr": -5.002928,
+      "totalBalance": 56982.116719
+    }
+  },
+  {
+    "position": 65,
+    "address": "0x9f0a3b023483e74b136c94fe6c7439fa02578bed",
+    "balance": {
+      "totalNFTWorth": 12490.21638,
+      "totalPhUSDCBalance": 44294,
+      "netPapr": 0,
+      "totalBalance": 56784.21638
+    }
+  },
+  {
+    "position": 66,
+    "address": "0xd29742c3e99ca148ee738dfd8c30a4b8797621a5",
+    "balance": {
+      "totalNFTWorth": 22479.1674,
+      "totalPhUSDCBalance": 34116,
+      "netPapr": 0,
+      "totalBalance": 56595.1674
+    }
+  },
+  {
+    "position": 67,
+    "address": "0x747811193cd339582929344c74e315339db57446",
+    "balance": {
+      "totalNFTWorth": 41191.61618,
+      "totalPhUSDCBalance": 19698,
+      "netPapr": -4348.520863,
+      "totalBalance": 56541.095317
+    }
+  },
+  {
+    "position": 68,
+    "address": "0xaf2f2ad6101b9c824e0d27a9521e24736ce8f845",
+    "balance": {
+      "totalNFTWorth": 25149.81498,
+      "totalPhUSDCBalance": 40538.230741,
+      "netPapr": -9246.113404,
+      "totalBalance": 56441.932317
+    }
+  },
+  {
+    "position": 69,
+    "address": "0x08c3e35224f5051926dc1f9981f16deaee6a78dd",
+    "balance": {
+      "totalNFTWorth": 20055.18286,
+      "totalPhUSDCBalance": 39567.386355,
+      "netPapr": -3226.778896,
+      "totalBalance": 56395.790319
+    }
+  },
+  {
+    "position": 70,
+    "address": "0x176de235ee1879d70f5d8e2e08445e645a463afb",
+    "balance": {
+      "totalNFTWorth": 34928.43359,
+      "totalPhUSDCBalance": 21420,
+      "netPapr": 0,
+      "totalBalance": 56348.43359
+    }
+  },
+  {
+    "position": 71,
+    "address": "0xdca688b9693a0d2f98f4a9e89b978978005b6570",
+    "balance": {
+      "totalNFTWorth": 30121.4147,
+      "totalPhUSDCBalance": 29095.408651,
+      "netPapr": -3241.141861,
+      "totalBalance": 55975.68149
+    }
+  },
+  {
+    "position": 72,
+    "address": "0xbb5ad42f55d210212b6e7f1dbb9084cbea5416b4",
+    "balance": {
+      "totalNFTWorth": 25759.66582,
+      "totalPhUSDCBalance": 30152,
+      "netPapr": 0,
+      "totalBalance": 55911.66582
+    }
+  },
+  {
+    "position": 73,
+    "address": "0x175c288fc2c1a2e09788a4245b15c659099b1b9d",
+    "balance": {
+      "totalNFTWorth": 27015.099889,
+      "totalPhUSDCBalance": 30225,
+      "netPapr": -1340.069281,
+      "totalBalance": 55900.030608
+    }
+  },
+  {
+    "position": 74,
+    "address": "0x878ac65152305b69b1f4e48df1ac21df31192aca",
+    "balance": {
+      "totalNFTWorth": 29049.76702,
+      "totalPhUSDCBalance": 26495.752741,
+      "netPapr": -9.342791,
+      "totalBalance": 55536.17697
+    }
+  },
+  {
+    "position": 75,
+    "address": "0x2e7f3969f894ec4e7a1293bc2588e5ba7da4606e",
+    "balance": {
+      "totalNFTWorth": 16677.78165,
+      "totalPhUSDCBalance": 37727.237804,
+      "netPapr": 1130.26424,
+      "totalBalance": 55535.283694
+    }
+  },
+  {
+    "position": 76,
+    "address": "0x769a67dd7aa2297bdc50200eb2da63053e891bd0",
+    "balance": {
+      "totalNFTWorth": 16677.78165,
+      "totalPhUSDCBalance": 39892.200488,
+      "netPapr": -1066.609697,
+      "totalBalance": 55503.372441
+    }
+  },
+  {
+    "position": 77,
+    "address": "0xc43082461fe5a37ffad01c1d5262201f5ab345b7",
+    "balance": {
+      "totalNFTWorth": 22996.91684,
+      "totalPhUSDCBalance": 32414,
+      "netPapr": 0,
+      "totalBalance": 55410.91684
+    }
+  },
+  {
+    "position": 78,
+    "address": "0x0b91ac96007ae10fb85268e570b9251bb6dcd9a8",
+    "balance": {
+      "totalNFTWorth": 25933.84943,
+      "totalPhUSDCBalance": 35080.490406,
+      "netPapr": -5665.48664,
+      "totalBalance": 55348.853196
+    }
+  },
+  {
+    "position": 79,
+    "address": "0x4949491dfdc51e8a5fc797ca7a5fc5acb95833ad",
+    "balance": {
+      "totalNFTWorth": 13837.75185,
+      "totalPhUSDCBalance": 41450,
+      "netPapr": 0,
+      "totalBalance": 55287.75185
+    }
+  },
+  {
+    "position": 80,
+    "address": "0x11111ecab79526a489f5dc7e71510237ccb02ac8",
+    "balance": {
+      "totalNFTWorth": 19885.800639,
+      "totalPhUSDCBalance": 35376,
+      "netPapr": 0,
+      "totalBalance": 55261.800639
+    }
+  },
+  {
+    "position": 81,
+    "address": "0xd799c6259830682e20b9c1a91671b32e3b0fea53",
+    "balance": {
+      "totalNFTWorth": 22992.11545,
+      "totalPhUSDCBalance": 32262,
+      "netPapr": 0,
+      "totalBalance": 55254.11545
+    }
+  },
+  {
+    "position": 82,
+    "address": "0xc0bc723ed46ec7be33200a9fe87b11db8a9cc901",
+    "balance": {
+      "totalNFTWorth": 17118.25027,
+      "totalPhUSDCBalance": 41795.601902,
+      "netPapr": -3667.129386,
+      "totalBalance": 55246.722786
+    }
+  },
+  {
+    "position": 83,
+    "address": "0x6487fbe2623e17bb93578a01af51462efe00b30c",
+    "balance": {
+      "totalNFTWorth": 14007.134069,
+      "totalPhUSDCBalance": 46080.548944,
+      "netPapr": -4916.623008,
+      "totalBalance": 55171.060005
+    }
+  },
+  {
+    "position": 84,
+    "address": "0x40fafaa45b63fdbc1f23ae54f059e0ad197724a3",
+    "balance": {
+      "totalNFTWorth": 18538.26517,
+      "totalPhUSDCBalance": 36630,
+      "netPapr": 0,
+      "totalBalance": 55168.26517
+    }
+  },
+  {
+    "position": 85,
+    "address": "0x58b7c628ae656c87dcedc2d69af7ee3632873143",
+    "balance": {
+      "totalNFTWorth": 48417.81822,
+      "totalPhUSDCBalance": 6733.018522,
+      "netPapr": 0,
+      "totalBalance": 55150.836742
+    }
+  },
+  {
+    "position": 86,
+    "address": "0xd61daebc28274d1feaaf51f11179cd264e4105fb",
+    "balance": {
+      "totalNFTWorth": 15427.14897,
+      "totalPhUSDCBalance": 40080.923323,
+      "netPapr": -449.990916,
+      "totalBalance": 55058.081377
+    }
+  },
+  {
+    "position": 87,
+    "address": "0xf33bce06048565c00966fd58f8a3d8d809a82e71",
+    "balance": {
+      "totalNFTWorth": 22996.91684,
+      "totalPhUSDCBalance": 31957,
+      "netPapr": 0,
+      "totalBalance": 54953.91684
+    }
+  },
+  {
+    "position": 88,
+    "address": "0xe44c63cd3cd22f3045ccac7509269563684f6052",
+    "balance": {
+      "totalNFTWorth": 26108.03304,
+      "totalPhUSDCBalance": 28726,
+      "netPapr": 0,
+      "totalBalance": 54834.03304
+    }
+  },
+  {
+    "position": 89,
+    "address": "0x7b49e2b07d9722399111f3ac016faad7f8420076",
+    "balance": {
+      "totalNFTWorth": 13837.75185,
+      "totalPhUSDCBalance": 40975,
+      "netPapr": 0,
+      "totalBalance": 54812.75185
+    }
+  },
+  {
+    "position": 90,
+    "address": "0x1882223749e49ef44de1037158acd051af9256dc",
+    "balance": {
+      "totalNFTWorth": 51354.750809,
+      "totalPhUSDCBalance": 3256,
+      "netPapr": 0,
+      "totalBalance": 54610.750809
+    }
+  },
+  {
+    "position": 91,
+    "address": "0xe5192f56dc1498296a66306da9863429003d1ae6",
+    "balance": {
+      "totalNFTWorth": 15601.33258,
+      "totalPhUSDCBalance": 38871,
+      "netPapr": 0,
+      "totalBalance": 54472.33258
+    }
+  },
+  {
+    "position": 92,
+    "address": "0x7edd4ac8ea02d13bcf5d297364e441fd19013d7e",
+    "balance": {
+      "totalNFTWorth": 28086.74757,
+      "totalPhUSDCBalance": 29364.992402,
+      "netPapr": -2987.613024,
+      "totalBalance": 54464.126948
+    }
+  },
+  {
+    "position": 93,
+    "address": "0xfd9d6ee16c1a8bddb8cc54e46663de6c41c24120",
+    "balance": {
+      "totalNFTWorth": 14007.134069,
+      "totalPhUSDCBalance": 43339.974287,
+      "netPapr": -2898.415916,
+      "totalBalance": 54448.69244
+    }
+  },
+  {
+    "position": 94,
+    "address": "0x34bfe3af9b6a98b704d21917a56fd47422c5777d",
+    "balance": {
+      "totalNFTWorth": 26282.21665,
+      "totalPhUSDCBalance": 28082.17885,
+      "netPapr": 23.131862,
+      "totalBalance": 54387.527362
+    }
+  },
+  {
+    "position": 95,
+    "address": "0x82c1b61da09b5fdce098a212bb8070210ab91049",
+    "balance": {
+      "totalNFTWorth": 28706.20119,
+      "totalPhUSDCBalance": 30816.499387,
+      "netPapr": -5150.632723,
+      "totalBalance": 54372.067854
+    }
+  },
+  {
+    "position": 96,
+    "address": "0xd01ac2f2253fa65fea7596cbf686ed03fa47b437",
+    "balance": {
+      "totalNFTWorth": 12659.5986,
+      "totalPhUSDCBalance": 41702,
+      "netPapr": 0,
+      "totalBalance": 54361.5986
+    }
+  },
+  {
+    "position": 97,
+    "address": "0xc57eb8788907cda1f41aa66a5a3f126a07ea276f",
+    "balance": {
+      "totalNFTWorth": 17118.25027,
+      "totalPhUSDCBalance": 36993,
+      "netPapr": 0,
+      "totalBalance": 54111.25027
+    }
+  },
+  {
+    "position": 98,
+    "address": "0xc1250bf70c74ec35012d08ed7b059239530f447d",
+    "balance": {
+      "totalNFTWorth": 28357.83397,
+      "totalPhUSDCBalance": 25688,
+      "netPapr": 0,
+      "totalBalance": 54045.83397
+    }
+  },
+  {
+    "position": 99,
+    "address": "0x0141e4b56659ae498469189a53bace4ac8aaa2b2",
+    "balance": {
+      "totalNFTWorth": 17292.43388,
+      "totalPhUSDCBalance": 45124.777867,
+      "netPapr": -8391.389468,
+      "totalBalance": 54025.822279
+    }
+  },
+  {
+    "position": 100,
+    "address": "0x3a7a0173ceb1684f32361ddbb6e7a8a8058e957e",
+    "balance": {
+      "totalNFTWorth": 17292.43388,
+      "totalPhUSDCBalance": 36636,
+      "netPapr": 0,
+      "totalBalance": 53928.43388
+    }
+  },
+  {
+    "position": 101,
+    "address": "0xda625cebab91976ec937dcc4b295b68f76eb21b7",
+    "balance": {
+      "totalNFTWorth": 11239.5837,
+      "totalPhUSDCBalance": 42533.032742,
+      "netPapr": 116.361189,
+      "totalBalance": 53888.977631
+    }
+  },
+  {
+    "position": 102,
+    "address": "0xf83512bf52a12950bec2573576684957d4eb8611",
+    "balance": {
+      "totalNFTWorth": 18368.88295,
+      "totalPhUSDCBalance": 37066,
+      "netPapr": -1743.31023,
+      "totalBalance": 53691.57272
+    }
+  },
+  {
+    "position": 103,
+    "address": "0xc2b5a98da6b7645678cf0d38439ba2ab7112c6d1",
+    "balance": {
+      "totalNFTWorth": 17461.8161,
+      "totalPhUSDCBalance": 39074.421891,
+      "netPapr": -3007.714774,
+      "totalBalance": 53528.523217
+    }
+  },
+  {
+    "position": 104,
+    "address": "0x380989452c9a9a505c6c41f82c66d8f2b1749ac6",
+    "balance": {
+      "totalNFTWorth": 20403.55008,
+      "totalPhUSDCBalance": 33087,
+      "netPapr": 0,
+      "totalBalance": 53490.55008
+    }
+  },
+  {
+    "position": 105,
+    "address": "0x413da49e8f13f7a2d61e30da9b8dcde6c7bc5a9e",
+    "balance": {
+      "totalNFTWorth": 20403.55008,
+      "totalPhUSDCBalance": 33087,
+      "netPapr": 0,
+      "totalBalance": 53490.55008
+    }
+  },
+  {
+    "position": 106,
+    "address": "0x273efb2d5967138a40f1b47f4753b5a39a2e4afc",
+    "balance": {
+      "totalNFTWorth": 21479.99915,
+      "totalPhUSDCBalance": 35639.460008,
+      "netPapr": -3696.713315,
+      "totalBalance": 53422.745843
+    }
+  },
+  {
+    "position": 107,
+    "address": "0x39e85dab2442a839173258a3908ca93c0493e23a",
+    "balance": {
+      "totalNFTWorth": 38941.81525,
+      "totalPhUSDCBalance": 12642.187609,
+      "netPapr": 1678.716209,
+      "totalBalance": 53262.719068
+    }
+  },
+  {
+    "position": 108,
+    "address": "0xbaaf34b5d7d0848ec52649b93be6ac678f02daf6",
+    "balance": {
+      "totalNFTWorth": 11413.76731,
+      "totalPhUSDCBalance": 41708,
+      "netPapr": 0,
+      "totalBalance": 53121.76731
+    }
+  },
+  {
+    "position": 109,
+    "address": "0x85f99b6b9dc9c4111d625d4b5df6653098f616bb",
+    "balance": {
+      "totalNFTWorth": 11413.76731,
+      "totalPhUSDCBalance": 41708,
+      "netPapr": -3.613867,
+      "totalBalance": 53118.153443
+    }
+  },
+  {
+    "position": 110,
+    "address": "0x8f52ab08a66bbf2ae85fbb2e1474af35daabbb4d",
+    "balance": {
+      "totalNFTWorth": 16605.302219,
+      "totalPhUSDCBalance": 36450,
+      "netPapr": 0,
+      "totalBalance": 53055.302219
+    }
+  },
+  {
+    "position": 111,
+    "address": "0x20432610555ef2a83995a0693a141382c4cfd5de",
+    "balance": {
+      "totalNFTWorth": 11408.96592,
+      "totalPhUSDCBalance": 41556,
+      "netPapr": 0,
+      "totalBalance": 52964.96592
+    }
+  },
+  {
+    "position": 112,
+    "address": "0x6e4cd1a58e0d1309da36f1ce1e456e5b93483175",
+    "balance": {
+      "totalNFTWorth": 8302.651109,
+      "totalPhUSDCBalance": 44661.548658,
+      "netPapr": 0,
+      "totalBalance": 52964.199767
+    }
+  },
+  {
+    "position": 113,
+    "address": "0xa9d49e486477954200b4f9005d95ce1b6594b72c",
+    "balance": {
+      "totalNFTWorth": 6955.11564,
+      "totalPhUSDCBalance": 45924,
+      "netPapr": 0,
+      "totalBalance": 52879.11564
+    }
+  },
+  {
+    "position": 114,
+    "address": "0xbaca5c44406503ac35717694b72aaa67c48c1454",
+    "balance": {
+      "totalNFTWorth": 5878.66657,
+      "totalPhUSDCBalance": 46928,
+      "netPapr": 0,
+      "totalBalance": 52806.66657
+    }
+  },
+  {
+    "position": 115,
+    "address": "0xe0f9463a5fc568276226cf7d9f109977bcbe0e46",
+    "balance": {
+      "totalNFTWorth": 19542.23481,
+      "totalPhUSDCBalance": 24525.476113,
+      "netPapr": 8707.367504,
+      "totalBalance": 52775.078427
+    }
+  },
+  {
+    "position": 116,
+    "address": "0x68a6bcec44cc8ee4433eb19710f6da0f99c26baf",
+    "balance": {
+      "totalNFTWorth": 11413.76731,
+      "totalPhUSDCBalance": 41354,
+      "netPapr": 0,
+      "totalBalance": 52767.76731
+    }
+  },
+  {
+    "position": 117,
+    "address": "0x366e58737164430af4aed2856840be9bb148bdc7",
+    "balance": {
+      "totalNFTWorth": 38152.97941,
+      "totalPhUSDCBalance": 23756,
+      "netPapr": -9275.519044,
+      "totalBalance": 52633.460366
+    }
+  },
+  {
+    "position": 118,
+    "address": "0x48e4f557ac6e2ab29b09c3a8b85ef4c496970db2",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 52604,
+      "netPapr": 0,
+      "totalBalance": 52604
+    }
+  },
+  {
+    "position": 119,
+    "address": "0x23dcd3e4bf938eceeb5bb37097af8065ec4aeb39",
+    "balance": {
+      "totalNFTWorth": 6955.11564,
+      "totalPhUSDCBalance": 47177.337727,
+      "netPapr": -1603.611656,
+      "totalBalance": 52528.841711
+    }
+  },
+  {
+    "position": 120,
+    "address": "0xc5b41fb105883bcd59ceef072b5b6bdbc5df31da",
+    "balance": {
+      "totalNFTWorth": 8302.651109,
+      "totalPhUSDCBalance": 45483.230149,
+      "netPapr": -1318.851969,
+      "totalBalance": 52467.029289
+    }
+  },
+  {
+    "position": 121,
+    "address": "0xf1a16ebad9a0eb9525af73208aa6304e796a2281",
+    "balance": {
+      "totalNFTWorth": 9722.66601,
+      "totalPhUSDCBalance": 40402.834415,
+      "netPapr": 2314.640697,
+      "totalBalance": 52440.141122
+    }
+  },
+  {
+    "position": 122,
+    "address": "0x76bf197ef3d739a82d847b707e17a9422ae5f083",
+    "balance": {
+      "totalNFTWorth": 14181.317679,
+      "totalPhUSDCBalance": 38251.835525,
+      "netPapr": 0,
+      "totalBalance": 52433.153204
+    }
+  },
+  {
+    "position": 123,
+    "address": "0xbcbcdfa63cee82587ac4ee747a6091d822189a39",
+    "balance": {
+      "totalNFTWorth": 22479.1674,
+      "totalPhUSDCBalance": 37883.823982,
+      "netPapr": -8081.580131,
+      "totalBalance": 52281.411251
+    }
+  },
+  {
+    "position": 124,
+    "address": "0x9622d9a65e80f48f7d93cb8d41d1a3626cb0949e",
+    "balance": {
+      "totalNFTWorth": 21131.63193,
+      "totalPhUSDCBalance": 31492.608438,
+      "netPapr": -390.538151,
+      "totalBalance": 52233.702217
+    }
+  },
+  {
+    "position": 125,
+    "address": "0x8d5bfb75e811ac6b4f896d5f0e49771fa13dbd52",
+    "balance": {
+      "totalNFTWorth": 11070.20148,
+      "totalPhUSDCBalance": 39587.625987,
+      "netPapr": 1395.553667,
+      "totalBalance": 52053.381134
+    }
+  },
+  {
+    "position": 126,
+    "address": "0x467af3fba1cd889ce344da838e1a32f4465870a3",
+    "balance": {
+      "totalNFTWorth": 28086.74757,
+      "totalPhUSDCBalance": 30897,
+      "netPapr": -6936.790476,
+      "totalBalance": 52046.957094
+    }
+  },
+  {
+    "position": 127,
+    "address": "0x6a61857928149cb7cd2ad29251902787bcf9c3b0",
+    "balance": {
+      "totalNFTWorth": 8646.21694,
+      "totalPhUSDCBalance": 43318,
+      "netPapr": 0,
+      "totalBalance": 51964.21694
+    }
+  },
+  {
+    "position": 128,
+    "address": "0xf2c388c6af4878fff8f99da73c06f77b7a8d8481",
+    "balance": {
+      "totalNFTWorth": 11757.33314,
+      "totalPhUSDCBalance": 46076.726771,
+      "netPapr": -5877.207248,
+      "totalBalance": 51956.852663
+    }
+  },
+  {
+    "position": 129,
+    "address": "0xe3a4e9d3172232e369e76f9a231fbbe18267b725",
+    "balance": {
+      "totalNFTWorth": 11070.20148,
+      "totalPhUSDCBalance": 41757.072062,
+      "netPapr": -877.26826,
+      "totalBalance": 51950.005282
+    }
+  },
+  {
+    "position": 130,
+    "address": "0x7ff4f8fe1dbbba8dc27103359bf96e97a4d44114",
+    "balance": {
+      "totalNFTWorth": 5535.10074,
+      "totalPhUSDCBalance": 46390,
+      "netPapr": 0,
+      "totalBalance": 51925.10074
+    }
+  },
+  {
+    "position": 131,
+    "address": "0xc0385c781b2f35ae0ba54c2948f4c23afa3bb954",
+    "balance": {
+      "totalNFTWorth": 5535.10074,
+      "totalPhUSDCBalance": 46390,
+      "netPapr": 0,
+      "totalBalance": 51925.10074
+    }
+  },
+  {
+    "position": 132,
+    "address": "0xf12c44f20c96acaa50d19bedc07a4be01b9a4918",
+    "balance": {
+      "totalNFTWorth": 8646.21694,
+      "totalPhUSDCBalance": 44606.5848,
+      "netPapr": -1376.183952,
+      "totalBalance": 51876.617788
+    }
+  },
+  {
+    "position": 133,
+    "address": "0xa3fae22bdda30ab7a9617c1a9bfe34d59f0ebda3",
+    "balance": {
+      "totalNFTWorth": 8646.21694,
+      "totalPhUSDCBalance": 43159,
+      "netPapr": 0,
+      "totalBalance": 51805.21694
+    }
+  },
+  {
+    "position": 134,
+    "address": "0x1c790792cb6b1d314d70929f14b798cb1ed1b5ca",
+    "balance": {
+      "totalNFTWorth": 21305.81554,
+      "totalPhUSDCBalance": 30152,
+      "netPapr": 0,
+      "totalBalance": 51457.81554
+    }
+  },
+  {
+    "position": 135,
+    "address": "0xc371722414bb0a8653d9d52c4f8da14e65e6b673",
+    "balance": {
+      "totalNFTWorth": 5878.66657,
+      "totalPhUSDCBalance": 45524.080657,
+      "netPapr": 0,
+      "totalBalance": 51402.747227
+    }
+  },
+  {
+    "position": 136,
+    "address": "0xb38544ccf295d78b7ae7b2bae5dbebdb1f09910d",
+    "balance": {
+      "totalNFTWorth": 2767.55037,
+      "totalPhUSDCBalance": 46265.841661,
+      "netPapr": 2207.868941,
+      "totalBalance": 51241.260972
+    }
+  },
+  {
+    "position": 137,
+    "address": "0x3d75743c1db63f49f71a4af8c0799d2d66e50d6c",
+    "balance": {
+      "totalNFTWorth": 11413.76731,
+      "totalPhUSDCBalance": 39780,
+      "netPapr": 0,
+      "totalBalance": 51193.76731
+    }
+  },
+  {
+    "position": 138,
+    "address": "0xc4e0d2f46049d4b5351349896abe776f0819a9d0",
+    "balance": {
+      "totalNFTWorth": 25764.467209,
+      "totalPhUSDCBalance": 36036.399949,
+      "netPapr": -10772.26612,
+      "totalBalance": 51028.601038
+    }
+  },
+  {
+    "position": 139,
+    "address": "0xb0623c91c65621df716ab8afe5f66656b21a9108",
+    "balance": {
+      "totalNFTWorth": 5878.66657,
+      "totalPhUSDCBalance": 46679.361914,
+      "netPapr": -1539.875348,
+      "totalBalance": 51018.153136
+    }
+  },
+  {
+    "position": 140,
+    "address": "0x0e211b3dd01afcddf79db8083981f44d8071a1b4",
+    "balance": {
+      "totalNFTWorth": 5535.10074,
+      "totalPhUSDCBalance": 44954.194347,
+      "netPapr": 212.388566,
+      "totalBalance": 50701.683653
+    }
+  },
+  {
+    "position": 141,
+    "address": "0x922cd8a90d306ac5bd4bfee6502acf5adc7edd06",
+    "balance": {
+      "totalNFTWorth": 12490.21638,
+      "totalPhUSDCBalance": 37985.3,
+      "netPapr": 0,
+      "totalBalance": 50475.51638
+    }
+  },
+  {
+    "position": 142,
+    "address": "0x0dd7d78ed27632839cd2a929ee570ead346c19fc",
+    "balance": {
+      "totalNFTWorth": 5704.48296,
+      "totalPhUSDCBalance": 45778,
+      "netPapr": -1172.873728,
+      "totalBalance": 50309.609232
+    }
+  },
+  {
+    "position": 143,
+    "address": "0x4e9a6cef8c9d29fc04aa67d199f976fca773ac5c",
+    "balance": {
+      "totalNFTWorth": 5535.10074,
+      "totalPhUSDCBalance": 44590,
+      "netPapr": 0,
+      "totalBalance": 50125.10074
+    }
+  },
+  {
+    "position": 144,
+    "address": "0x252915cb73c4a1fb6b947f99bb8c43e4f4dd70eb",
+    "balance": {
+      "totalNFTWorth": 20865.34692,
+      "totalPhUSDCBalance": 33061.915834,
+      "netPapr": -3813.99515,
+      "totalBalance": 50113.267604
+    }
+  },
+  {
+    "position": 145,
+    "address": "0xf3ec1e71bdbee55b844072e597cb491fa6ad1135",
+    "balance": {
+      "totalNFTWorth": 5535.10074,
+      "totalPhUSDCBalance": 44570.359733,
+      "netPapr": 0,
+      "totalBalance": 50105.460473
+    }
+  },
+  {
+    "position": 146,
+    "address": "0xbc7c481b0bc49d769390a7003fe178372de97205",
+    "balance": {
+      "totalNFTWorth": 37004.05091,
+      "totalPhUSDCBalance": 22362,
+      "netPapr": -9326.084112,
+      "totalBalance": 50039.966798
+    }
+  },
+  {
+    "position": 147,
+    "address": "0x4bf180a73575d4393cc794f29fb92c3954a36b5a",
+    "balance": {
+      "totalNFTWorth": 18368.88295,
+      "totalPhUSDCBalance": 35262.536578,
+      "netPapr": -4278.191047,
+      "totalBalance": 49353.228481
+    }
+  },
+  {
+    "position": 148,
+    "address": "0xa1ed36fe9e4a32737472ea0dd632825e73cb2943",
+    "balance": {
+      "totalNFTWorth": 2767.55037,
+      "totalPhUSDCBalance": 46971.42538,
+      "netPapr": -443.941476,
+      "totalBalance": 49295.034274
+    }
+  },
+  {
+    "position": 149,
+    "address": "0xf7802fdfea35382468be17d8099556be0e27978a",
+    "balance": {
+      "totalNFTWorth": 8302.651109,
+      "totalPhUSDCBalance": 43621.737429,
+      "netPapr": -2898.415916,
+      "totalBalance": 49025.972622
+    }
+  },
+  {
+    "position": 150,
+    "address": "0xcb9c42354ff3e7d763161cb6dcc3452f0842f9ae",
+    "balance": {
+      "totalNFTWorth": 5535.10074,
+      "totalPhUSDCBalance": 44454.951086,
+      "netPapr": -1054.070872,
+      "totalBalance": 48935.980954
+    }
+  },
+  {
+    "position": 151,
+    "address": "0x54cf1c30105cba99668049b1f46f28852d0202b6",
+    "balance": {
+      "totalNFTWorth": 11757.33314,
+      "totalPhUSDCBalance": 39928,
+      "netPapr": -3001.335656,
+      "totalBalance": 48683.997484
+    }
+  },
+  {
+    "position": 152,
+    "address": "0x4b5eab5e55adb5e35074b9e17f0899515cfeca53",
+    "balance": {
+      "totalNFTWorth": 50012.01673,
+      "totalPhUSDCBalance": 16329.090744,
+      "netPapr": -18331.081144,
+      "totalBalance": 48010.02633
+    }
+  },
+  {
+    "position": 153,
+    "address": "0x972057e550dc6769355214b2f27a1e4037c368ca",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 47952.27385,
+      "netPapr": 0,
+      "totalBalance": 47952.27385
+    }
+  },
+  {
+    "position": 154,
+    "address": "0x5f18a6a859133602f33d2b508f3a341fd7185f5b",
+    "balance": {
+      "totalNFTWorth": 5535.10074,
+      "totalPhUSDCBalance": 44267.511338,
+      "netPapr": -1931.950548,
+      "totalBalance": 47870.66153
+    }
+  },
+  {
+    "position": 155,
+    "address": "0x3a66f1f337166e24c102b6ce8151d951f214e9cf",
+    "balance": {
+      "totalNFTWorth": 8472.03333,
+      "totalPhUSDCBalance": 41956.94565,
+      "netPapr": -2582.595546,
+      "totalBalance": 47846.383434
+    }
+  },
+  {
+    "position": 156,
+    "address": "0xe9cbd0f124118f00f3c81af9fe1e1115c295364f",
+    "balance": {
+      "totalNFTWorth": 8646.21694,
+      "totalPhUSDCBalance": 41763.875497,
+      "netPapr": -2872.931028,
+      "totalBalance": 47537.161409
+    }
+  },
+  {
+    "position": 157,
+    "address": "0xbc3ed6b537f2980e66f396fe14210a56ba3f72c4",
+    "balance": {
+      "totalNFTWorth": 59904.06496,
+      "totalPhUSDCBalance": 9919.218842,
+      "netPapr": -22764.866299,
+      "totalBalance": 47058.417503
+    }
+  },
+  {
+    "position": 158,
+    "address": "0xb7863dda153de48e56a50e4f864cb4f9b72f1004",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 21729.382878,
+      "netPapr": 24933.943527,
+      "totalBalance": 46663.326405
+    }
+  },
+  {
+    "position": 159,
+    "address": "0x545c5747af6ad444200807108e2968be5d842937",
+    "balance": {
+      "totalNFTWorth": 30126.21609,
+      "totalPhUSDCBalance": 20916.830997,
+      "netPapr": -4524.547808,
+      "totalBalance": 46518.499279
+    }
+  },
+  {
+    "position": 160,
+    "address": "0x8146898dbfa6af511d27f83835fe294e0a3a99bc",
+    "balance": {
+      "totalNFTWorth": 44297.93099,
+      "totalPhUSDCBalance": 10820.762168,
+      "netPapr": -8970.680576,
+      "totalBalance": 46148.012582
+    }
+  },
+  {
+    "position": 161,
+    "address": "0xa9e8e14fa189692533ef582265dbd330780b250b",
+    "balance": {
+      "totalNFTWorth": 35830.69905,
+      "totalPhUSDCBalance": 5651.951652,
+      "netPapr": 4555.553483,
+      "totalBalance": 46038.204185
+    }
+  },
+  {
+    "position": 162,
+    "address": "0xbb8b4d64f99f714954522c3bfd21b1cb1a6de9d8",
+    "balance": {
+      "totalNFTWorth": 55547.11747,
+      "totalPhUSDCBalance": 0,
+      "netPapr": -9594.080144,
+      "totalBalance": 45953.037326
+    }
+  },
+  {
+    "position": 163,
+    "address": "0x27091db404d83748e9d5237a76a916e35e708f50",
+    "balance": {
+      "totalNFTWorth": 5878.66657,
+      "totalPhUSDCBalance": 39933.4,
+      "netPapr": 0,
+      "totalBalance": 45812.06657
+    }
+  },
+  {
+    "position": 164,
+    "address": "0x684f49bc1e04339d84f2370f14dc1491a3b4f113",
+    "balance": {
+      "totalNFTWorth": 12490.21638,
+      "totalPhUSDCBalance": 10694.531507,
+      "netPapr": 22604.878451,
+      "totalBalance": 45789.626338
+    }
+  },
+  {
+    "position": 165,
+    "address": "0xd896c64fae3f8eb6b0c09cb0d26d56c0d2d695a4",
+    "balance": {
+      "totalNFTWorth": 11239.5837,
+      "totalPhUSDCBalance": 71.750279,
+      "netPapr": 33494.918015,
+      "totalBalance": 44806.251994
+    }
+  },
+  {
+    "position": 166,
+    "address": "0x444bacf99ccc9cc505cb279affbcb408a7d6993d",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 23952.512952,
+      "netPapr": 20824.401095,
+      "totalBalance": 44776.914047
+    }
+  },
+  {
+    "position": 167,
+    "address": "0x88508c2cc76c6042b4e5912b03c512ff1c05df43",
+    "balance": {
+      "totalNFTWorth": 8302.651109,
+      "totalPhUSDCBalance": 36000,
+      "netPapr": 0,
+      "totalBalance": 44302.651109
+    }
+  },
+  {
+    "position": 168,
+    "address": "0x3df10334531a3c86590245e12be0104dd3459159",
+    "balance": {
+      "totalNFTWorth": 22992.11545,
+      "totalPhUSDCBalance": 20000,
+      "netPapr": 0,
+      "totalBalance": 42992.11545
+    }
+  },
+  {
+    "position": 169,
+    "address": "0xcd01a3aced67e266be21117376c7025b384cd4d7",
+    "balance": {
+      "totalNFTWorth": 54030.199779,
+      "totalPhUSDCBalance": 0,
+      "netPapr": -12785.572272,
+      "totalBalance": 41244.627507
+    }
+  },
+  {
+    "position": 170,
+    "address": "0x8fa3232ff0a45de66f1810096189a0f6f4ea8724",
+    "balance": {
+      "totalNFTWorth": 8472.03333,
+      "totalPhUSDCBalance": 31936.919051,
+      "netPapr": -1082.868728,
+      "totalBalance": 39326.083653
+    }
+  },
+  {
+    "position": 171,
+    "address": "0xcc692d6e11268b40a1e3c58e3d86fc4caab9b77a",
+    "balance": {
+      "totalNFTWorth": 34487.96497,
+      "totalPhUSDCBalance": 4295.868474,
+      "netPapr": 69.559089,
+      "totalBalance": 38853.392533
+    }
+  },
+  {
+    "position": 172,
+    "address": "0x87ab51bc3616ada5d988c5ba2c60771c2a11bdca",
+    "balance": {
+      "totalNFTWorth": 5535.10074,
+      "totalPhUSDCBalance": 31992.291108,
+      "netPapr": 0,
+      "totalBalance": 37527.391848
+    }
+  },
+  {
+    "position": 173,
+    "address": "0x245f698621c5f7d4b92d7680b78360afcb9df9af",
+    "balance": {
+      "totalNFTWorth": 11413.76731,
+      "totalPhUSDCBalance": 25833.2,
+      "netPapr": 0,
+      "totalBalance": 37246.96731
+    }
+  },
+  {
+    "position": 174,
+    "address": "0xb29305cb4ecab246b202ada6da623965c77f2b19",
+    "balance": {
+      "totalNFTWorth": 41356.19701,
+      "totalPhUSDCBalance": 7108,
+      "netPapr": -12383.695192,
+      "totalBalance": 36080.501818
+    }
+  },
+  {
+    "position": 175,
+    "address": "0x7a824bea2bed9399a68cd0e340224809521c81d9",
+    "balance": {
+      "totalNFTWorth": 26666.732669,
+      "totalPhUSDCBalance": 0,
+      "netPapr": 0,
+      "totalBalance": 26666.732669
+    }
+  },
+  {
+    "position": 176,
+    "address": "0x268e8ef615670b275418d2787521ad27a4c9c310",
+    "balance": {
+      "totalNFTWorth": 22822.73323,
+      "totalPhUSDCBalance": 782,
+      "netPapr": 0,
+      "totalBalance": 23604.73323
+    }
+  },
+  {
+    "position": 177,
+    "address": "0x6b2770a75a928989c1d7356366d4665a6487e1b4",
+    "balance": {
+      "totalNFTWorth": 11408.96592,
+      "totalPhUSDCBalance": 2353.238267,
+      "netPapr": 9565.025832,
+      "totalBalance": 23327.230019
+    }
+  },
+  {
+    "position": 178,
+    "address": "0x5779ce92bfd7669b54573c2a6d3afc6f407db69f",
+    "balance": {
+      "totalNFTWorth": 11583.14953,
+      "totalPhUSDCBalance": 5144.253538,
+      "netPapr": 2528.454252,
+      "totalBalance": 19255.85732
+    }
+  },
+  {
+    "position": 179,
+    "address": "0x02802fdb01f9d5d014afc00afe8c349f3b06a688",
+    "balance": {
+      "totalNFTWorth": 2767.55037,
+      "totalPhUSDCBalance": 14011,
+      "netPapr": 0,
+      "totalBalance": 16778.55037
+    }
+  },
+  {
+    "position": 180,
+    "address": "0x53389c4447efdbdfa4ccf4be5635103b8c1bb2a5",
+    "balance": {
+      "totalNFTWorth": 14524.88351,
+      "totalPhUSDCBalance": 7769.937949,
+      "netPapr": -6498.64644,
+      "totalBalance": 15796.175019
+    }
+  },
+  {
+    "position": 181,
+    "address": "0x63f0a3660170a5c9cd4ca7b28b82f0011ffb37c4",
+    "balance": {
+      "totalNFTWorth": 8646.21694,
+      "totalPhUSDCBalance": 7122,
+      "netPapr": 0,
+      "totalBalance": 15768.21694
+    }
+  },
+  {
+    "position": 182,
+    "address": "0xe19e26becff917f057ebb35217fdf4ab3252dffe",
+    "balance": {
+      "totalNFTWorth": 14524.88351,
+      "totalPhUSDCBalance": 1159.313655,
+      "netPapr": -1129.338216,
+      "totalBalance": 14554.858949
+    }
+  },
+  {
+    "position": 183,
+    "address": "0x000000000000000000000000000000000000dead",
+    "balance": {
+      "totalNFTWorth": 11408.96592,
+      "totalPhUSDCBalance": 0,
+      "netPapr": 0,
+      "totalBalance": 11408.96592
+    }
+  },
+  {
+    "position": 184,
+    "address": "0xd5c6d652fda900c98247e850d036ee93d8f27389",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 416.126055,
+      "netPapr": 0,
+      "totalBalance": 416.126055
+    }
+  },
+  {
+    "position": 185,
+    "address": "0xa069ee50ed02a05b6c1aa9cf623fedeb63178004",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 0.163775,
+      "netPapr": 0,
+      "totalBalance": 0.163775
+    }
+  },
+  {
+    "position": 186,
+    "address": "0x6c460f133c573c21e7f55900d0c68f6f085b91e7",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 0,
+      "netPapr": 0,
+      "totalBalance": 0
+    }
+  },
+  {
+    "position": 187,
+    "address": "0x6eba5b898e9e24c1fd0062025ed96fa751170ec4",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 0,
+      "netPapr": 0,
+      "totalBalance": 0
+    }
+  },
+  {
+    "position": 188,
+    "address": "0xb60691cd7fe2aaebac98b2bab3a3c0665d14918a",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 0,
+      "netPapr": 0,
+      "totalBalance": 0
+    }
+  },
+  {
+    "position": 189,
+    "address": "0xd3389621e2644e85cff84fcbca2d84a949f5ef18",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 0,
+      "netPapr": 0,
+      "totalBalance": 0
+    }
+  },
+  {
+    "position": 190,
+    "address": "0x1a562115390dea71fe4fa2511e3a3da12193023a",
+    "balance": {
+      "totalNFTWorth": 0,
+      "totalPhUSDCBalance": 7751.853224,
+      "netPapr": -7823.055791,
+      "totalBalance": -71.202567
+    }
+  },
+  {
+    "position": 191,
+    "address": "0x06a135f2285590dd5b414dde4d41ca1bc718321c",
+    "balance": {
+      "totalNFTWorth": -5704.48296,
+      "totalPhUSDCBalance": 0,
+      "netPapr": 0,
+      "totalBalance": -5704.48296
+    }
+  }
+]
